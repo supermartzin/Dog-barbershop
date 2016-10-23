@@ -13,4 +13,21 @@ import java.math.BigDecimal;
 public class Employee extends User {
 
     private BigDecimal salary;
+
+    public Employee() {
+    }
+
+    public Employee(String username, String password, String firstName, String lastName,
+                    Address address, String email, String phone, BigDecimal salary) {
+        super(username, password, firstName, lastName, address, email, phone);
+        this.salary = salary;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
+    }
 }

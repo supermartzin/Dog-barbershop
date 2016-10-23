@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.entities;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -16,4 +17,31 @@ public class Customer extends User {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
     private Set<Dog> dogs;
+
+    public Customer() {
+    }
+
+    public Customer(String username, String password, String firstName,
+                    String lastName, Address address, String email, String phone) {
+        super(username, password, firstName, lastName, address, email, phone);
+    }
+
+    public Set<Dog> getDogs() {
+        return Collections.unmodifiableSet(dogs);
+    }
+
+    public void addDog(Dog dog) {
+        if (dog == null)
+            throw new IllegalArgumentException("dog cannot be null");
+
+        dogs.add(dog);
+    }
+
+    public void removeDog(Dog dog) {
+        if (dog == null)
+            throw new IllegalArgumentException("dog cannot be null");
+
+        if (dogs.contains(dog))
+            dogs.remove(dog);
+    }
 }
