@@ -33,8 +33,6 @@
             <version>${hibernate.jpa.version}</version>
         </dependency>
 
-
-
     </dependencies>
 
     <build>
