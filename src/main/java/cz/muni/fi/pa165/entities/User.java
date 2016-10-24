@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
  * @author Martin Vrábel
  * @version 20.10.2016 23:59
  */
-@Entity
 @MappedSuperclass
 public abstract class User {
 
@@ -34,7 +33,7 @@ public abstract class User {
 
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Address address;
 
     @Pattern(regexp = Constants.EMAIL_REGEX_PATTERN)
