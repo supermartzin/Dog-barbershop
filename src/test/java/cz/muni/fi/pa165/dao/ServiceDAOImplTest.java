@@ -23,6 +23,7 @@ import java.util.List;
  * Tests for {@link CustomerDAOImpl} class
  *
  * @author Domink Gmiterko
+ * @version
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})

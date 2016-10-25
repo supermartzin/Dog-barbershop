@@ -1,10 +1,12 @@
 package cz.muni.fi.pa165.dao;
 
+import cz.muni.fi.pa165.entities.Employee;
+
 /**
- * Data access object for retrieving Employee objects from database.
+ * Data access object for retrieving {@link Employee} objects from database.
  *
- * @author Martin Vrábel
- * @version 21.10.2016 0:00
+ * @author
+ * @version
  */
 public interface EmployeeDAO {
 }

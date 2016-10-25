@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * {@inheritDoc}
  *
- * @author Martin Vrábel
- * @version 24.10.2016 20:37
+ * @author Dominik Gmiterko
+ * @version
  */
 public class ServiceDAOImpl implements ServiceDAO {
 
@@ -22,14 +22,6 @@ public class ServiceDAOImpl implements ServiceDAO {
 
     @Override
     public void create(Service service) {
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
-
-        // save to db
-        manager.persist(service);
-
-        manager.getTransaction().commit();
-        manager.close();
     }
 
     @Override

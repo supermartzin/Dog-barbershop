@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.dao;
 
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Service;
 
 import java.util.List;
@@ -8,8 +7,8 @@ import java.util.List;
 /**
  * Data access object for retrieving Dog objects from database.
  *
- * @author Martin Vrábel
- * @version 23.10.2016 20:35
+ * @author Dominik Gmiterko
+ * @version
  */
 public interface ServiceDAO {
 

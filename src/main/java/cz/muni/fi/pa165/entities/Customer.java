@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -15,7 +16,7 @@ import java.util.Set;
 @Entity
 public class Customer extends User {
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "id")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "id", cascade = CascadeType.ALL)
     private Set<Dog> dogs;
 
     public Customer() {

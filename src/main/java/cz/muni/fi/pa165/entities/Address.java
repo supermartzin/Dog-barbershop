@@ -83,4 +83,23 @@ public class Address {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        Address address = (Address) object;
+
+        return address.getId() != 0L && getId() == address.getId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() ^ (getId() >>> 32));
+    }
 }

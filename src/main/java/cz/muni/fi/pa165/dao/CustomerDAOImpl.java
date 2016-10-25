@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Customer;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
@@ -22,14 +21,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void create(Customer customer) {
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
-
-        // save to db
-        manager.persist(customer);
-
-        manager.getTransaction().commit();
-        manager.close();
     }
 
     @Override

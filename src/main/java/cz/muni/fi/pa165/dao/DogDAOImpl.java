@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * {@inheritDoc}
  *
- * @author Martin Vrábel
- * @version 24.10.2016 20:37
+ * @author Dominik Gmiterko
+ * @version
  */
 public class DogDAOImpl implements DogDAO {
 

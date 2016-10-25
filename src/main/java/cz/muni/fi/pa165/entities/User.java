@@ -25,7 +25,7 @@ public abstract class User {
     private String username;
 
     @NotNull
-    @Column(nullable = false, unique = true, length = 256)
+    @Column(nullable = false, length = 256)
     @Size(min = 6, max = 256)
     private String password;
 

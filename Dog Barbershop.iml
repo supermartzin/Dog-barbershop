@@ -4,8 +4,8 @@
     <facet type="Spring" name="Spring">
       <configuration>
         <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/resources/spring-config.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/spring-configs/dao-config.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/spring-configs/main-config.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -28,6 +28,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
