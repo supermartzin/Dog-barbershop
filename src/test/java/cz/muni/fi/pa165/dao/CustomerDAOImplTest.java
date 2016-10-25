@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -27,13 +28,10 @@ public class CustomerDAOImplTest {
     @PersistenceUnit(name = "testing")
     private EntityManagerFactory factory;
 
-    @Autowired
+    @Inject
     private CustomerDAO customerDAO;
 
     private Address address;
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -52,7 +50,7 @@ public class CustomerDAOImplTest {
         Assert.fail("'create()' method should have thrown an exception");
     }
 
-    @Test
+    @Test(expected = DAOException.class)
     public void testCreate_usernameNotSet() throws Exception {
         Customer customer = new Customer();
         customer.setPassword("password");
@@ -62,12 +60,12 @@ public class CustomerDAOImplTest {
         customer.setEmail("tester@mail.com");
         customer.setPhone("+4209658412");
 
-        exception.expect(DAOException.class);
-        exception.expectMessage("username");
         customerDAO.create(customer);
+
+        Assert.fail("'create()' method should have thrown an exception");
     }
 
-    @Test
+    @Test(expected = DAOException.class)
     public void testCreate_passwordNotSet() throws Exception {
         Customer customer = new Customer();
         customer.setUsername("testing");
@@ -77,12 +75,12 @@ public class CustomerDAOImplTest {
         customer.setEmail("tester@mail.com");
         customer.setPhone("+4209658412");
 
-        exception.expect(DAOException.class);
-        exception.expectMessage("password");
         customerDAO.create(customer);
+
+        Assert.fail("'create()' method should have thrown an exception");
     }
 
-    @Test
+    @Test(expected = DAOException.class)
     public void testCreate_passwordInvalid() throws Exception {
         String password = "pass";
 
@@ -95,12 +93,12 @@ public class CustomerDAOImplTest {
         customer.setEmail("tester@mail.com");
         customer.setPhone("+4209658412");
 
-        exception.expect(DAOException.class);
-        exception.expectMessage("password");
         customerDAO.create(customer);
+
+        Assert.fail("'create()' method should have thrown an exception");
     }
 
-    @Test
+    @Test(expected = DAOException.class)
     public void testCreate_emailInvalid() throws Exception {
         String email = "this is invalid @mail";
 
@@ -113,12 +111,12 @@ public class CustomerDAOImplTest {
         customer.setEmail(email);
         customer.setPhone("+4209658412");
 
-        exception.expect(DAOException.class);
-        exception.expectMessage("email");
         customerDAO.create(customer);
+
+        Assert.fail("'create()' method should have thrown an exception");
     }
 
-    @Test
+    @Test(expected = DAOException.class)
     public void testCreate_phoneInvalid() throws Exception {
         String phone = "-456 +985-8965aaa";
 
@@ -131,12 +129,12 @@ public class CustomerDAOImplTest {
         customer.setEmail("tester@mail.com");
         customer.setPhone(phone);
 
-        exception.expect(DAOException.class);
-        exception.expectMessage("phone");
         customerDAO.create(customer);
+
+        Assert.fail("'create()' method should have thrown an exception");
     }
 
-    @Test
+    @Test(expected = DAOException.class)
     public void testCreate_idAlreadySet() throws Exception {
         Customer customer = new Customer();
         customer.setId(15);
@@ -148,9 +146,9 @@ public class CustomerDAOImplTest {
         customer.setEmail("tester@mail.com");
         customer.setPhone("+4209658412");
 
-        exception.expect(DAOException.class);
-        exception.expectMessage("id");
         customerDAO.create(customer);
+
+        Assert.fail("'create()' method should have thrown an exception");
     }
 
     @Test
@@ -180,22 +178,22 @@ public class CustomerDAOImplTest {
 
     @Test
     public void getById() throws Exception {
-
+        Assert.fail("not implemented yet");
     }
 
     @Test
     public void getAll() throws Exception {
-
+        Assert.fail("not implemented yet");
     }
 
     @Test
     public void update() throws Exception {
-
+        Assert.fail("not implemented yet");
     }
 
     @Test
     public void delete() throws Exception {
-
+        Assert.fail("not implemented yet");
     }
 
 

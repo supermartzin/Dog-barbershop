@@ -23,6 +23,8 @@
         <derby.version>10.12.1.1</derby.version>
 
         <spring.version>4.3.3.RELEASE</spring.version>
+
+        <javax.inject.version>1</javax.inject.version>
     </properties>
 
     <dependencies>
@@ -82,6 +84,15 @@
             <artifactId>derby</artifactId>
             <version>${derby.version}</version>
         </dependency>
+
+
+        <!-- JSR-330 -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>${javax.inject.version}</version>
+        </dependency>
+
 
     </dependencies>
 

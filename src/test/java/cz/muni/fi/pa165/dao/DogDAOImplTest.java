@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -33,10 +34,10 @@ public class DogDAOImplTest {
     @PersistenceUnit(name = "testing")
     private EntityManagerFactory factory;
 
-    @Autowired
+    @Inject
     private DogDAO dogDAO;
 
-    @Autowired
+    @Inject
     private CustomerDAO customerDAO;
 
     private Customer customer;

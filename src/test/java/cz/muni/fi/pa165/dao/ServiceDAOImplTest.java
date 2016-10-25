@@ -1,17 +1,15 @@
 package cz.muni.fi.pa165.dao;
 
-import cz.muni.fi.pa165.entities.Address;
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Service;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -32,7 +30,7 @@ public class ServiceDAOImplTest {
     @PersistenceUnit(name = "testing")
     private EntityManagerFactory factory;
 
-    @Autowired
+    @Inject
     private ServiceDAO serviceDAO;
 
     @Before
