@@ -6,4 +6,12 @@
     <bean id="customerDAO" class="cz.muni.fi.pa165.dao.CustomerDAOImpl">
         <constructor-arg name="factory" ref="entityManagerFactory"/>
     </bean>
+
+    <bean id="serviceDAO" class="cz.muni.fi.pa165.dao.ServiceDAOImpl">
+        <constructor-arg name="factory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="dogDAO" class="cz.muni.fi.pa165.dao.DogDAOImpl">
+        <constructor-arg name="factory" ref="entityManagerFactory"/>
+    </bean>
 </beans>

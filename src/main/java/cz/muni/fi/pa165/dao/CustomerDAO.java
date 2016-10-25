@@ -7,8 +7,7 @@ import java.util.List;
 /**
  * Data access object for retrieving {@link Customer} objects from database.
  *
- * @author Martin Vrábel
- * @version 23.10.2016 20:35
+ * @author Domink Gmiterko
  */
 public interface CustomerDAO {
 
