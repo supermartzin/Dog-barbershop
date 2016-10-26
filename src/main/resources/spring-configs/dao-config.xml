@@ -14,4 +14,8 @@
     <bean id="dogDAO" class="cz.muni.fi.pa165.dao.DogDAOImpl">
         <constructor-arg name="factory" ref="entityManagerFactory"/>
     </bean>
+
+    <bean id="employeeDAO" class="cz.muni.fi.pa165.dao.EmployeeDAOImpl">
+        <constructor-arg name="factory" ref="entityManagerFactory"/>
+    </bean>
 </beans>
