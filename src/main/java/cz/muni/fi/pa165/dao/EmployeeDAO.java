@@ -14,9 +14,9 @@ public interface EmployeeDAO {
     /**
      * Creates new entry in database from provided {@link Employee} object
      *
-     * @param customer {@link Employee} object to save
+     * @param employee {@link Employee} object to save
      */
-    void create(Employee customer);
+    void create(Employee employee);
 
     /**
      * Retrieves a {@see Employee} object with provided <b>ID</b> from database
@@ -36,14 +36,14 @@ public interface EmployeeDAO {
     /**
      * Updates attributes of an existing {@link Employee} object in database
      *
-     * @param customer {@link Employee} object with updated attributes
+     * @param employee {@link Employee} object with updated attributes
      */
-    void update(Employee customer);
+    void update(Employee employee);
 
     /**
      * Deletes an existing {@link Employee} entry from database
      *
-     * @param customer {@link Employee} object to delete from database
+     * @param employee {@link Employee} object to delete from database
      */
-    void delete(Employee customer);
+    void delete(Employee employee);
 }

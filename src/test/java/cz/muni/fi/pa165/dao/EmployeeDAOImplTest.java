@@ -6,6 +6,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -15,11 +18,16 @@ import javax.persistence.PersistenceUnit;
 import static org.junit.Assert.*;
 
 /**
- * Created by Denis Richtarik on 25/10/2016.
+ * Tests for {@link EmployeeDAOImplTest} class
+ *
+ * @author Denis Richtarik
+ * @version 25.10.2016
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
 public class EmployeeDAOImplTest {
 
-    @PersistenceUnit(name="testing")
+    @PersistenceUnit(name = "testing")
     private EntityManagerFactory factory;
 
     @Inject
