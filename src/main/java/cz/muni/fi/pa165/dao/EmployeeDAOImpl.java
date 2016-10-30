@@ -1,22 +1,25 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Employee;
+import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * Created by Denis Richtarik on 25/10/2016.
+ *
+ *
+ * @author Denis Richtarik
+ * @version 25.10.2016
  */
+@Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
 
-    private EntityManagerFactory factory;
-
-
-    public EmployeeDAOImpl(EntityManagerFactory factory) {
-        this.factory = factory;
-    }
+    @PersistenceContext
+    private EntityManager manager;
 
     /**
      * Creates new entry in database from provided {@link Employee} object

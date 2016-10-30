@@ -20,7 +20,7 @@ public final class Constants {
     /**
      * Regex pattern for validation of phone numbers used in Slovak and Czech Republic
      */
-    public static final String PHONE_NUMBER_REGEX_PATTERN = "^\\+?[0-9\\-\\ ]+$";
+    public static final String PHONE_NUMBER_REGEX_PATTERN = "^\\+?[0-9\\-\\ ]{0,}$";
 
 
     private Constants() { }

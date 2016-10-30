@@ -28,10 +28,10 @@ public interface CustomerDAO {
     Customer getById(long id);
 
     /**
-     * Retrieves a {@see Customer} object with provided <b>ID</b> from database
+     * Retrieves a {@see Customer} object which has provided <b>username</b> from database
      *
      * @param username Username of {@link Customer} to retrieve
-     * @return found {@link Customer} object or {@link null} if <b>ID</b> not found
+     * @return found {@link Customer} object or {@link null} if <b>username</b> not found
      * @throws IllegalArgumentException for {@link null} or empty username
      */
     Customer getByUsername(String username);

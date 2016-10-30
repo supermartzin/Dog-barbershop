@@ -1,10 +1,10 @@
 package cz.muni.fi.pa165.dao;
 
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -13,13 +13,11 @@ import java.util.List;
  * @author Dominik Gmiterko
  * @version
  */
+@Repository
 public class DogDAOImpl implements DogDAO {
 
-    private final EntityManagerFactory factory;
-
-    public DogDAOImpl(EntityManagerFactory factory) {
-        this.factory = factory;
-    }
+    @PersistenceContext
+    private EntityManager manager;
 
     @Override
     public void create(Dog dog) {

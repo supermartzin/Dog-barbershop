@@ -3,19 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="customerDAO" class="cz.muni.fi.pa165.dao.CustomerDAOImpl">
-        <constructor-arg name="factory" ref="entityManagerFactory"/>
-    </bean>
+    <bean id="customerDAO" class="cz.muni.fi.pa165.dao.CustomerDAOImpl" />
 
-    <bean id="serviceDAO" class="cz.muni.fi.pa165.dao.ServiceDAOImpl">
-        <constructor-arg name="factory" ref="entityManagerFactory"/>
-    </bean>
+    <bean id="serviceDAO" class="cz.muni.fi.pa165.dao.ServiceDAOImpl" />
 
-    <bean id="dogDAO" class="cz.muni.fi.pa165.dao.DogDAOImpl">
-        <constructor-arg name="factory" ref="entityManagerFactory"/>
-    </bean>
+    <bean id="dogDAO" class="cz.muni.fi.pa165.dao.DogDAOImpl" />
 
-    <bean id="employeeDAO" class="cz.muni.fi.pa165.dao.EmployeeDAOImpl">
-        <constructor-arg name="factory" ref="entityManagerFactory"/>
-    </bean>
+    <bean id="employeeDAO" class="cz.muni.fi.pa165.dao.EmployeeDAOImpl" />
 </beans>

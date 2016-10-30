@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public class Dog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @NotNull
@@ -25,17 +25,17 @@ public class Dog {
     @Column(length = 5)
     private int age;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     public Dog() {
     }
 
-    public Dog(String name, String breed, int age, Customer customer) {
+    public Dog(String name, String breed, int age) {
         this.name = name;
         this.breed = breed;
         this.age = age;
-        this.customer = customer;
     }
 
     public long getId() {
@@ -76,5 +76,23 @@ public class Dog {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        Dog dog = (Dog) object;
+
+        return dog.getId() > 0 && getId() == dog.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() ^ (getId() >>> 32));
     }
 }

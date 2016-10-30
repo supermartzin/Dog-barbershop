@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String street;
@@ -94,7 +94,7 @@ public class Address {
 
         Address address = (Address) object;
 
-        return address.getId() != 0L && getId() == address.getId();
+        return address.getId() > 0L && getId() == address.getId();
 
     }
 

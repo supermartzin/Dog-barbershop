@@ -17,8 +17,8 @@ import javax.validation.constraints.Size;
 public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @NotNull
     @Column(nullable = false, unique = true)
@@ -56,11 +56,11 @@ public abstract class User {
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getUsername() {
@@ -117,5 +117,23 @@ public abstract class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        User user = (User) object;
+
+        return user.getId() > 0 && getId() == user.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() ^ (getId() >>> 32));
     }
 }

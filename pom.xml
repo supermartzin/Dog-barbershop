@@ -25,6 +25,8 @@
         <spring.version>4.3.3.RELEASE</spring.version>
 
         <javax.inject.version>1</javax.inject.version>
+
+        <slf4j.version>1.7.21</slf4j.version>
     </properties>
 
     <dependencies>
@@ -93,6 +95,13 @@
             <version>${javax.inject.version}</version>
         </dependency>
 
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
 
     </dependencies>
 

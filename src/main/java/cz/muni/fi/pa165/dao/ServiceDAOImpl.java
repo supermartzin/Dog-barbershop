@@ -1,9 +1,11 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Service;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -12,13 +14,11 @@ import java.util.List;
  * @author Dominik Gmiterko
  * @version
  */
+@Repository
 public class ServiceDAOImpl implements ServiceDAO {
 
-    private final EntityManagerFactory factory;
-
-    public ServiceDAOImpl(EntityManagerFactory factory) {
-        this.factory = factory;
-    }
+    @PersistenceContext
+    private EntityManager manager;
 
     @Override
     public void create(Service service) {

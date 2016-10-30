@@ -55,7 +55,8 @@ public class DogDAOImplTest {
 
     @Test
     public void testCreate() throws Exception {
-        Dog dog = new Dog("Linda", "testingBreed", 2, customer);
+        Dog dog = new Dog("Linda", "testingBreed", 2);
+        dog.setCustomer(customer);
 
         dogDAO.create(dog);
 
@@ -76,7 +77,8 @@ public class DogDAOImplTest {
 
     @Test
     public void getById() throws Exception {
-        Dog dog = new Dog("Linda", "testingBreed", 2, customer);
+        Dog dog = new Dog("Linda", "testingBreed", 2);
+        dog.setCustomer(customer);
 
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
@@ -94,8 +96,10 @@ public class DogDAOImplTest {
 
     @Test
     public void getAll() throws Exception {
-        Dog dog1 = new Dog("Linda", "testingBreed", 2, customer);
-        Dog dog2 = new Dog("Miau", "cat", 3, customer);
+        Dog dog1 = new Dog("Linda", "testingBreed", 2);
+        dog1.setCustomer(customer);
+        Dog dog2 = new Dog("Miau", "cat", 3);
+        dog2.setCustomer(customer);
 
         List<Dog> originalDogs = new ArrayList<>();
         originalDogs.add(dog1);
@@ -110,7 +114,6 @@ public class DogDAOImplTest {
         manager.getTransaction().commit();
         manager.close();
 
-
         List<Dog> foundDogs = dogDAO.getAll();
 
         Assert.assertEquals(originalDogs, foundDogs);
@@ -118,8 +121,10 @@ public class DogDAOImplTest {
 
     @Test
     public void update() throws Exception {
-        Dog dog1 = new Dog("Linda", "testingBreed", 2, customer);
-        Dog dog2 = new Dog("Miau", "cat", 3, customer);
+        Dog dog1 = new Dog("Linda", "testingBreed", 2);
+        dog1.setCustomer(customer);
+        Dog dog2 = new Dog("Miau", "cat", 3);
+        dog2.setCustomer(customer);
 
         dogDAO.create(dog1);
         dogDAO.create(dog2);
@@ -148,7 +153,8 @@ public class DogDAOImplTest {
 
     @Test
     public void delete() throws Exception {
-        Dog dog = new Dog("Linda", "testingBreed", 2, customer);
+        Dog dog = new Dog("Linda", "testingBreed", 2);
+        dog.setCustomer(customer);
 
         dogDAO.create(dog);
 

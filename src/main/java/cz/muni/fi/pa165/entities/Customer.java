@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -16,15 +17,17 @@ import java.util.Set;
 @Entity
 public class Customer extends User {
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "id", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<Dog> dogs;
 
     public Customer() {
+        this.dogs = new HashSet<>();
     }
 
     public Customer(String username, String password, String firstName,
                     String lastName, Address address, String email, String phone) {
         super(username, password, firstName, lastName, address, email, phone);
+        this.dogs = new HashSet<>();
     }
 
     public Set<Dog> getDogs() {
@@ -36,6 +39,14 @@ public class Customer extends User {
             throw new IllegalArgumentException("dog cannot be null");
 
         dogs.add(dog);
+
+        // delete dog from previous owner's collection
+        Customer previousOwner = dog.getCustomer();
+        if (previousOwner != null)
+            previousOwner.removeDog(dog);
+
+        // set current customer as an owner
+        dog.setCustomer(this);
     }
 
     public void removeDog(Dog dog) {
@@ -43,6 +54,14 @@ public class Customer extends User {
             throw new IllegalArgumentException("dog cannot be null");
 
         if (dogs.contains(dog))
+        {
             dogs.remove(dog);
+            dog.setCustomer(null);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Customer '" + this.getUsername() + "' [ID: " + this.getId() + "]";
     }
 }

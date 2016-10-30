@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Customer;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
+@Repository
 public class CustomerDAOImpl implements CustomerDAO {
 
     @PersistenceContext
@@ -37,11 +40,11 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     /**
-     * Retrieves a {@see Customer} object with provided <b>ID</b> from database
+     * Retrieves a {@see Customer} object which has provided <b>username</b> from database
      *
-     * @param username Username of {@link Customer} to retrieve
-     * @return found {@link Customer} object or {@link null} if <b>ID</b> not found
-     * @throws IllegalArgumentException for {@link null} or empty username
+     * @param username  Username of {@link Customer} to retrieve
+     * @return  found {@link Customer} object or {@link null} if <b>username</b> not found
+     * @throws  IllegalArgumentException for {@link null} or empty username
      */
     @Override
     public Customer getByUsername(String username) {
@@ -66,7 +69,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     public List<Customer> getAll() {
         TypedQuery<Customer> query = em.createQuery("SELECT u FROM Customer u",
                 Customer.class);
-        return (List<Customer>) query.getResultList();
+        return query.getResultList();
     }
 
     /**
