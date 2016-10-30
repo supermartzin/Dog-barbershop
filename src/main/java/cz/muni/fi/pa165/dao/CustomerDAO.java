@@ -20,7 +20,7 @@ public interface CustomerDAO {
     void create(Customer customer);
 
     /**
-     * Retrieves a {@see Customer} object with provided <b>ID</b> from database
+     * Retrieves a {@link Customer} object with provided <b>ID</b> from database
      *
      * @param id    <b>ID</b> number of {@link Customer} to retrieve
      * @return      found {@link Customer} object or {@link null} if <b>ID</b> not found
@@ -28,7 +28,7 @@ public interface CustomerDAO {
     Customer getById(long id);
 
     /**
-     * Retrieves a {@see Customer} object which has provided <b>username</b> from database
+     * Retrieves a {@link Customer} object which has provided <b>username</b> from database
      *
      * @param username Username of {@link Customer} to retrieve
      * @return found {@link Customer} object or {@link null} if <b>username</b> not found

@@ -10,4 +10,6 @@
     <bean id="dogDAO" class="cz.muni.fi.pa165.dao.DogDAOImpl" />
 
     <bean id="employeeDAO" class="cz.muni.fi.pa165.dao.EmployeeDAOImpl" />
+
+    <bean id="orderDAO" class="cz.muni.fi.pa165.dao.OrderDAOImpl" />
 </beans>

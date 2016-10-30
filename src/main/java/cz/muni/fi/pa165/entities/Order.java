@@ -13,15 +13,17 @@ import java.time.LocalDateTime;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private LocalDateTime time;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Dog.class)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "dog_id")
     private Dog dog;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Service.class)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "service_id")
     private Service service;
 
     public Order() {
