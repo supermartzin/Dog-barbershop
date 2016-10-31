@@ -21,6 +21,11 @@ public class ServiceDAOImpl implements ServiceDAO {
     @PersistenceContext
     private EntityManager manager;
 
+    /**
+     * Creates new entry in database from provided {@link Service} object
+     *
+     * @param service {@link Service} object to save
+     */
     @Override
     public void create(Service service) {
         if (service == null){
@@ -30,6 +35,12 @@ public class ServiceDAOImpl implements ServiceDAO {
         }
     }
 
+    /**
+     * Retrieves a {@see Service} object with provided <b>ID</b> from database
+     *
+     * @param id <b>ID</b> number of {@link Service} to retrieve
+     * @return found {@link Service} object or {@link null} if <b>ID</b> not found
+     */
     @Override
     public Service getById(long id) {
         if (id < 0) {
@@ -39,6 +50,11 @@ public class ServiceDAOImpl implements ServiceDAO {
         }
     }
 
+    /**
+     * Retrieves all {@link Service} objects from database
+     *
+     * @return list of all {@link Service} objects from database
+     */
     @Override
     public List<Service> getAll() {
         TypedQuery<Service> query = manager.createQuery("SELECT s FROM Service s", Service.class);
@@ -46,6 +62,11 @@ public class ServiceDAOImpl implements ServiceDAO {
 
     }
 
+    /**
+     * Updates attributes of an existing {@link Service} object in database
+     *
+     * @param service {@link Service} object with updated attributes
+     */
     @Override
     public void update(Service service) {
         if (service == null){
@@ -55,6 +76,11 @@ public class ServiceDAOImpl implements ServiceDAO {
         }
     }
 
+    /**
+     * Deletes an existing {@link Service} entry from database
+     *
+     * @param service {@link Service} object to delete from database
+     */
     @Override
     public void delete(Service service) {
         if (service == null){

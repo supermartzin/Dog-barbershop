@@ -59,6 +59,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return query.getResultList();
     }
 
+    /**
+     * Retrieves a {@see Employee} object which has provided <b>username</b> from database
+     *
+     * @param username  Username of {@link Employee} to retrieve
+     * @return  found {@link Employee} object or {@link null} if <b>username</b> not found
+     * @throws  IllegalArgumentException for {@link null} or empty username
+     */
     @Override
     public Employee getByUsername(String username) {
         if (username == null)
