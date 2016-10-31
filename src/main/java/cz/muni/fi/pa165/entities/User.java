@@ -118,22 +118,4 @@ public abstract class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object)
-            return true;
-
-        if (object == null || getClass() != object.getClass())
-            return false;
-
-        User user = (User) object;
-
-        return user.getId() > 0 && getId() == user.getId();
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (getId() ^ (getId() >>> 32));
-    }
 }

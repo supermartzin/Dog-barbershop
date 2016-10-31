@@ -61,6 +61,24 @@ public class Customer extends User {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        Customer customer = (Customer) object;
+
+        return customer.getId() > 0 && getId() == customer.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() ^ (getId() >>> 32));
+    }
+
+    @Override
     public String toString() {
         return "Customer '" + this.getUsername() + "' [ID: " + this.getId() + "]";
     }

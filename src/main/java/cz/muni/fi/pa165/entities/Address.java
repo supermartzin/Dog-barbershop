@@ -102,4 +102,10 @@ public class Address {
     public int hashCode() {
         return (int) (getId() ^ (getId() >>> 32));
     }
+
+    @Override
+    public String toString() {
+        return "Address: " + getStreet() + " " + getNumber() +
+                ", " + getPostalCode() + " " + getCity() + ", " + getCountry();
+    }
 }

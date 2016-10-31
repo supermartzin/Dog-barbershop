@@ -1,8 +1,11 @@
 package cz.muni.fi.pa165.entities;
 
+import cz.muni.fi.pa165.utils.Constants;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Order entity representing a service provision to customer's dog.
@@ -86,5 +89,10 @@ public class Order {
     @Override
     public int hashCode() {
         return (int) (getId() ^ (getId() >>> 32));
+    }
+
+    @Override
+    public String toString() {
+        return "Order ID: " + getId() + " from " + getTime().format(Constants.DEFAULT_DATE_TIME_FORMAT);
     }
 }

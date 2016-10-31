@@ -30,4 +30,27 @@ public class Employee extends User {
     public void setSalary(BigDecimal salary) {
         this.salary = salary;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        Employee employee = (Employee) object;
+
+        return employee.getId() > 0 && getId() == employee.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() ^ (getId() >>> 32));
+    }
+
+    @Override
+    public String toString() {
+        return "Employee '" + this.getUsername() + "' [ID: " + this.getId() + "]";
+    }
 }

@@ -65,4 +65,27 @@ public class Service {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        Service service = (Service) object;
+
+        return service.getId() > 0 && getId() == service.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() ^ (getId() >>> 32));
+    }
+
+    @Override
+    public String toString() {
+        return "Service '" + getTitle() + "' [ID: " + getId() + "] - length: " + getLength()
+                + ", price: " + getPrice();
+    }
 }

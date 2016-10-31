@@ -95,4 +95,9 @@ public class Dog {
     public int hashCode() {
         return (int) (getId() ^ (getId() >>> 32));
     }
+
+    @Override
+    public String toString() {
+        return "Dog '" + getName() + "' (" + getBreed() + "): age " + getAge();
+    }
 }
