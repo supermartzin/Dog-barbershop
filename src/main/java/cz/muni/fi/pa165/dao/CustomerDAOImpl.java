@@ -60,25 +60,6 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
-    private void validateCustomer(Customer customer) throws DAOException {
-        if(customer.getPhone() == null) {
-            throw new DAOException("Phone not set");
-        }
-        if(!customer.getPhone().matches(Constants.PHONE_NUMBER_REGEX_PATTERN)) {
-            throw new DAOException("Phone is invalid");
-        }
-        if(customer.getEmail() == null) {
-            throw new DAOException("Email not set");
-        }
-        if(!customer.getEmail().matches(Constants.EMAIL_REGEX_PATTERN)) {
-            throw new DAOException("Email is invalid");
-        }
-        if(customer.getPassword() == null) {
-            throw new DAOException("Password not set");
-        }
-
-    }
-
     /**
      * Retrieves a {@see Customer} object with provided <b>ID</b> from database
      *
@@ -140,6 +121,8 @@ public class CustomerDAOImpl implements CustomerDAO {
         if (customer == null)
             throw new IllegalArgumentException("Customer cannot be null");
 
+        validateCustomer(customer);
+
         try {
             manager.getTransaction().begin();
 
@@ -185,6 +168,27 @@ public class CustomerDAOImpl implements CustomerDAO {
         } finally {
             if (manager.isOpen())
                 manager.close();
+        }
+    }
+
+    private void validateCustomer(Customer customer) throws DAOException {
+        if(customer.getUsername() == null) {
+            throw new DAOException("Username not set");
+        }
+        if(customer.getPhone() == null) {
+            throw new DAOException("Phone not set");
+        }
+        if(!customer.getPhone().matches(Constants.PHONE_NUMBER_REGEX_PATTERN)) {
+            throw new DAOException("Phone is invalid");
+        }
+        if(customer.getEmail() == null) {
+            throw new DAOException("Email not set");
+        }
+        if(!customer.getEmail().matches(Constants.EMAIL_REGEX_PATTERN)) {
+            throw new DAOException("Email is invalid");
+        }
+        if(customer.getPassword() == null) {
+            throw new DAOException("Password not set");
         }
     }
 }
