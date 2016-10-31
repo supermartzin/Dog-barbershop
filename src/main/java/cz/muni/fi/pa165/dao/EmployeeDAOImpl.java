@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Employee;
+import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.utils.Constants;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
@@ -25,11 +27,33 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param employee {@link Employee} object to save
      */
     @Override
-    public void create(Employee employee) {
-        if (employee == null){
-            throw new IllegalArgumentException("employee is null");
-        } else {
+    public void create(Employee employee) throws DAOException {
+        if (employee == null)
+            throw new IllegalArgumentException("Employee cannot be null");
+        if (employee.getId() > 0)
+            throw new DAOException("Employee ID is already set");
+
+        validateEmployee(employee);
+
+        try {
+            manager.getTransaction().begin();
+
             manager.persist(employee);
+
+            manager.getTransaction().commit();
+        } catch (EntityExistsException ex){
+            if (manager.getTransaction().isActive())
+                manager.getTransaction().rollback();
+
+            throw new DAOException("Provided Employee already exists in database");
+        } catch (PersistenceException | IllegalStateException e) {
+            if (manager.getTransaction().isActive())
+                manager.getTransaction().rollback();
+
+            throw new DAOException(e);
+        } finally {
+            if (manager.isOpen())
+                manager.close();
         }
     }
 
@@ -55,8 +79,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      */
     @Override
     public List<Employee> getAll() {
-        TypedQuery<Employee> query = manager.createQuery("SELECT e FROM Employee e", Employee.class);
-        return query.getResultList();
+        return manager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
     }
 
     /**
@@ -84,11 +107,26 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param employee {@link Employee} object with updated attributes
      */
     @Override
-    public void update(Employee employee) {
+    public void update(Employee employee) throws DAOException {
         if (employee == null){
             throw new IllegalArgumentException("employee is null");
-        } else {
-            manager.persist(employee);
+        }
+        validateEmployee(employee);
+
+        try {
+            manager.getTransaction().begin();
+
+            manager.merge(employee);
+
+            manager.getTransaction().commit();
+        } catch (PersistenceException e) {
+            if (manager.getTransaction().isActive())
+                manager.getTransaction().rollback();
+
+            throw new DAOException(e);
+        } finally {
+            if (manager.isOpen())
+                manager.close();
         }
     }
 
@@ -98,11 +136,49 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param employee {@link Employee} object to delete from database
      */
     @Override
-    public void delete(Employee employee) {
+    public void delete(Employee employee) throws DAOException {
         if (employee == null){
             throw new IllegalArgumentException("employee is null");
-        } else {
+        }
+
+        try {
+            manager.getTransaction().begin();
+
             manager.remove(employee);
+
+            manager.getTransaction().commit();
+        } catch (PersistenceException e) {
+            if (manager.getTransaction().isActive())
+                manager.getTransaction().rollback();
+
+            throw new DAOException(e);
+        } finally {
+            if (manager.isOpen())
+                manager.close();
+        }
+    }
+
+    private void validateEmployee(Employee employee) throws DAOException {
+        if(employee.getUsername() == null) {
+            throw new DAOException("Username not set");
+        }
+        if(employee.getPhone() == null) {
+            throw new DAOException("Phone not set");
+        }
+        if(!employee.getPhone().matches(Constants.PHONE_NUMBER_REGEX_PATTERN)) {
+            throw new DAOException("Phone is invalid");
+        }
+        if(employee.getEmail() == null) {
+            throw new DAOException("Email not set");
+        }
+        if(!employee.getEmail().matches(Constants.EMAIL_REGEX_PATTERN)) {
+            throw new DAOException("Email is invalid");
+        }
+        if(employee.getPassword() == null) {
+            throw new DAOException("Password not set");
+        }
+        if(employee.getSalary() == null) {
+            throw new DAOException("Salary not set");
         }
     }
 }

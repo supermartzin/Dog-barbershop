@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Employee;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface EmployeeDAO {
      *
      * @param employee {@link Employee} object to save
      */
-    void create(Employee employee);
+    void create(Employee employee) throws DAOException;
 
     /**
      * Retrieves a {@see Employee} object with provided <b>ID</b> from database
@@ -47,12 +48,12 @@ public interface EmployeeDAO {
      *
      * @param employee {@link Employee} object with updated attributes
      */
-    void update(Employee employee);
+    void update(Employee employee) throws DAOException;
 
     /**
      * Deletes an existing {@link Employee} entry from database
      *
      * @param employee {@link Employee} object to delete from database
      */
-    void delete(Employee employee);
+    void delete(Employee employee) throws DAOException;
 }

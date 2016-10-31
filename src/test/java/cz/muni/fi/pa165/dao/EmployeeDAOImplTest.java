@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Address;
 import cz.muni.fi.pa165.entities.Employee;
+import cz.muni.fi.pa165.exceptions.DAOException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -52,7 +53,7 @@ public class EmployeeDAOImplTest {
     }
 
     @Test
-    public void createNull() throws Exception {
+    public void createNull() throws Exception, DAOException {
         employeeDAO.create(null);
     }
 
@@ -81,7 +82,7 @@ public class EmployeeDAOImplTest {
     }
 
     @Test
-    public void testCreate_addressNull() throws Exception {
+    public void testCreate_addressNull() throws Exception, DAOException {
         Employee employee = new Employee();
         employee.setUsername("testing");
         employee.setPassword("password");
@@ -96,7 +97,7 @@ public class EmployeeDAOImplTest {
     }
 
     @Test
-    public void testCreate_customerValid() throws Exception {
+    public void testCreate_customerValid() throws Exception, DAOException {
         employeeDAO.create(testEmployee);
 
         Assert.assertTrue(testEmployee.getId() >= 0);
