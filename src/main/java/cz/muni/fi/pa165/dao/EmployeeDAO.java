@@ -34,6 +34,15 @@ public interface EmployeeDAO {
     List<Employee> getAll();
 
     /**
+     * Retrieves a {@link Employee} object which has provided <b>username</b> from database
+     *
+     * @param username Username of {@link Employee} to retrieve
+     * @return found {@link Employee} object or {@link null} if <b>username</b> not found
+     * @throws IllegalArgumentException for {@link null} or empty username
+     */
+    Employee getByUsername(String username);
+
+    /**
      * Updates attributes of an existing {@link Employee} object in database
      *
      * @param employee {@link Employee} object with updated attributes

@@ -4,9 +4,7 @@ import cz.muni.fi.pa165.entities.Employee;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -28,8 +26,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      */
     @Override
     public void create(Employee employee) {
-
-        
+        if (employee == null){
+            throw new IllegalArgumentException("employee is null");
+        } else {
+            manager.persist(employee);
+        }
     }
 
     /**
@@ -40,7 +41,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      */
     @Override
     public Employee getById(long id) {
-        return null;
+        if (id < 0) {
+            throw new IllegalArgumentException("id is incorrect. Must be >= 0");
+        } else {
+            return manager.find(Employee.class, id);
+        }
     }
 
     /**
@@ -50,7 +55,20 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      */
     @Override
     public List<Employee> getAll() {
-        return null;
+        TypedQuery<Employee> query = manager.createQuery("SELECT e FROM Employee e", Employee.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public Employee getByUsername(String username) {
+        if (username == null)
+            throw new IllegalArgumentException("Cannot search for null username");
+
+        try {
+            return manager.createQuery("select e from Employee e where username=:username", Employee.class).setParameter("username", username).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
     /**
@@ -60,7 +78,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      */
     @Override
     public void update(Employee employee) {
-
+        if (employee == null){
+            throw new IllegalArgumentException("employee is null");
+        } else {
+            manager.persist(employee);
+        }
     }
 
     /**
@@ -70,6 +92,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      */
     @Override
     public void delete(Employee employee) {
-
+        if (employee == null){
+            throw new IllegalArgumentException("employee is null");
+        } else {
+            manager.remove(employee);
+        }
     }
 }

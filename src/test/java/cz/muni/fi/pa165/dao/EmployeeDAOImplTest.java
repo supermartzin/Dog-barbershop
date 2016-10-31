@@ -13,7 +13,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
 import javax.persistence.PersistenceUnit;
+
+import java.math.BigDecimal;
 
 import static org.junit.Assert.*;
 
@@ -34,11 +37,13 @@ public class EmployeeDAOImplTest {
     private EmployeeDAO employeeDAO;
 
     private Address address;
+    private Employee testEmployee;
 
 
     @Before
     public void setUp() throws Exception {
-        address = new Address("strt", 32, "Townsville", 91101, "yea");
+        address = new Address("Street", 32, "Townsville", 91101, "Island");
+        testEmployee = new Employee("tester", "testpass", "Den", "Rich", address, "some@one", "555444333", new BigDecimal("2000"));
     }
 
     @After
@@ -64,6 +69,49 @@ public class EmployeeDAOImplTest {
         employeeDAO.getById(employee.getId());
 
         Assert.assertEquals("usr", employee.getUsername());
+    }
+
+    @Test
+    public void testGetByUsername_employeeDoesNotExist() throws Exception {
+        String username = "testing";
+
+        Employee employee = employeeDAO.getByUsername(username);
+
+        Assert.assertNull(employee);
+    }
+
+    @Test
+    public void testCreate_addressNull() throws Exception {
+        Employee employee = new Employee();
+        employee.setUsername("testing");
+        employee.setPassword("password");
+        employee.setFirstName("John");
+        employee.setLastName("Tester");
+        employee.setAddress(null);
+        employee.setEmail("testing@mail.com");
+        employee.setPhone("+4209658412");
+
+        employeeDAO.create(employee);
+
+    }
+
+    @Test
+    public void testCreate_customerValid() throws Exception {
+        employeeDAO.create(testEmployee);
+
+        Assert.assertTrue(testEmployee.getId() >= 0);
+
+        EntityManager manager = factory.createEntityManager();
+        manager.getTransaction().begin();
+
+        Employee retrievedEmployee = manager.find(Employee.class, testEmployee.getId());
+
+        Assert.assertNotNull(retrievedEmployee);
+        assertEquals(testEmployee.getId(), retrievedEmployee.getId());
+
+        manager.getTransaction().commit();
+        manager.close();
+
     }
 
     @Test
