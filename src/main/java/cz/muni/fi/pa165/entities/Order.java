@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -18,10 +19,12 @@ public class Order {
 
     private LocalDateTime time;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dog_id")
     private Dog dog;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")
     private Service service;
@@ -65,5 +68,23 @@ public class Order {
 
     public void setService(Service service) {
         this.service = service;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        Order order = (Order) object;
+
+        return order.getId() > 0 && getId() == order.getId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() ^ (getId() >>> 32));
     }
 }
