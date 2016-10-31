@@ -20,6 +20,11 @@ public class DogDAOImpl implements DogDAO {
     @PersistenceContext
     private EntityManager manager;
 
+    /**
+     * Creates new entry in database from provided {@link Dog} object
+     *
+     * @param dog {@link Dog} object to save
+     */
     @Override
     public void create(Dog dog) {
         if (dog == null){
@@ -29,6 +34,12 @@ public class DogDAOImpl implements DogDAO {
         }
     }
 
+    /**
+     * Retrieves a {@see Dog} object with provided <b>ID</b> from database
+     *
+     * @param id <b>ID</b> number of {@link Dog} to retrieve
+     * @return found {@link Dog} object or {@link null} if <b>ID</b> not found
+     */
     @Override
     public Dog getById(long id){
         if (id < 0) {
@@ -38,12 +49,22 @@ public class DogDAOImpl implements DogDAO {
         }
     }
 
+    /**
+     * Retrieves all {@link Dog} objects from database
+     *
+     * @return list of all {@link Dog} objects from database
+     */
     @Override
     public List<Dog> getAll() {
         TypedQuery<Dog> query = manager.createQuery("SELECT d FROM Dog d", Dog.class);
         return query.getResultList();
     }
-
+    
+    /**
+     * Updates attributes of an existing {@link Dog} object in database
+     *
+     * @param dog {@link Dog} object with updated attributes
+     */
     @Override
     public void update(Dog dog) {
         if (dog == null){
@@ -53,6 +74,11 @@ public class DogDAOImpl implements DogDAO {
         }
     }
 
+    /**
+     * Deletes an existing {@link Dog} entry from database
+     *
+     * @param dog {@link Dog} object to delete from database
+     */
     @Override
     public void delete(Dog dog) {
         if (dog == null){
