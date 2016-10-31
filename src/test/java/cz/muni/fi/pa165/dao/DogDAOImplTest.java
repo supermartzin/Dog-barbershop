@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.entities.Address;
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.exceptions.DAOException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,13 +44,13 @@ public class DogDAOImplTest {
     private Customer customer;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception, DAOException {
         customer = new Customer("testing", "password", "John", "Tester", new Address("Testing Avenue", 25, "Testero", 2356, "Testing Republic"), "tester@mail.com", "+4209658412");
         customerDAO.create(customer);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws Exception, DAOException {
         customerDAO.delete(customer);
     }
 
@@ -75,6 +76,11 @@ public class DogDAOImplTest {
         manager.close();
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void createIllegal() {
+        dogDAO.create(null);
+    }
+
     @Test
     public void getById() throws Exception {
         Dog dog = new Dog("Linda", "testingBreed", 2);
@@ -92,6 +98,11 @@ public class DogDAOImplTest {
         Dog foundDog = dogDAO.getById(dog.getId());
 
         Assert.assertEquals(dog, foundDog);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getIllegal() {
+        dogDAO.getById(-1);
     }
 
     @Test
@@ -151,6 +162,11 @@ public class DogDAOImplTest {
         manager.close();
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void updateIllegal() {
+        dogDAO.update(null);
+    }
+
     @Test
     public void delete() throws Exception {
         Dog dog = new Dog("Linda", "testingBreed", 2);
@@ -172,6 +188,11 @@ public class DogDAOImplTest {
 
         manager.getTransaction().commit();
         manager.close();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void deleteIllegal() {
+        dogDAO.delete(null);
     }
 
 }

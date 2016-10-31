@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Customer;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface CustomerDAO {
      *
      * @param customer  {@link Customer} object to save
      */
-    void create(Customer customer);
+    void create(Customer customer) throws DAOException;
 
     /**
      * Retrieves a {@link Customer} object with provided <b>ID</b> from database
@@ -25,7 +26,7 @@ public interface CustomerDAO {
      * @param id    <b>ID</b> number of {@link Customer} to retrieve
      * @return      found {@link Customer} object or {@link null} if <b>ID</b> not found
      */
-    Customer getById(long id);
+    Customer getById(long id) throws DAOException;
 
     /**
      * Retrieves a {@link Customer} object which has provided <b>username</b> from database
@@ -34,26 +35,26 @@ public interface CustomerDAO {
      * @return found {@link Customer} object or {@link null} if <b>username</b> not found
      * @throws IllegalArgumentException for {@link null} or empty username
      */
-    Customer getByUsername(String username);
+    Customer getByUsername(String username) throws DAOException;
 
     /**
      * Retrieves all {@link Customer} objects from database
      *
      * @return  list of all {@link Customer} objects from database
      */
-    List<Customer> getAll();
+    List<Customer> getAll() throws DAOException;
 
     /**
      * Updates attributes of an existing {@link Customer} object in database
      *
      * @param customer  {@link Customer} object with updated attributes
      */
-    void update(Customer customer);
+    void update(Customer customer) throws DAOException;
 
     /**
      * Deletes an existing {@link Customer} entry from database
      *
      * @param customer  {@link Customer} object to delete from database
      */
-    void delete(Customer customer);
+    void delete(Customer customer) throws DAOException;
 }
