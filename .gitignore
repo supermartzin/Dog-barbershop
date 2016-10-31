@@ -5,6 +5,7 @@
 target/
 
 derby.log
+dog-barbershop.iml
 
 ## File-based project format:
 *.iws
