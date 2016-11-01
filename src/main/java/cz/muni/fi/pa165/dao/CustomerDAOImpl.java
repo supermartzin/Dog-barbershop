@@ -1,11 +1,9 @@
 package cz.muni.fi.pa165.dao;
 
+import cz.muni.fi.pa165.entities.Address;
 import cz.muni.fi.pa165.entities.Customer;
-import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.exceptions.DAOException;
-import cz.muni.fi.pa165.utils.Constants;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,8 +16,8 @@ import java.util.List;
 @Repository
 public class CustomerDAOImpl implements CustomerDAO {
 
-    @PersistenceContext
-    private EntityManager manager;
+    @PersistenceUnit
+    private EntityManagerFactory managerFactory;
 
     /**
      * Creates new entry in database from provided {@link Customer} object
@@ -33,30 +31,28 @@ public class CustomerDAOImpl implements CustomerDAO {
         if (customer.getId() > 0)
             throw new DAOException("Customer ID is already set");
 
-        validateCustomer(customer);
+        EntityManager manager = null;
 
         try {
+            manager = managerFactory.createEntityManager();
+
             manager.getTransaction().begin();
 
             // save Customer to database
+            saveAddress(customer.getAddress(), manager);
             manager.persist(customer);
 
             manager.getTransaction().commit();
         } catch (EntityExistsException eeEx){
-            // rollback if needed
-            if (manager.getTransaction().isActive())
-                manager.getTransaction().rollback();
+            rollbackTransaction(manager);
 
             throw new DAOException("Provided Customer already exists in database");
         } catch (PersistenceException | IllegalStateException ex) {
-            // rollback if needed
-            if (manager.getTransaction().isActive())
-                manager.getTransaction().rollback();
+            rollbackTransaction(manager);
 
             throw new DAOException(ex);
         } finally {
-            if (manager.isOpen())
-                manager.close();
+            closeManager(manager);
         }
     }
 
@@ -72,7 +68,15 @@ public class CustomerDAOImpl implements CustomerDAO {
         if (id < 0)
             throw new IllegalArgumentException("ID must be positive integral number");
 
-        return manager.find(Customer.class, id);
+        EntityManager manager = null;
+
+        try {
+            manager = managerFactory.createEntityManager();
+
+            return manager.find(Customer.class, id);
+        } finally {
+            closeManager(manager);
+        }
     }
 
     /**
@@ -84,15 +88,23 @@ public class CustomerDAOImpl implements CustomerDAO {
      */
     @Override
     public Customer getByUsername(String username) throws DAOException {
-        if (username == null || username.isEmpty())
+        if (username == null)
             throw new IllegalArgumentException("Cannot search for null username");
 
+        EntityManager manager = null;
+
         try {
-            return manager.createQuery("select u from Customer u where username=:username", Customer.class)
-                    .setParameter("username", username)
-                    .getSingleResult();
-        } catch (NoResultException e) {
+            manager = managerFactory.createEntityManager();
+
+            return manager.createQuery("select u from Customer u where username = :username", Customer.class)
+                          .setParameter("username", username)
+                          .getSingleResult();
+        } catch (NoResultException nrEx) {
             return null;
+        } catch (PersistenceException pEx) {
+            throw new DAOException(pEx);
+        } finally {
+            closeManager(manager);
         }
     }
 
@@ -103,11 +115,17 @@ public class CustomerDAOImpl implements CustomerDAO {
      */
     @Override
     public List<Customer> getAll() throws DAOException {
+        EntityManager manager = null;
+
         try {
-            return manager.createQuery("SELECT u FROM Customer u",
-                    Customer.class).getResultList();
+            manager = managerFactory.createEntityManager();
+
+            return manager.createQuery("SELECT u FROM Customer u", Customer.class)
+                          .getResultList();
         } catch (PersistenceException pEx) {
             throw new DAOException(pEx);
+        } finally {
+            closeManager(manager);
         }
     }
 
@@ -121,24 +139,28 @@ public class CustomerDAOImpl implements CustomerDAO {
         if (customer == null)
             throw new IllegalArgumentException("Customer cannot be null");
 
-        validateCustomer(customer);
+        EntityManager manager = null;
 
         try {
+            manager = managerFactory.createEntityManager();
+
             manager.getTransaction().begin();
 
+            Customer existingCustomer = manager.find(Customer.class, customer.getId());
+            if (existingCustomer == null)
+                throw new DAOException("Cannot update non-existing Customer");
+
             // update Customer in database
+            saveAddress(customer.getAddress(), manager);
             manager.merge(customer);
 
             manager.getTransaction().commit();
         } catch (PersistenceException pEx) {
-            // rollback if needed
-            if (manager.getTransaction().isActive())
-                manager.getTransaction().rollback();
+            rollbackTransaction(manager);
 
             throw new DAOException(pEx);
         } finally {
-            if (manager.isOpen())
-                manager.close();
+            closeManager(manager);
         }
     }
 
@@ -152,43 +174,56 @@ public class CustomerDAOImpl implements CustomerDAO {
         if (customer == null)
             throw new IllegalArgumentException("Customer cannot be null");
 
+        EntityManager manager = null;
+
         try {
+            manager = managerFactory.createEntityManager();
+
             manager.getTransaction().begin();
 
+            Customer existingCustomer = manager.find(Customer.class, customer.getId());
+            if (existingCustomer == null)
+                throw new DAOException("Customer with id " + customer.getId() + " does not exist in database");
+
             // delete Customer in database
-            manager.remove(customer);
+            manager.remove(existingCustomer);
 
             manager.getTransaction().commit();
         } catch (PersistenceException pEx) {
-            // rollback if needed
-            if (manager.getTransaction().isActive())
-                manager.getTransaction().rollback();
+            rollbackTransaction(manager);
 
             throw new DAOException(pEx);
         } finally {
-            if (manager.isOpen())
-                manager.close();
+            closeManager(manager);
         }
     }
 
-    private void validateCustomer(Customer customer) throws DAOException {
-        if(customer.getUsername() == null) {
-            throw new DAOException("Username not set");
-        }
-        if(customer.getPhone() == null) {
-            throw new DAOException("Phone not set");
-        }
-        if(!customer.getPhone().matches(Constants.PHONE_NUMBER_REGEX_PATTERN)) {
-            throw new DAOException("Phone is invalid");
-        }
-        if(customer.getEmail() == null) {
-            throw new DAOException("Email not set");
-        }
-        if(!customer.getEmail().matches(Constants.EMAIL_REGEX_PATTERN)) {
-            throw new DAOException("Email is invalid");
-        }
-        if(customer.getPassword() == null) {
-            throw new DAOException("Password not set");
+
+    private void rollbackTransaction(EntityManager manager) {
+        if (manager == null)
+            return;
+
+        // rollback if needed
+        if (manager.getTransaction().isActive())
+            manager.getTransaction().rollback();
+    }
+
+    private void closeManager(EntityManager manager) {
+        if (manager == null)
+            return;
+
+        if (manager.isOpen())
+            manager.close();
+    }
+
+    private void saveAddress(Address address, EntityManager manager) {
+        if (address == null)
+            return;
+
+        if (address.getId() > 0) {
+            manager.merge(address);
+        } else {
+            manager.persist(address);
         }
     }
 }

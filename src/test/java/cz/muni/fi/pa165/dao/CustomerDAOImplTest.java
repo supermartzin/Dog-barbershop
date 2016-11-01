@@ -71,12 +71,12 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreate_customerNull() throws Exception, DAOException {
+    public void testCreate_customerNull() throws Exception {
         customerDAO.create(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_usernameNotSet() throws Exception, DAOException {
+    public void testCreate_usernameNotSet() throws Exception {
         Customer customer = new Customer();
         customer.setPassword("password");
         customer.setFirstName("John");
@@ -90,7 +90,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_passwordNotSet() throws Exception, DAOException {
+    public void testCreate_passwordNotSet() throws Exception {
         Customer customer = new Customer();
         customer.setUsername("testing");
         customer.setFirstName("John");
@@ -104,7 +104,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_passwordInvalid() throws Exception, DAOException {
+    public void testCreate_passwordInvalid() throws Exception {
         String password = "pass";
 
         Customer customer = new Customer();
@@ -121,7 +121,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test
-    public void testCreate_addressNull() throws Exception, DAOException {
+    public void testCreate_addressNull() throws Exception {
         Customer customer = new Customer();
         customer.setUsername("testing");
         customer.setPassword("password");
@@ -142,7 +142,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_emailInvalid() throws Exception, DAOException {
+    public void testCreate_emailInvalid() throws Exception {
         String email = "this is invalid @mail";
 
         Customer customer = new Customer();
@@ -159,7 +159,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_phoneInvalid() throws Exception, DAOException {
+    public void testCreate_phoneInvalid() throws Exception {
         String phone = "-456 +985-8965aaa";
 
         Customer customer = new Customer();
@@ -176,7 +176,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_idAlreadySet() throws Exception, DAOException {
+    public void testCreate_idAlreadySet() throws Exception {
         Customer customer = new Customer();
         customer.setId(15);
         customer.setUsername("testing");
@@ -192,7 +192,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test
-    public void testCreate_usernameAlreadyExist() throws Exception, DAOException {
+    public void testCreate_usernameAlreadyExist() throws Exception {
         Customer customer = new Customer();
         customer.setUsername(testingCustomer.getUsername());
         customer.setPassword("psswd252");
@@ -213,7 +213,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test
-    public void testCreate_customerValid() throws Exception, DAOException {
+    public void testCreate_customerValid() throws Exception {
         customerDAO.create(testingCustomer);
 
         // Assert
@@ -228,14 +228,14 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetById_idInvalid() throws Exception, DAOException {
+    public void testGetById_idInvalid() throws Exception {
         long id = -1;
 
         customerDAO.getById(id);
     }
 
     @Test
-    public void testGetById_customerDoesNotExists() throws Exception, DAOException {
+    public void testGetById_customerDoesNotExists() throws Exception {
         long id = 100;
 
         Customer retrievedCustomer = customerDAO.getById(id);
@@ -244,7 +244,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test
-    public void testGetById_customerValid() throws Exception, DAOException {
+    public void testGetById_customerValid() throws Exception {
         // create customer in database
         persistCustomers(testingCustomer);
 
@@ -256,12 +256,12 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetByUsername_usernameNull() throws Exception, DAOException {
+    public void testGetByUsername_usernameNull() throws Exception {
         customerDAO.getByUsername(null);
     }
 
     @Test
-    public void testGetByUsername_customerDoesNotExist() throws Exception, DAOException {
+    public void testGetByUsername_customerDoesNotExist() throws Exception {
         String username = "testing";
 
         Customer customer = customerDAO.getByUsername(username);
@@ -270,7 +270,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test
-    public void testGetByUsername_customerExists() throws Exception, DAOException {
+    public void testGetByUsername_customerExists() throws Exception {
         // create customer in database
         persistCustomers(testingCustomer);
 
@@ -281,7 +281,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test
-    public void testGetAll_noCustomers() throws Exception, DAOException {
+    public void testGetAll_noCustomers() throws Exception {
         List<Customer> allCustomers = customerDAO.getAll();
 
         Assert.assertNotNull(allCustomers);
@@ -289,7 +289,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test
-    public void testGetAll_customersExist() throws Exception, DAOException {
+    public void testGetAll_customersExist() throws Exception {
         Customer customer = new Customer("testmaster", "masterpassword", "Albert", "Master",
                 new Address("Botanicka", 68, "Brno", 62000, "Czech Republic"),
                 "testmaster@mail.com", "+421910325478");
@@ -307,17 +307,17 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUpdate_customerNull() throws Exception, DAOException {
+    public void testUpdate_customerNull() throws Exception {
         customerDAO.update(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_customerDoesNotExist() throws Exception, DAOException {
+    public void testUpdate_customerDoesNotExist() throws Exception {
         customerDAO.update(testingCustomer);
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_usernameInvalid() throws Exception, DAOException {
+    public void testUpdate_usernameInvalid() throws Exception {
         // create customer in database
         persistCustomers(testingCustomer);
 
@@ -328,7 +328,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_passwordNull() throws Exception, DAOException {
+    public void testUpdate_passwordNull() throws Exception {
         // create customer in database
         persistCustomers(testingCustomer);
 
@@ -339,7 +339,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_passwordInvalid() throws Exception, DAOException {
+    public void testUpdate_passwordInvalid() throws Exception {
         // create customer in database
         persistCustomers(testingCustomer);
 
@@ -350,7 +350,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test
-    public void testUpdate_addressNull() throws Exception, DAOException {
+    public void testUpdate_addressNull() throws Exception {
         // create customer in database
         persistCustomers(testingCustomer);
 
@@ -368,7 +368,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_emailInvalid() throws Exception, DAOException {
+    public void testUpdate_emailInvalid() throws Exception {
         // create customer in database
         persistCustomers(testingCustomer);
 
@@ -379,7 +379,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_phoneInvalid() throws Exception, DAOException {
+    public void testUpdate_phoneInvalid() throws Exception {
         // create customer in database
         persistCustomers(testingCustomer);
 
@@ -390,7 +390,7 @@ public class CustomerDAOImplTest {
     }
 
     @Test
-    public void testUpdate_customerValid() throws Exception, DAOException {
+    public void testUpdate_customerValid() throws Exception {
         // create customer in database
         persistCustomers(testingCustomer);
 
@@ -413,17 +413,17 @@ public class CustomerDAOImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testDelete_customerNull() throws Exception, DAOException {
+    public void testDelete_customerNull() throws Exception {
         customerDAO.delete(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testDelete_customerDoesNotExist() throws Exception, DAOException {
+    public void testDelete_customerDoesNotExist() throws Exception {
         customerDAO.delete(testingCustomer);
     }
 
     @Test(expected = DAOException.class)
-    public void testDelete_rightCustomerDeleted() throws Exception, DAOException {
+    public void testDelete_rightCustomerDeleted() throws Exception {
         // create custoemrs in database
         Customer customer1 = new Customer("testmaster", "masterpassword", "Albert", "Master",
                 new Address("Botanicka", 68, "Brno", 62000, "Czech Republic"),
@@ -470,8 +470,19 @@ public class CustomerDAOImplTest {
     private void persistCustomers(Customer... customers){
         EntityManager manager = createManager();
 
-        for (Customer customer : customers)
+        for (Customer customer : customers) {
+            if (customer.getAddress() != null) {
+                Address address = customer.getAddress();
+
+                if (address.getId() > 0) {
+                    manager.merge(address);
+                } else {
+                    manager.persist(address);
+                }
+            }
+
             manager.persist(customer);
+        }
 
         closeManager(manager);
     }

@@ -33,7 +33,7 @@ public abstract class User {
 
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Address address;
 
     @Pattern(regexp = Constants.EMAIL_REGEX_PATTERN)

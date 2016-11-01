@@ -6,7 +6,7 @@ package cz.muni.fi.pa165.exceptions;
  * @author Martin Vrábel
  * @version 25.10.2016 11:10
  */
-public class DAOException extends Throwable {
+public class DAOException extends Exception {
 
     public DAOException() {
     }
