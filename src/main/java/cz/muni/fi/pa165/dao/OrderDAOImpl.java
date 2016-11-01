@@ -18,8 +18,8 @@ import java.util.List;
 @Repository
 public class OrderDAOImpl implements OrderDAO {
 
-    @PersistenceContext
-    private EntityManager manager;
+    @PersistenceUnit
+    private EntityManagerFactory managerFactory;
 
     /**
      * Creates new entry in database from provided {@link Order} object
@@ -33,6 +33,8 @@ public class OrderDAOImpl implements OrderDAO {
             throw new IllegalArgumentException("order is null");
         if (order.getId() > 0)
             throw new DAOException("Order ID is already set");
+
+        EntityManager manager = managerFactory.createEntityManager();
 
         try {
             manager.getTransaction().begin();
@@ -71,11 +73,9 @@ public class OrderDAOImpl implements OrderDAO {
         if (id < 0)
             throw new IllegalArgumentException("Order ID must be positive integral number");
 
-        Order order = manager.find(Order.class, id);
-        if (order != null)
-            return order;
+        EntityManager manager = managerFactory.createEntityManager();
 
-        throw new DAOException("Order with id " + id + " has not been found in database");
+        return manager.find(Order.class, id);
     }
 
     /**
@@ -86,6 +86,8 @@ public class OrderDAOImpl implements OrderDAO {
      */
     @Override
     public List<Order> getAll() throws DAOException {
+        EntityManager manager = managerFactory.createEntityManager();
+
         try {
             return manager.createQuery("SELECT ord from Order ord", Order.class)
                           .getResultList();
@@ -105,6 +107,8 @@ public class OrderDAOImpl implements OrderDAO {
     public List<Order> getByDog(Dog dog) throws DAOException {
         if (dog == null)
             throw new IllegalArgumentException("dog is null");
+
+        EntityManager manager = managerFactory.createEntityManager();
 
         try {
             return manager.createQuery("SELECT ord FROM Order ord WHERE dog = :dog", Order.class)
@@ -127,6 +131,8 @@ public class OrderDAOImpl implements OrderDAO {
         if (service == null)
             throw new IllegalArgumentException("service is null");
 
+        EntityManager manager = managerFactory.createEntityManager();
+
         try {
             return manager.createQuery("SELECT ord FROM Order ord WHERE service = :service", Order.class)
                           .setParameter("service", service)
@@ -146,6 +152,8 @@ public class OrderDAOImpl implements OrderDAO {
     public void update(Order order) throws DAOException {
         if (order == null)
             throw new IllegalArgumentException("order is null");
+
+        EntityManager manager = managerFactory.createEntityManager();
 
         try {
             manager.getTransaction().begin();
@@ -176,6 +184,8 @@ public class OrderDAOImpl implements OrderDAO {
     public void delete(Order order) throws DAOException {
         if (order == null)
             throw new IllegalArgumentException("order is null");
+
+        EntityManager manager = managerFactory.createEntityManager();
 
         try {
             manager.getTransaction().begin();

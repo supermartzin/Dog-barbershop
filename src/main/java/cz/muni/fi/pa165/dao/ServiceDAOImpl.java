@@ -3,10 +3,7 @@ package cz.muni.fi.pa165.dao;
 import cz.muni.fi.pa165.entities.Service;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -18,8 +15,8 @@ import java.util.List;
 @Repository
 public class ServiceDAOImpl implements ServiceDAO {
 
-    @PersistenceContext
-    private EntityManager manager;
+    @PersistenceUnit
+    private EntityManagerFactory managerFactory;
 
     /**
      * Creates new entry in database from provided {@link Service} object
@@ -28,11 +25,12 @@ public class ServiceDAOImpl implements ServiceDAO {
      */
     @Override
     public void create(Service service) {
-        if (service == null){
+        if (service == null)
             throw new IllegalArgumentException("service is null");
-        } else {
-            manager.persist(service);
-        }
+
+        EntityManager manager = managerFactory.createEntityManager();
+
+        manager.persist(service);
     }
 
     /**
@@ -43,11 +41,12 @@ public class ServiceDAOImpl implements ServiceDAO {
      */
     @Override
     public Service getById(long id) {
-        if (id < 0) {
+        if (id < 0)
             throw new IllegalArgumentException("id is incorrect. Must be >= 0");
-        } else {
-            return manager.find(Service.class, id);
-        }
+
+        EntityManager manager = managerFactory.createEntityManager();
+
+        return manager.find(Service.class, id);
     }
 
     /**
@@ -57,9 +56,10 @@ public class ServiceDAOImpl implements ServiceDAO {
      */
     @Override
     public List<Service> getAll() {
-        TypedQuery<Service> query = manager.createQuery("SELECT s FROM Service s", Service.class);
-        return query.getResultList();
+        EntityManager manager = managerFactory.createEntityManager();
 
+        return manager.createQuery("SELECT s FROM Service s", Service.class)
+                      .getResultList();
     }
 
     /**
@@ -69,11 +69,12 @@ public class ServiceDAOImpl implements ServiceDAO {
      */
     @Override
     public void update(Service service) {
-        if (service == null){
+        if (service == null)
             throw new IllegalArgumentException("service is null");
-        } else {
-            manager.persist(service);
-        }
+
+        EntityManager manager = managerFactory.createEntityManager();
+
+        manager.persist(service);
     }
 
     /**
@@ -83,10 +84,11 @@ public class ServiceDAOImpl implements ServiceDAO {
      */
     @Override
     public void delete(Service service) {
-        if (service == null){
+        if (service == null)
             throw new IllegalArgumentException("service is null");
-        } else {
-            manager.remove(service);
-        }
+
+        EntityManager manager = managerFactory.createEntityManager();
+
+        manager.remove(service);
     }
 }

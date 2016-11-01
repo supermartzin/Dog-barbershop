@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.utils.Constants;
 import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,8 +17,8 @@ import java.util.List;
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
 
-    @PersistenceContext
-    private EntityManager manager;
+    @PersistenceUnit
+    private EntityManagerFactory managerFactory;
 
     /**
      * Creates new entry in database from provided {@link Employee} object
@@ -33,7 +32,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         if (employee.getId() > 0)
             throw new DAOException("Employee ID is already set");
 
-        validateEmployee(employee);
+        EntityManager manager = managerFactory.createEntityManager();
 
         try {
             manager.getTransaction().begin();
@@ -65,11 +64,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      */
     @Override
     public Employee getById(long id) {
-        if (id < 0) {
+        if (id < 0)
             throw new IllegalArgumentException("id is incorrect. Must be >= 0");
-        } else {
-            return manager.find(Employee.class, id);
-        }
+
+        EntityManager manager = managerFactory.createEntityManager();
+
+        return manager.find(Employee.class, id);
     }
 
     /**
@@ -79,7 +79,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      */
     @Override
     public List<Employee> getAll() {
-        return manager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
+        EntityManager manager = managerFactory.createEntityManager();
+
+        return manager.createQuery("SELECT e FROM Employee e", Employee.class)
+                      .getResultList();
     }
 
     /**
@@ -95,8 +98,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             throw new IllegalArgumentException("Cannot search for null username");
 
         try {
-            return manager.createQuery("select e from Employee e where username=:username", Employee.class).setParameter("username", username).getSingleResult();
-        } catch (NoResultException nre) {
+            EntityManager manager = managerFactory.createEntityManager();
+
+            return manager.createQuery("select e from Employee e where username=:username", Employee.class)
+                          .setParameter("username", username)
+                          .getSingleResult();
+        } catch (NoResultException nrEx) {
             return null;
         }
     }
@@ -108,10 +115,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      */
     @Override
     public void update(Employee employee) throws DAOException {
-        if (employee == null){
+        if (employee == null)
             throw new IllegalArgumentException("employee is null");
-        }
-        validateEmployee(employee);
+
+        EntityManager manager = managerFactory.createEntityManager();
 
         try {
             manager.getTransaction().begin();
@@ -137,9 +144,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      */
     @Override
     public void delete(Employee employee) throws DAOException {
-        if (employee == null){
+        if (employee == null)
             throw new IllegalArgumentException("employee is null");
-        }
+
+        EntityManager manager = managerFactory.createEntityManager();
 
         try {
             manager.getTransaction().begin();
@@ -155,30 +163,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         } finally {
             if (manager.isOpen())
                 manager.close();
-        }
-    }
-
-    private void validateEmployee(Employee employee) throws DAOException {
-        if(employee.getUsername() == null) {
-            throw new DAOException("Username not set");
-        }
-        if(employee.getPhone() == null) {
-            throw new DAOException("Phone not set");
-        }
-        if(!employee.getPhone().matches(Constants.PHONE_NUMBER_REGEX_PATTERN)) {
-            throw new DAOException("Phone is invalid");
-        }
-        if(employee.getEmail() == null) {
-            throw new DAOException("Email not set");
-        }
-        if(!employee.getEmail().matches(Constants.EMAIL_REGEX_PATTERN)) {
-            throw new DAOException("Email is invalid");
-        }
-        if(employee.getPassword() == null) {
-            throw new DAOException("Password not set");
-        }
-        if(employee.getSalary() == null) {
-            throw new DAOException("Salary not set");
         }
     }
 }

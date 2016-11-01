@@ -3,9 +3,7 @@ package cz.muni.fi.pa165.dao;
 import cz.muni.fi.pa165.entities.Dog;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -17,8 +15,8 @@ import java.util.List;
 @Repository
 public class DogDAOImpl implements DogDAO {
 
-    @PersistenceContext
-    private EntityManager manager;
+    @PersistenceUnit
+    private EntityManagerFactory managerFactory;
 
     /**
      * Creates new entry in database from provided {@link Dog} object
@@ -27,11 +25,12 @@ public class DogDAOImpl implements DogDAO {
      */
     @Override
     public void create(Dog dog) {
-        if (dog == null){
+        if (dog == null)
             throw new IllegalArgumentException("dog is null");
-        } else {
-            manager.persist(dog);
-        }
+
+        EntityManager manager = managerFactory.createEntityManager();
+
+        manager.persist(dog);
     }
 
     /**
@@ -42,11 +41,12 @@ public class DogDAOImpl implements DogDAO {
      */
     @Override
     public Dog getById(long id){
-        if (id < 0) {
+        if (id < 0)
             throw new IllegalArgumentException("id is incorrect. Must be >= 0");
-        } else {
-            return manager.find(Dog.class, id);
-        }
+
+        EntityManager manager = managerFactory.createEntityManager();
+
+        return manager.find(Dog.class, id);
     }
 
     /**
@@ -56,8 +56,10 @@ public class DogDAOImpl implements DogDAO {
      */
     @Override
     public List<Dog> getAll() {
-        TypedQuery<Dog> query = manager.createQuery("SELECT d FROM Dog d", Dog.class);
-        return query.getResultList();
+        EntityManager manager = managerFactory.createEntityManager();
+
+        return manager.createQuery("SELECT d FROM Dog d", Dog.class)
+                      .getResultList();
     }
     
     /**
@@ -67,11 +69,12 @@ public class DogDAOImpl implements DogDAO {
      */
     @Override
     public void update(Dog dog) {
-        if (dog == null){
+        if (dog == null)
             throw new IllegalArgumentException("dog is null");
-        } else {
-            manager.persist(dog);
-        }
+
+        EntityManager manager = managerFactory.createEntityManager();
+
+        manager.persist(dog);
     }
 
     /**
@@ -81,10 +84,11 @@ public class DogDAOImpl implements DogDAO {
      */
     @Override
     public void delete(Dog dog) {
-        if (dog == null){
+        if (dog == null)
             throw new IllegalArgumentException("dog is null");
-        } else {
-            manager.remove(dog);
-        }
+
+        EntityManager manager = managerFactory.createEntityManager();
+
+        manager.remove(dog);
     }
 }
