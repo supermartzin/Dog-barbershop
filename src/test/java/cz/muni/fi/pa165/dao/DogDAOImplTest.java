@@ -22,6 +22,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.core.IsCollectionContaining.hasItems;
+
 /**
  * Tests for {@link CustomerDAOImpl} class
  *
@@ -50,8 +55,15 @@ public class DogDAOImplTest {
     }
 
     @After
-    public void tearDown() throws Exception, DAOException {
-        customerDAO.delete(customer);
+    public void tearDown() throws Exception {
+        EntityManager manager = createManager();
+
+        // delete all entries created by test
+        manager.createNativeQuery("DELETE FROM Dog d").executeUpdate();
+        manager.createNativeQuery("DELETE FROM Customer c").executeUpdate();
+        manager.createNativeQuery("DELETE FROM Address a").executeUpdate();
+
+        closeManager(manager);
     }
 
     @Test
@@ -62,11 +74,11 @@ public class DogDAOImplTest {
         dogDAO.create(dog);
 
         // testing
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
+        EntityManager manager = createManager();
 
-        Dog testDog = manager.find(Dog.class, customer.getId());
+        Dog testDog = manager.find(Dog.class, dog.getId());
 
+        Assert.assertNotNull(testDog);
         Assert.assertEquals("Linda", testDog.getName());
         Assert.assertEquals("testingBreed", testDog.getBreed());
         Assert.assertEquals(2, testDog.getAge());
@@ -77,12 +89,12 @@ public class DogDAOImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void createIllegal() {
+    public void testCreate_dogNull() throws DAOException {
         dogDAO.create(null);
     }
 
     @Test
-    public void getById() throws Exception {
+    public void testGetById() throws Exception {
         Dog dog = new Dog("Linda", "testingBreed", 2);
         dog.setCustomer(customer);
 
@@ -101,12 +113,12 @@ public class DogDAOImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getIllegal() {
+    public void testGet_illegalId() {
         dogDAO.getById(-1);
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void testGetAll() throws Exception {
         Dog dog1 = new Dog("Linda", "testingBreed", 2);
         dog1.setCustomer(customer);
         Dog dog2 = new Dog("Miau", "cat", 3);
@@ -131,7 +143,7 @@ public class DogDAOImplTest {
     }
 
     @Test
-    public void update() throws Exception {
+    public void testUpdate() throws Exception {
         Dog dog1 = new Dog("Linda", "testingBreed", 2);
         dog1.setCustomer(customer);
         Dog dog2 = new Dog("Miau", "cat", 3);
@@ -146,8 +158,7 @@ public class DogDAOImplTest {
         dogDAO.update(dog1);
 
         // testing
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
+        EntityManager manager = createManager();
 
         Dog testDog1 = manager.find(Dog.class, dog1.getId());
         Dog testDog2 = manager.find(Dog.class, dog2.getId());
@@ -158,41 +169,80 @@ public class DogDAOImplTest {
         Assert.assertEquals("Miau", testDog2.getName());
         Assert.assertEquals(3, testDog2.getAge());
 
-        manager.getTransaction().commit();
-        manager.close();
+        closeManager(manager);
+    }
+
+    @Test(expected = DAOException.class)
+    public void testDelete_dogDoesNotExist() throws Exception {
+        Dog dog = new Dog("Linda", "testingBreed", 2);
+        dogDAO.delete(dog);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void updateIllegal() {
+    public void testUpdate_dogNull() {
         dogDAO.update(null);
     }
 
     @Test
-    public void delete() throws Exception {
+    public void testDelete() throws Exception {
         Dog dog = new Dog("Linda", "testingBreed", 2);
         dog.setCustomer(customer);
+        Dog dog2 = new Dog("Miau", "cat", 3);
+        dog2.setCustomer(customer);
 
-        dogDAO.create(dog);
+        persistDogs(dog, dog2);
 
         dogDAO.delete(dog);
 
-        // testing
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
-
-        Assert.assertNotEquals(0, dog.getId());
-
-        Service testService = manager.find(Service.class, dog.getId());
-
-        Assert.assertNull(testService);
-
-        manager.getTransaction().commit();
-        manager.close();
+        // get all customers to see if the right one has been deleted
+        EntityManager manager = createManager();
+        List<Dog> remainingDogs = manager.createQuery("SELECT c FROM Dog c", Dog.class)
+                .getResultList();
+        Assert.assertThat(remainingDogs, hasItems(dog2));
+        Assert.assertThat(remainingDogs, not(hasItem(dog)));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void deleteIllegal() {
+    public void testDelete_nullDog() throws DAOException {
         dogDAO.delete(null);
     }
 
+    private EntityManager createManager() {
+        // create new manager
+        EntityManager manager = factory.createEntityManager();
+
+        // start transaction
+        manager.getTransaction().begin();
+
+        return manager;
+    }
+
+    private void closeManager(EntityManager manager) {
+        if (manager == null)
+            return;
+
+        // commit current transaction
+        manager.getTransaction().commit();
+
+        // close the manager
+        manager.close();
+    }
+
+    private void persistDogs(Dog... dogs){
+        EntityManager manager = createManager();
+
+        for (Dog dog : dogs) {
+            manager.persist(dog);
+        }
+
+        closeManager(manager);
+    }
+
+    private void assertDeepEquals(Dog expected, Dog actual) {
+        Assert.assertEquals(expected.getId(), actual.getId());
+        Assert.assertEquals(expected.getName(), actual.getName());
+        Assert.assertEquals(expected.getAge(), actual.getAge());
+        Assert.assertEquals(expected.getBreed(), actual.getBreed());
+        Assert.assertEquals(expected.getCustomer(), actual.getCustomer());
+    }
 }

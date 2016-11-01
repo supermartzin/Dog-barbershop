@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Dog;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface DogDAO {
      *
      * @param dog  {@link Dog} object to save
      */
-    void create(Dog dog);
+    void create(Dog dog) throws DAOException;
 
     /**
      * Retrieves a {@see Dog} object with provided <b>ID</b> from database
@@ -46,5 +47,5 @@ public interface DogDAO {
      *
      * @param dog  {@link Dog} object to delete from database
      */
-    void delete(Dog dog);
+    void delete(Dog dog) throws DAOException;
 }
