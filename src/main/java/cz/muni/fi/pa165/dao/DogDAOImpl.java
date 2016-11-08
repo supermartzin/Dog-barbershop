@@ -32,6 +32,11 @@ public class DogDAOImpl implements DogDAO {
         if (dog.getId() > 0)
             throw new DAOException("Dog ID is already set");
 
+        if(dog.getCustomer() == null)
+            throw new DAOException("Dog has to have owner");
+        if(dog.getCustomer().getId() == 0)
+            throw new DAOException("Dog owner is not saved");
+
         EntityManager manager = null;
 
         try {
@@ -96,7 +101,7 @@ public class DogDAOImpl implements DogDAO {
 
         EntityManager manager = managerFactory.createEntityManager();
 
-        manager.persist(dog);
+        manager.merge(dog);
     }
 
     /**

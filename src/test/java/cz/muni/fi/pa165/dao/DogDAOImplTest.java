@@ -52,6 +52,7 @@ public class DogDAOImplTest {
     public void setUp() throws Exception, DAOException {
         customer = new Customer("testing", "password", "John", "Tester", new Address("Testing Avenue", 25, "Testero", 2356, "Testing Republic"), "tester@mail.com", "+4209658412");
         customerDAO.create(customer);
+        customer = customerDAO.getById(customer.getId());
     }
 
     @After
@@ -86,6 +87,14 @@ public class DogDAOImplTest {
 
         manager.getTransaction().commit();
         manager.close();
+    }
+
+    @Test(expected = DAOException.class)
+    public void testCreate_customerNotPersisted() throws Exception {
+        Dog dog = new Dog("Linda", "testingBreed", 2);
+        dog.setCustomer(new Customer());
+
+        dogDAO.create(dog);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -149,8 +158,7 @@ public class DogDAOImplTest {
         Dog dog2 = new Dog("Miau", "cat", 3);
         dog2.setCustomer(customer);
 
-        dogDAO.create(dog1);
-        dogDAO.create(dog2);
+        persistDogs(dog1, dog2);
 
         dog1.setName("Chan-ge'd Name");
         dog1.setAge(7);
@@ -164,6 +172,7 @@ public class DogDAOImplTest {
         Dog testDog2 = manager.find(Dog.class, dog2.getId());
 
         Assert.assertEquals("Chan-ge'd Name", testDog1.getName());
+        Assert.assertEquals("testingBreed", testDog1.getBreed());
         Assert.assertEquals(7, testDog1.getAge());
 
         Assert.assertEquals("Miau", testDog2.getName());
