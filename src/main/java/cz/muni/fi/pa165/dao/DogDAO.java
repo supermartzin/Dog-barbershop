@@ -40,7 +40,7 @@ public interface DogDAO {
      *
      * @param dog  {@link Dog} object with updated attributes
      */
-    void update(Dog dog);
+    void update(Dog dog) throws DAOException;
 
     /**
      * Deletes an existing {@link Dog} entry from database

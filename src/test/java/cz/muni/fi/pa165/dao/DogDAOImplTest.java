@@ -103,7 +103,7 @@ public class DogDAOImplTest {
     }
 
     @Test
-    public void testGetById() throws Exception {
+    public void testGetById() throws DAOException {
         Dog dog = new Dog("Linda", "testingBreed", 2);
         dog.setCustomer(customer);
 
@@ -127,7 +127,7 @@ public class DogDAOImplTest {
     }
 
     @Test
-    public void testGetAll() throws Exception {
+    public void testGetAll() throws DAOException {
         Dog dog1 = new Dog("Linda", "testingBreed", 2);
         dog1.setCustomer(customer);
         Dog dog2 = new Dog("Miau", "cat", 3);
@@ -152,7 +152,7 @@ public class DogDAOImplTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    public void testUpdate() throws DAOException {
         Dog dog1 = new Dog("Linda", "testingBreed", 2);
         dog1.setCustomer(customer);
         Dog dog2 = new Dog("Miau", "cat", 3);
@@ -182,18 +182,18 @@ public class DogDAOImplTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testDelete_dogDoesNotExist() throws Exception {
+    public void testDelete_dogDoesNotExist() throws DAOException {
         Dog dog = new Dog("Linda", "testingBreed", 2);
         dogDAO.delete(dog);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUpdate_dogNull() {
+    public void testUpdate_dogNull() throws DAOException {
         dogDAO.update(null);
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete() throws DAOException {
         Dog dog = new Dog("Linda", "testingBreed", 2);
         dog.setCustomer(customer);
         Dog dog2 = new Dog("Miau", "cat", 3);
@@ -203,12 +203,14 @@ public class DogDAOImplTest {
 
         dogDAO.delete(dog);
 
-        // get all customers to see if the right one has been deleted
+        // get all dogs to see if the right one has been deleted
         EntityManager manager = createManager();
         List<Dog> remainingDogs = manager.createQuery("SELECT c FROM Dog c", Dog.class)
                 .getResultList();
         Assert.assertThat(remainingDogs, hasItems(dog2));
         Assert.assertThat(remainingDogs, not(hasItem(dog)));
+
+        closeManager(manager);
     }
 
     @Test(expected = IllegalArgumentException.class)

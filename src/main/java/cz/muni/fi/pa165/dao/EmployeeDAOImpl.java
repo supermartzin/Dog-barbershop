@@ -67,9 +67,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         if (id < 0)
             throw new IllegalArgumentException("id is incorrect. Must be >= 0");
 
-        EntityManager manager = managerFactory.createEntityManager();
-
-        return manager.find(Employee.class, id);
+        EntityManager manager = null;
+        try {
+            manager = managerFactory.createEntityManager();
+            return  manager.find(Employee.class, id);
+        } finally {
+            closeManager(manager);
+        }
     }
 
     /**
@@ -164,5 +168,23 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             if (manager.isOpen())
                 manager.close();
         }
+    }
+
+
+    private void rollbackTransaction(EntityManager manager) {
+        if (manager == null)
+            return;
+
+        // rollback if needed
+        if (manager.getTransaction().isActive())
+            manager.getTransaction().rollback();
+    }
+
+    private void closeManager(EntityManager manager) {
+        if (manager == null)
+            return;
+
+        if (manager.isOpen())
+            manager.close();
     }
 }

@@ -61,7 +61,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      *
      * @param id <b>ID</b> number of {@link Customer} to retrieve
      * @return found {@link Customer} object
-     * @throws DAOException if {@link Customer} with provided <b>ID</b> not found in database
+     * @throws DAOException if {@link Customer} with provided <b>ID</b> not found in database or some other problem with database occurs
      */
     @Override
     public Customer getById(long id) throws DAOException {
@@ -112,6 +112,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      * Retrieves all {@link Customer} objects from database
      *
      * @return list of all {@link Customer} objects from database
+     * @throws DAOException When some problem with database occurs
      */
     @Override
     public List<Customer> getAll() throws DAOException {
@@ -133,6 +134,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      * Updates attributes of an existing {@link Customer} object in database
      *
      * @param customer {@link Customer} object with updated attributes
+     * @throws DAOException When some problem with database occurs
      */
     @Override
     public void update(Customer customer) throws DAOException {
@@ -168,6 +170,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      * Deletes an existing {@link Customer} entry from database
      *
      * @param customer {@link Customer} object to delete from database
+     * @throws DAOException When some problem with database occurs
      */
     @Override
     public void delete(Customer customer) throws DAOException {

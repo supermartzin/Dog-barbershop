@@ -71,9 +71,15 @@ public class DogDAOImpl implements DogDAO {
         if (id < 0)
             throw new IllegalArgumentException("id is incorrect. Must be >= 0");
 
-        EntityManager manager = managerFactory.createEntityManager();
+        EntityManager manager = null;
 
-        return manager.find(Dog.class, id);
+        try {
+            manager = managerFactory.createEntityManager();
+
+            return manager.find(Dog.class, id);
+        } finally {
+            closeManager(manager);
+        }
     }
 
     /**
@@ -95,13 +101,28 @@ public class DogDAOImpl implements DogDAO {
      * @param dog {@link Dog} object with updated attributes
      */
     @Override
-    public void update(Dog dog) {
+    public void update(Dog dog) throws DAOException {
         if (dog == null)
             throw new IllegalArgumentException("dog is null");
 
-        EntityManager manager = managerFactory.createEntityManager();
+        EntityManager manager = null;
 
-        manager.merge(dog);
+        try {
+            manager = managerFactory.createEntityManager();
+
+            manager.getTransaction().begin();
+
+            // update Dog in database
+            manager.merge(dog);
+
+            manager.getTransaction().commit();
+        } catch (PersistenceException pEx) {
+            rollbackTransaction(manager);
+
+            throw new DAOException(pEx);
+        } finally {
+            closeManager(manager);
+        }
     }
 
     /**
@@ -125,7 +146,7 @@ public class DogDAOImpl implements DogDAO {
             if (existingDog == null)
                 throw new DAOException("Dog with id " + dog.getId() + " does not exist in database");
 
-            // delete Customer in database
+            // delete Dog in database
             manager.remove(existingDog);
 
             manager.getTransaction().commit();

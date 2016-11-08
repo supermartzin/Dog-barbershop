@@ -17,6 +17,7 @@ public interface CustomerDAO {
      * Creates new entry in database from provided {@link Customer} object
      *
      * @param customer  {@link Customer} object to save
+     * @throws DAOException When some problem with database occurs
      */
     void create(Customer customer) throws DAOException;
 
@@ -25,6 +26,7 @@ public interface CustomerDAO {
      *
      * @param id    <b>ID</b> number of {@link Customer} to retrieve
      * @return      found {@link Customer} object or {@link null} if <b>ID</b> not found
+     * @throws DAOException When some problem with database occurs
      */
     Customer getById(long id) throws DAOException;
 
@@ -34,6 +36,7 @@ public interface CustomerDAO {
      * @param username Username of {@link Customer} to retrieve
      * @return found {@link Customer} object or {@link null} if <b>username</b> not found
      * @throws IllegalArgumentException for {@link null} or empty username
+     * @throws DAOException When some problem with database occurs
      */
     Customer getByUsername(String username) throws DAOException;
 
@@ -41,6 +44,7 @@ public interface CustomerDAO {
      * Retrieves all {@link Customer} objects from database
      *
      * @return  list of all {@link Customer} objects from database
+     * @throws DAOException When some problem with database occurs
      */
     List<Customer> getAll() throws DAOException;
 
@@ -48,6 +52,7 @@ public interface CustomerDAO {
      * Updates attributes of an existing {@link Customer} object in database
      *
      * @param customer  {@link Customer} object with updated attributes
+     * @throws DAOException When some problem with database occurs
      */
     void update(Customer customer) throws DAOException;
 
@@ -55,6 +60,7 @@ public interface CustomerDAO {
      * Deletes an existing {@link Customer} entry from database
      *
      * @param customer  {@link Customer} object to delete from database
+     * @throws DAOException When some problem with database occurs
      */
     void delete(Customer customer) throws DAOException;
 }

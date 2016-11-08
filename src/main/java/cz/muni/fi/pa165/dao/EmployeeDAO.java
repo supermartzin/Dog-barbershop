@@ -16,6 +16,7 @@ public interface EmployeeDAO {
      * Creates new entry in database from provided {@link Employee} object
      *
      * @param employee {@link Employee} object to save
+     * @throws DAOException When some problem with database occurs
      */
     void create(Employee employee) throws DAOException;
 
