@@ -34,7 +34,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         EntityManager manager = null;
 
         try {
-            manager = managerFactory.createEntityManager();
+            manager = createManager();
 
             manager.getTransaction().begin();
 
@@ -71,7 +71,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         EntityManager manager = null;
 
         try {
-            manager = managerFactory.createEntityManager();
+            manager = createManager();
 
             return manager.find(Customer.class, id);
         } finally {
@@ -94,7 +94,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         EntityManager manager = null;
 
         try {
-            manager = managerFactory.createEntityManager();
+            manager = createManager();
 
             return manager.createQuery("select u from Customer u where username = :username", Customer.class)
                           .setParameter("username", username)
@@ -118,7 +118,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         EntityManager manager = null;
 
         try {
-            manager = managerFactory.createEntityManager();
+            manager = createManager();
 
             return manager.createQuery("SELECT u FROM Customer u", Customer.class)
                           .getResultList();
@@ -142,7 +142,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         EntityManager manager = null;
 
         try {
-            manager = managerFactory.createEntityManager();
+            manager = createManager();
 
             manager.getTransaction().begin();
 
@@ -177,7 +177,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         EntityManager manager = null;
 
         try {
-            manager = managerFactory.createEntityManager();
+            manager = createManager();
 
             manager.getTransaction().begin();
 
@@ -198,6 +198,10 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
+
+    private EntityManager createManager() {
+        return managerFactory.createEntityManager();
+    }
 
     private void rollbackTransaction(EntityManager manager) {
         if (manager == null)
