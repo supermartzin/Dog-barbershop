@@ -139,6 +139,10 @@ public class CustomerDAOImplTest {
         EntityManager manager = createManager();
         Customer retrievedCustomer = manager.find(Customer.class, customer.getId());
 
+        Assert.assertNotNull(retrievedCustomer);
+        Assert.assertNull(retrievedCustomer.getAddress());
+
+        closeManager(manager);
     }
 
     @Test(expected = DAOException.class)
