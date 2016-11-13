@@ -48,6 +48,7 @@ public interface EmployeeDAO {
      * Updates attributes of an existing {@link Employee} object in database
      *
      * @param employee {@link Employee} object with updated attributes
+     * @throws DAOException When some problem with database occurs
      */
     void update(Employee employee) throws DAOException;
 
@@ -55,6 +56,7 @@ public interface EmployeeDAO {
      * Deletes an existing {@link Employee} entry from database
      *
      * @param employee {@link Employee} object to delete from database
+     * @throws DAOException When some problem with database occurs
      */
     void delete(Employee employee) throws DAOException;
 }
