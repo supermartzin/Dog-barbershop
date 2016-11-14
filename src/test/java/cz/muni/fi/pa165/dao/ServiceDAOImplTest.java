@@ -68,7 +68,7 @@ public class ServiceDAOImplTest {
 
         Assert.assertEquals("testingService", testService.getTitle());
         Assert.assertEquals(12, testService.getLength());
-        Assert.assertEquals(BigDecimal.TEN, testService.getPrice());
+        Assert.assertEquals(new BigDecimal("10.00"), testService.getPrice());
 
         manager.getTransaction().commit();
         manager.close();
@@ -146,7 +146,7 @@ public class ServiceDAOImplTest {
 
         Assert.assertEquals("changedTitle", testService1.getTitle());
         Assert.assertEquals(12, testService1.getLength());
-        Assert.assertEquals(new BigDecimal("12"), testService1.getPrice());
+        Assert.assertEquals(new BigDecimal("12.00"), testService1.getPrice());
 
         Assert.assertEquals("testingService2", testService2.getTitle());
         Assert.assertEquals(9, testService2.getLength());
