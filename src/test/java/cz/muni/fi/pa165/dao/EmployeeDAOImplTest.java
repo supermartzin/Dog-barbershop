@@ -51,41 +51,36 @@ public class EmployeeDAOImplTest {
     @Before
     public void setUp() throws Exception {
         address = new Address("Street", 32, "Townsville", 91101, "Island");
-        testEmployee = new Employee("tester", "testpass", "Den", "Rich", address, "some@one", "555444333", new BigDecimal("2000"));
+        testEmployee = new Employee("testerUsr", "testpass", "Den", "Rich", address, "some@one.you", "555444333", new BigDecimal("2000"));
     }
-
-
 
     @After
     public void tearDown() throws Exception {
         EntityManager manager = createManager();
 
         // delete all entries created by test
-        manager.createNativeQuery("DELETE FROM Dog d").executeUpdate();
         manager.createNativeQuery("DELETE FROM Employee c").executeUpdate();
         manager.createNativeQuery("DELETE FROM Address a").executeUpdate();
 
         closeManager(manager);
     }
 
-    @Test
-    public void createNull() throws Exception, DAOException {
+    @Test(expected = IllegalArgumentException.class)
+    public void createNull() throws Exception {
         employeeDAO.create(null);
+        List<Employee> allEmployees = employeeDAO.getAll();
+        assertNull(allEmployees);
     }
 
     @Test
     public void getById() throws Exception {
         EntityManager entityManager = factory.createEntityManager();
         entityManager.getTransaction().begin();
-        Employee employee = new Employee();
-        employee.setUsername("usr");
-        employee.setPassword("pass");
-        entityManager.persist(employee);
+        entityManager.persist(testEmployee);
         entityManager.getTransaction().commit();
         entityManager.close();
-        employeeDAO.getById(employee.getId());
 
-        Assert.assertEquals("usr", employee.getUsername());
+        assertDeepEquals(testEmployee, employeeDAO.getById(testEmployee.getId()));
     }
 
     @Test
@@ -149,35 +144,19 @@ public class EmployeeDAOImplTest {
     @Test(expected = DAOException.class)
     public void testCreate_passwordInvalid() throws Exception {
         String password = "pass";
-
-        Employee employee = new Employee();
-        employee.setUsername("testing");
-        employee.setPassword(password);
-        employee.setFirstName("John");
-        employee.setLastName("Tester");
-        employee.setAddress(address);
-        employee.setEmail("tester@mail.com");
-        employee.setPhone("+4209658412");
-
-        employeeDAO.create(employee);
+        testEmployee.setPassword(password);
+        employeeDAO.create(testEmployee);
     }
 
     @Test
     public void testCreate_addressNull() throws Exception {
-        Employee employee = new Employee();
-        employee.setUsername("testing");
-        employee.setPassword("password");
-        employee.setFirstName("John");
-        employee.setLastName("Tester");
-        employee.setAddress(null);
-        employee.setEmail("testing@mail.com");
-        employee.setPhone("+4209658412");
+        testEmployee.setAddress(null);
 
-        employeeDAO.create(employee);
+        employeeDAO.create(testEmployee);
 
-        // get persisted custoemr from database
+        // get persisted customer from database
         EntityManager manager = createManager();
-        Employee retrievedEmployee = manager.find(Employee.class, employee.getId());
+        Employee retrievedEmployee = manager.find(Employee.class, testEmployee.getId());
 
         Assert.assertNotNull(retrievedEmployee);
         Assert.assertNull(retrievedEmployee.getAddress());
@@ -188,32 +167,14 @@ public class EmployeeDAOImplTest {
     @Test(expected = DAOException.class)
     public void testCreate_emailInvalid() throws Exception {
         String email = "this is invalid @mail";
-
-        Employee employee = new Employee();
-        employee.setUsername("testing");
-        employee.setPassword("password");
-        employee.setFirstName("John");
-        employee.setLastName("Tester");
-        employee.setAddress(address);
-        employee.setEmail(email);
-        employee.setPhone("+4209658412");
-
-        employeeDAO.create(employee);
+        testEmployee.setEmail(email);
+        employeeDAO.create(testEmployee);
     }
 
     @Test(expected = DAOException.class)
     public void testCreate_idAlreadySet() throws Exception {
-        Employee employee = new Employee();
-        employee.setId(15);
-        employee.setUsername("testing");
-        employee.setPassword("password");
-        employee.setFirstName("John");
-        employee.setLastName("Tester");
-        employee.setAddress(address);
-        employee.setEmail("tester@mail.com");
-        employee.setPhone("+420965841259");
-
-        employeeDAO.create(employee);
+        testEmployee.setId(15);
+        employeeDAO.create(testEmployee);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -275,7 +236,7 @@ public class EmployeeDAOImplTest {
         employeeDAO.update(null);
     }
 
-    @Test(expected = DAOException.class)
+    @Test
     public void testUpdate_employeeDoesNotExist() throws Exception {
         employeeDAO.update(testEmployee);
     }
@@ -308,7 +269,7 @@ public class EmployeeDAOImplTest {
         persistEmployees(testEmployee);
 
         // update username
-        testEmployee.setPassword("pass");
+        testEmployee.setPassword("asdfg");
 
         employeeDAO.update(testEmployee);
     }
@@ -337,7 +298,7 @@ public class EmployeeDAOImplTest {
         persistEmployees(testEmployee);
 
         // update username
-        testEmployee.setEmail("this is invalid @mail");
+        testEmployee.setEmail("dddddddd@");
 
         employeeDAO.update(testEmployee);
     }
@@ -361,10 +322,10 @@ public class EmployeeDAOImplTest {
         // update username
         testEmployee.setUsername("new_username");
         testEmployee.setPassword("new_pass_12345");
-        testEmployee.setAddress(new Address("New testing St.", 25, "New Testing City", 96523, "Zanzibar"));
+        //testEmployee.setAddress(new Address("New testing St.", 25, "New Testing City", 96523, "Zanzibar"));
         testEmployee.setEmail("newmail@mail.com");
-        testEmployee.setPhone("9963215698");
-
+        testEmployee.setPhone("999888777");
+        testEmployee.setSalary(new BigDecimal("400"));
         employeeDAO.update(testEmployee);
 
         // get updated employee from database
@@ -386,24 +347,20 @@ public class EmployeeDAOImplTest {
         employeeDAO.delete(testEmployee);
     }
 
-    @Test(expected = DAOException.class)
+    @Test
     public void testDelete_rightEmployeeDeleted() throws Exception {
-        // create custoemrs in database
-        Employee employee1 = new Employee("testmaster", "masterpassword", "Albert", "Master",
-                new Address("Botanicka", 68, "Brno", 62000, "Czech Republic"),
-                "testmaster@mail.com", "+421910325478", new BigDecimal("4200"));
-        Employee employee2 = new Employee("secondtest", "testpass", "Anna", "Testing",
-                address, "anna@testing.com", "+421695856321", new BigDecimal("2100"));
+        // create a new employee in database
+        Employee employee2 = new Employee("secondUSR", "secondPSW", "npc", "character", new Address("Krenova", 8, "Brno", 62000, "Czech Republic"), "vendor@mail.com", "+421910325478", new BigDecimal("4200"));
 
-        persistEmployees(testEmployee, employee1, employee2);
+        persistEmployees(testEmployee, employee2);
 
         employeeDAO.delete(testEmployee);
 
         // get all employees to see if the right one has been deleted
         EntityManager manager = createManager();
-        List<Employee> remainingEmployees = manager.createQuery("SELECT c FROM Employee c", Employee.class)
-                .getResultList();
-        Assert.assertThat(remainingEmployees, hasItems(employee1, employee2));
+        List<Employee> remainingEmployees = manager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
+
+        Assert.assertThat(remainingEmployees, hasItem(employee2));
         Assert.assertThat(remainingEmployees, not(hasItem(testEmployee)));
     }
 
@@ -441,10 +398,8 @@ public class EmployeeDAOImplTest {
                     manager.persist(address);
                 }
             }
-
             manager.persist(employee);
         }
-
         closeManager(manager);
     }
 
@@ -457,5 +412,6 @@ public class EmployeeDAOImplTest {
         Assert.assertEquals(expected.getAddress(), actual.getAddress());
         Assert.assertEquals(expected.getEmail(), actual.getEmail());
         Assert.assertEquals(expected.getPhone(), actual.getPhone());
+        Assert.assertEquals(0, expected.getSalary().compareTo(actual.getSalary()));
     }
 }

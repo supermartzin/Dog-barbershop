@@ -149,24 +149,26 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public void delete(Employee employee) throws DAOException {
         if (employee == null)
-            throw new IllegalArgumentException("employee is null");
+            throw new IllegalArgumentException("Employee can't be null");
 
         EntityManager manager = managerFactory.createEntityManager();
 
         try {
             manager.getTransaction().begin();
 
-            manager.remove(employee);
+            Employee em = manager.find(Employee.class, employee.getId());
+            if(em == null){
+                throw new DAOException("Employee with id: " + employee.getId() + " you want to delete doesn't exist!");
+            }
+
+            manager.remove(em);
 
             manager.getTransaction().commit();
         } catch (PersistenceException e) {
-            if (manager.getTransaction().isActive())
-                manager.getTransaction().rollback();
-
+            rollbackTransaction(manager);
             throw new DAOException(e);
         } finally {
-            if (manager.isOpen())
-                manager.close();
+            closeManager(manager);
         }
     }
 
