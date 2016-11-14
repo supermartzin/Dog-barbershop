@@ -449,7 +449,6 @@ public class CustomerDAOImplTest {
         Assert.assertThat(remainingCustomers, not(hasItem(testingCustomer)));
     }
 
-
     private EntityManager createManager() {
         // create new manager
         EntityManager manager = factory.createEntityManager();
