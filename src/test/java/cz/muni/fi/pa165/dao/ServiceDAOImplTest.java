@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.dao;
 
+import cz.muni.fi.pa165.entities.Address;
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.exceptions.DAOException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,6 +19,8 @@ import javax.persistence.PersistenceUnit;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  * Tests for {@link CustomerDAOImpl} class
@@ -41,7 +45,11 @@ public class ServiceDAOImplTest {
 
     @After
     public void tearDown() throws Exception {
+        EntityManager manager = createManager();
 
+        manager.createNativeQuery("DELETE FROM Service s").executeUpdate();
+
+        closeManager(manager);
     }
 
     @Test
@@ -64,6 +72,14 @@ public class ServiceDAOImplTest {
 
         manager.getTransaction().commit();
         manager.close();
+    }
+
+    @Test(expected = DAOException.class)
+    public void testCreate_idAlreadySet() throws Exception {
+        Service service = new Service("testingService", 12, BigDecimal.TEN);
+        service.setId(15);
+
+        serviceDAO.create(service);
     }
 
     @Test
@@ -168,6 +184,45 @@ public class ServiceDAOImplTest {
 
         manager.getTransaction().commit();
         manager.close();
+    }
+
+
+    private EntityManager createManager() {
+        // create new manager
+        EntityManager manager = factory.createEntityManager();
+
+        // start transaction
+        manager.getTransaction().begin();
+
+        return manager;
+    }
+
+    private void closeManager(EntityManager manager) {
+        if (manager == null)
+            return;
+
+        // commit current transaction
+        manager.getTransaction().commit();
+
+        // close the manager
+        manager.close();
+    }
+
+    private void persistServices(Service... services){
+        EntityManager manager = createManager();
+
+        for (Service service : services) {
+            manager.persist(service);
+        }
+
+        closeManager(manager);
+    }
+
+    private void assertDeepEquals(Service expected, Service actual) {
+        Assert.assertEquals(expected.getId(), actual.getId());
+        Assert.assertEquals(expected.getTitle(), actual.getTitle());
+        Assert.assertEquals(expected.getLength(), actual.getLength());
+        Assert.assertEquals(expected.getPrice(), actual.getPrice());
     }
 
 }
