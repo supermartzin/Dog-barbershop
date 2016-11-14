@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dao;
 
+import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Service;
 import org.junit.After;
 import org.junit.Assert;
@@ -137,6 +138,14 @@ public class ServiceDAOImplTest {
 
         manager.getTransaction().commit();
         manager.close();
+    }
+
+    @Test
+    public void testGetAll_noCustomers() throws Exception {
+        List<Service> allServices = serviceDAO.getAll();
+
+        Assert.assertNotNull(allServices);
+        Assert.assertTrue(allServices.isEmpty());
     }
 
     @Test

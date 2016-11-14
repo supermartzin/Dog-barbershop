@@ -18,7 +18,7 @@ public interface ServiceDAO {
      * @param service {@link Service} object to save
      * @throws DAOException When some problem with database occurs
      */
-    void create(Service service);
+    void create(Service service) throws DAOException;
 
     /**
      * Retrieves a {@see Service} object with provided <b>ID</b> from database
@@ -33,7 +33,7 @@ public interface ServiceDAO {
      *
      * @return found {@link Service} object or {@link null} if <b>ID</b> not found
      */
-    List<Service> getAll();
+    List<Service> getAll() throws DAOException;
 
     /**
      * Updates attributes of an existing {@link Service} object in database
@@ -41,7 +41,7 @@ public interface ServiceDAO {
      * @param customer {@link Service} object with updated attributes
      * @return found {@link Service} object or {@link null} if <b>ID</b> not found
      */
-    void update(Service customer);
+    void update(Service customer) throws DAOException;
 
     /**
      * Deletes an existing {@link Service} entry from database
@@ -49,5 +49,5 @@ public interface ServiceDAO {
      * @param customer {@link Service} object to delete from database
      * @return found {@link Service} object or {@link null} if <b>ID</b> not found
      */
-    void delete(Service customer);
+    void delete(Service customer) throws DAOException;
 }
