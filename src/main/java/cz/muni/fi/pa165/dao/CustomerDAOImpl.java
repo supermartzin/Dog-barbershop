@@ -20,9 +20,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     private EntityManagerFactory managerFactory;
 
     /**
-     * Creates new entry in database from provided {@link Customer} object
-     *
-     * @param customer {@link Customer} object to save
+     * {@inheritDoc}
      */
     @Override
     public void create(Customer customer) throws DAOException {
@@ -46,7 +44,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         } catch (EntityExistsException eeEx){
             rollbackTransaction(manager);
 
-            throw new DAOException("Provided Customer already exists in database");
+            throw new DAOException("Customer already exists in database");
         } catch (PersistenceException | IllegalStateException ex) {
             rollbackTransaction(manager);
 
@@ -57,14 +55,10 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     /**
-     * Retrieves a {@see Customer} object with provided <b>ID</b> from database
-     *
-     * @param id <b>ID</b> number of {@link Customer} to retrieve
-     * @return found {@link Customer} object
-     * @throws DAOException if {@link Customer} with provided <b>ID</b> not found in database or some other problem with database occurs
+     * {@inheritDoc}
      */
     @Override
-    public Customer getById(long id) throws DAOException {
+    public Customer getById(long id) {
         if (id < 0)
             throw new IllegalArgumentException("ID must be positive integral number");
 
@@ -80,11 +74,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     /**
-     * Retrieves a {@see Customer} object which has provided <b>username</b> from database
-     *
-     * @param username  Username of {@link Customer} to retrieve
-     * @return  found {@link Customer} object or {@link null} if <b>username</b> not found
-     * @throws  IllegalArgumentException for {@link null} or empty username
+     * {@inheritDoc}
      */
     @Override
     public Customer getByUsername(String username) throws DAOException {
@@ -109,10 +99,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     /**
-     * Retrieves all {@link Customer} objects from database
-     *
-     * @return list of all {@link Customer} objects from database
-     * @throws DAOException When some problem with database occurs
+     * {@inheritDoc}
      */
     @Override
     public List<Customer> getAll() throws DAOException {
@@ -131,10 +118,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     /**
-     * Updates attributes of an existing {@link Customer} object in database
-     *
-     * @param customer {@link Customer} object with updated attributes
-     * @throws DAOException When some problem with database occurs
+     * {@inheritDoc}
      */
     @Override
     public void update(Customer customer) throws DAOException {
@@ -150,7 +134,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
             Customer existingCustomer = manager.find(Customer.class, customer.getId());
             if (existingCustomer == null)
-                throw new DAOException("Cannot update non-existing Customer");
+                throw new DAOException("Customer does not exist in database");
 
             // update Customer in database
             saveAddress(customer.getAddress(), manager);
@@ -167,10 +151,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     /**
-     * Deletes an existing {@link Customer} entry from database
-     *
-     * @param customer {@link Customer} object to delete from database
-     * @throws DAOException When some problem with database occurs
+     * {@inheritDoc}
      */
     @Override
     public void delete(Customer customer) throws DAOException {
@@ -186,7 +167,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
             Customer existingCustomer = manager.find(Customer.class, customer.getId());
             if (existingCustomer == null)
-                throw new DAOException("Customer with id " + customer.getId() + " does not exist in database");
+                throw new DAOException("Customer does not exist in database");
 
             // delete Customer in database
             manager.remove(existingCustomer);

@@ -126,38 +126,35 @@ public class ServiceDAOImplTest {
 
     @Test
     public void update() throws Exception {
+        // Arrange
         Service service1 = new Service("testingService1", 12, BigDecimal.TEN);
         Service service2 = new Service("testingService2", 9, BigDecimal.ONE);
 
-        serviceDAO.create(service1);
-        serviceDAO.create(service2);
+        persistServices(service1, service2);
 
         service1.setTitle("changedTitle");
-        service1.setPrice(new BigDecimal("12"));
+        service1.setPrice(BigDecimal.valueOf(12));
 
+        // Act
         serviceDAO.update(service1);
 
-        // testing
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
-
+        // Assert
+        EntityManager manager = createManager();
         Service testService1 = manager.find(Service.class, service1.getId());
         Service testService2 = manager.find(Service.class, service2.getId());
+        closeManager(manager);
 
         Assert.assertEquals("changedTitle", testService1.getTitle());
         Assert.assertEquals(12, testService1.getLength());
-        Assert.assertEquals(new BigDecimal("12.00"), testService1.getPrice());
+        Assert.assertEquals(0, testService1.getPrice().compareTo(BigDecimal.valueOf(12)));
 
         Assert.assertEquals("testingService2", testService2.getTitle());
         Assert.assertEquals(9, testService2.getLength());
-        Assert.assertEquals(BigDecimal.ONE, testService2.getPrice());
-
-        manager.getTransaction().commit();
-        manager.close();
+        Assert.assertEquals(0, testService2.getPrice().compareTo(BigDecimal.ONE));
     }
 
     @Test
-    public void testGetAll_noCustomers() throws Exception {
+    public void testGetAll_noServices() throws Exception {
         List<Service> allServices = serviceDAO.getAll();
 
         Assert.assertNotNull(allServices);

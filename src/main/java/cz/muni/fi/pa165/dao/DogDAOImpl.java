@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.dao;
 
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,6 @@ import java.util.List;
  * {@inheritDoc}
  *
  * @author Dominik Gmiterko
- * @version
  */
 @Repository
 public class DogDAOImpl implements DogDAO {
@@ -21,9 +19,7 @@ public class DogDAOImpl implements DogDAO {
     private EntityManagerFactory managerFactory;
 
     /**
-     * Creates new entry in database from provided {@link Dog} object
-     *
-     * @param dog {@link Dog} object to save
+     * {@inheritDoc}
      */
     @Override
     public void create(Dog dog) throws DAOException {
@@ -32,9 +28,9 @@ public class DogDAOImpl implements DogDAO {
         if (dog.getId() > 0)
             throw new DAOException("Dog ID is already set");
 
-        if(dog.getCustomer() == null)
+        if (dog.getCustomer() == null)
             throw new DAOException("Dog has to have owner");
-        if(dog.getCustomer().getId() == 0)
+        if (dog.getCustomer().getId() == 0)
             throw new DAOException("Dog owner is not saved");
 
         EntityManager manager = null;
@@ -61,10 +57,7 @@ public class DogDAOImpl implements DogDAO {
     }
 
     /**
-     * Retrieves a {@see Dog} object with provided <b>ID</b> from database
-     *
-     * @param id <b>ID</b> number of {@link Dog} to retrieve
-     * @return found {@link Dog} object or {@link null} if <b>ID</b> not found
+     * {@inheritDoc}
      */
     @Override
     public Dog getById(long id){
@@ -83,22 +76,18 @@ public class DogDAOImpl implements DogDAO {
     }
 
     /**
-     * Retrieves all {@link Dog} objects from database
-     *
-     * @return list of all {@link Dog} objects from database
+     * {@inheritDoc}
      */
     @Override
-    public List<Dog> getAll() {
+    public List<Dog> getAll() throws DAOException {
         EntityManager manager = managerFactory.createEntityManager();
 
         return manager.createQuery("SELECT d FROM Dog d", Dog.class)
                       .getResultList();
     }
-    
+
     /**
-     * Updates attributes of an existing {@link Dog} object in database
-     *
-     * @param dog {@link Dog} object with updated attributes
+     * {@inheritDoc}
      */
     @Override
     public void update(Dog dog) throws DAOException {
@@ -126,9 +115,7 @@ public class DogDAOImpl implements DogDAO {
     }
 
     /**
-     * Deletes an existing {@link Dog} entry from database
-     *
-     * @param dog {@link Dog} object to delete from database
+     * {@inheritDoc}
      */
     @Override
     public void delete(Dog dog) throws DAOException {
@@ -144,7 +131,7 @@ public class DogDAOImpl implements DogDAO {
 
             Dog existingDog = manager.find(Dog.class, dog.getId());
             if (existingDog == null)
-                throw new DAOException("Dog with id " + dog.getId() + " does not exist in database");
+                throw new DAOException("Dog with does not exist in database");
 
             // delete Dog in database
             manager.remove(existingDog);

@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.dao;
 
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,6 @@ import java.util.List;
  * {@inheritDoc}
  *
  * @author Dominik Gmiterko
- * @version
  */
 @Repository
 public class ServiceDAOImpl implements ServiceDAO {
@@ -21,9 +19,7 @@ public class ServiceDAOImpl implements ServiceDAO {
     private EntityManagerFactory managerFactory;
 
     /**
-     * Creates new entry in database from provided {@link Service} object
-     *
-     * @param service {@link Service} object to save
+     * {@inheritDoc}
      */
     @Override
     public void create(Service service) throws DAOException {
@@ -57,10 +53,7 @@ public class ServiceDAOImpl implements ServiceDAO {
     }
 
     /**
-     * Retrieves a {@see Service} object with provided <b>ID</b> from database
-     *
-     * @param id <b>ID</b> number of {@link Service} to retrieve
-     * @return found {@link Service} object or {@link null} if <b>ID</b> not found
+     * {@inheritDoc}
      */
     @Override
     public Service getById(long id) {
@@ -79,9 +72,7 @@ public class ServiceDAOImpl implements ServiceDAO {
     }
 
     /**
-     * Retrieves all {@link Service} objects from database
-     *
-     * @return list of all {@link Service} objects from database
+     * {@inheritDoc}
      */
     @Override
     public List<Service> getAll() throws DAOException {
@@ -91,7 +82,7 @@ public class ServiceDAOImpl implements ServiceDAO {
             manager = createManager();
 
             return manager.createQuery("SELECT u FROM Service u", Service.class)
-                    .getResultList();
+                          .getResultList();
         } catch (PersistenceException pEx) {
             throw new DAOException(pEx);
         } finally {
@@ -100,9 +91,7 @@ public class ServiceDAOImpl implements ServiceDAO {
     }
 
     /**
-     * Updates attributes of an existing {@link Service} object in database
-     *
-     * @param service {@link Service} object with updated attributes
+     * {@inheritDoc}
      */
     @Override
     public void update(Service service) throws DAOException {
@@ -118,7 +107,7 @@ public class ServiceDAOImpl implements ServiceDAO {
 
             Service existingService = manager.find(Service.class, service.getId());
             if (existingService == null)
-                throw new DAOException("Cannot update non-existing Customer");
+                throw new DAOException("Service does not exist in database");
 
             // update Customer in database
             manager.merge(service);
@@ -136,9 +125,7 @@ public class ServiceDAOImpl implements ServiceDAO {
     }
 
     /**
-     * Deletes an existing {@link Service} entry from database
-     *
-     * @param service {@link Service} object to delete from database
+     * {@inheritDoc}
      */
     @Override
     public void delete(Service service) throws DAOException {
@@ -154,7 +141,7 @@ public class ServiceDAOImpl implements ServiceDAO {
 
             Service existingService = manager.find(Service.class, service.getId());
             if (existingService == null)
-                throw new DAOException("Customer with id " + service.getId() + " does not exist in database");
+                throw new DAOException("Service does not exist in database");
 
             // delete Customer in database
             manager.remove(existingService);
@@ -167,7 +154,6 @@ public class ServiceDAOImpl implements ServiceDAO {
         } finally {
             closeManager(manager);
         }
-
     }
 
 
