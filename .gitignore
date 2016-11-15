@@ -14,3 +14,4 @@ dog-barbershop.iml
 
 # IntelliJ
 /out/
+*.iml
