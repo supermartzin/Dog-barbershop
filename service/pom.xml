@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>dog-barbershop</artifactId>
         <groupId>cz.muni.fi.pa165</groupId>
+        <artifactId>dog-barbershop-parent</artifactId>        
         <version>0.1-SNAPSHOT</version>
     </parent>
 
@@ -14,6 +14,6 @@
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
 
-    <name>Dog Barbershop - service</name>
+    <name>Dog Barbershop - Service layer</name>
 
 </project>
