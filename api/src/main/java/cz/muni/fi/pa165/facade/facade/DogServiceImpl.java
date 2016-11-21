@@ -1,7 +1,7 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade.facade;
 
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
+import cz.muni.fi.pa165.facade.DogService;
 
 import java.util.List;
 
@@ -24,11 +24,6 @@ public class DogServiceImpl implements DogService {
 
     @Override
     public List<Dog> getAll() {
-        return null;
-    }
-
-    @Override
-    public List<Dog> getByCustomer(Customer customer) {
         return null;
     }
 

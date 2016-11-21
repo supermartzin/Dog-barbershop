@@ -1,7 +1,8 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade.facade;
 
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
+import cz.muni.fi.pa165.facade.DogFacade;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
-public class DogServiceImpl implements DogService {
+public class DogFacadeImpl implements DogFacade {
 
     @Override
     public void create(Dog dog) {

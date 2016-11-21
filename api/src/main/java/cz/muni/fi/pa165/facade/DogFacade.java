@@ -1,16 +1,17 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
 /**
- * Service for retrieving {@link Dog} objects.
+ * Facade for acessing {@link Dog} objects.
  *
  * @author Dominik Gmiterko
  */
-public interface DogService {
+public interface DogFacade {
 
     /**
      * Creates new entry from provided {@link Dog} object.

@@ -1,6 +1,7 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade.facade;
 
 import cz.muni.fi.pa165.entities.Employee;
+import cz.muni.fi.pa165.facade.EmployeeFacade;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @author Denis Richtarik
  * @version 25.10.2016
  */
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeFacadeImpl implements EmployeeFacade {
 
     @Override
     public void create(Employee employee) {

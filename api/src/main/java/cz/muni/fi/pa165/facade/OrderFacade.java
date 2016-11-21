@@ -1,9 +1,10 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,12 +12,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Service for retrieving {@link Order} objects.
+ * Facade for acessing {@link Order} objects.
  *
  * @author Martin Vrábel
  * @version 31.10.2016 0:03
  */
-public interface OrderService {
+public interface OrderFacade {
 
     /**
      * Creates new entry from provided {@link Order} object

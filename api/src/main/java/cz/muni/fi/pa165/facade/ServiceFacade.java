@@ -1,15 +1,16 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
 /**
- * Service object for retrieving {@link Service} objects.
+ * Facade object for retrieving {@link Service} objects.
  *
  * @author Dominik Gmiterko
  */
-public interface ServiceService {
+public interface ServiceFacade {
 
     /**
      * Creates new entry from provided {@link Service} object.

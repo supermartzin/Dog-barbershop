@@ -129,7 +129,7 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public List<Order> getByService(Service service) throws DAOException {
         if (service == null)
-            throw new IllegalArgumentException("service is null");
+            throw new IllegalArgumentException("facade is null");
 
         EntityManager manager = managerFactory.createEntityManager();
 

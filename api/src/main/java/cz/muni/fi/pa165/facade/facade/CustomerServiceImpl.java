@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade.facade;
 
 import cz.muni.fi.pa165.entities.Customer;
 
@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerFacadeImpl {
 
     @Override
     public void create(Customer customer) {

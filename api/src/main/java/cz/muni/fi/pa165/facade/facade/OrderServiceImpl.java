@@ -1,13 +1,10 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade.facade;
 
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.facade.OrderService;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -39,16 +36,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getByCustomer(Customer customer) {
-        return null;
-    }
-
-    @Override
-    public List<Order> getAllOrdersForDay(LocalDate date) {
-        return null;
-    }
-
-    @Override
     public List<Order> getByService(Service service) {
         return null;
     }
@@ -61,10 +48,5 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void delete(Order order) {
 
-    }
-
-    @Override
-    public BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) {
-        return null;
     }
 }

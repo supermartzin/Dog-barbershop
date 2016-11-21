@@ -1,9 +1,10 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade.facade;
 
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.facade.OrderFacade;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ import java.util.List;
  * @author Martin Vrábel
  * @version 31.10.2016 0:18
  */
-public class OrderServiceImpl implements OrderService {
+public class OrderFacadeImpl implements OrderFacade {
 
     @Override
     public void create(Order order) {

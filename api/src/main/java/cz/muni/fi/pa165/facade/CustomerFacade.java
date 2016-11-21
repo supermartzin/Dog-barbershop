@@ -1,16 +1,16 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.entities.Customer;
 
 import java.util.List;
 
 /**
- * Service for retrieving {@link Customer} objects.
+ * Facade for acessing {@link Customer} objects.
  *
  * @author Martin Vrábel
  * @version 24.10.2016 20:55
  */
-public interface CustomerService {
+public interface CustomerFacade {
 
     /**
      * Creates new entry from provided {@link Customer} object.

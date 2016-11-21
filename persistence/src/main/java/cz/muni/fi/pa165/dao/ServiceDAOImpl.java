@@ -42,7 +42,7 @@ public class ServiceDAOImpl implements ServiceDAO {
         } catch (EntityExistsException eeEx){
             rollbackTransaction(manager);
 
-            throw new DAOException("Provided service already exists in database", eeEx);
+            throw new DAOException("Provided facade already exists in database", eeEx);
         } catch (PersistenceException | IllegalStateException ex) {
             rollbackTransaction(manager);
 

@@ -1,6 +1,7 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade.facade;
 
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.facade.ServiceFacade;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
-public class ServiceServiceImpl implements ServiceService {
+public class ServiceFacadeImpl implements ServiceFacade {
 
     @Override
     public void create(Service service) {

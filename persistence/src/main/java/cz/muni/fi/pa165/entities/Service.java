@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
- * Service entity representing a service that our Barbershop is providing to customers' dogs
+ * Service entity representing a facade that our Barbershop is providing to customers' dogs
  *
  * @author Martin Vrábel
  * @version 23.10.2016 20:36

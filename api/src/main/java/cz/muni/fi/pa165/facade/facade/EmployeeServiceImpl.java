@@ -1,6 +1,7 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade.facade;
 
 import cz.muni.fi.pa165.entities.Employee;
+import cz.muni.fi.pa165.facade.EmployeeService;
 
 import java.util.List;
 

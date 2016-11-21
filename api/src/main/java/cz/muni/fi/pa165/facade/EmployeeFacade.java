@@ -1,15 +1,16 @@
-package cz.muni.fi.pa165.service;
+package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.entities.Employee;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
 /**
- * Service for retrieving {@link Employee} objects.
+ * Facade for acessing {@link Employee} objects.
  *
  * @author Denis Richtarik
  */
-public interface EmployeeService {
+public interface EmployeeFacade {
 
     /**
      * Creates new entry from provided {@link Employee} object
