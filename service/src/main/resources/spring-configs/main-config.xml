@@ -6,9 +6,4 @@
 
     <import resource="classpath:spring-configs/dao-config.xml"/>
 
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
-        <property name="persistenceUnitName" value="testing"/>
-    </bean>
-
 </beans>

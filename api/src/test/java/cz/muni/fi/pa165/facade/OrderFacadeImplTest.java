@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.dao;
+package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
@@ -25,57 +25,8 @@ import java.time.LocalDateTime;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
-public class OrderDAOImplTest {
-
-    @PersistenceUnit(name = "testing")
-    private EntityManagerFactory factory;
+public class OrderFacadeImplTest {
 
     @Inject
-    private OrderDAO orderDAO;
-    private Dog doge;
-    private LocalDateTime time;
-    private Service service;
-
-    @Before
-    public void setUp() throws Exception {
-        doge = new Dog("Doggo", "ChauChau", 1);
-        time = LocalDateTime.now();
-        service = new Service("testingService", 12, BigDecimal.TEN);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
-
-    @Test(expected = DAOException.class)
-    public void testCreate() throws Exception, DAOException {
-        Order order = new Order(time, doge, service);
-
-        orderDAO.create(order);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreate_orderNull() throws Exception, DAOException {
-        orderDAO.create(null);
-    }
-
-    @Test
-    public void getById() throws Exception, DAOException {
-        Order order = new Order(time, doge, service);
-
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
-
-        manager.persist(order);
-
-        manager.getTransaction().commit();
-        manager.close();
-
-
-        Order foundService = orderDAO.getById(order.getId());
-
-        Assert.assertEquals(order, foundService);
-    }
-
+    private OrderFacade orderFacade;
 }

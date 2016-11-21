@@ -1,9 +1,10 @@
-package cz.muni.fi.pa165.dao;
+package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.entities.Address;
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.facade.CustomerFacade;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
