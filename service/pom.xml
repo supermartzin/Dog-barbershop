@@ -16,4 +16,12 @@
 
     <name>Dog Barbershop - Service layer</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>cz.muni.fi.pa165</groupId>
+            <artifactId>dog-barbershop-persistence</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>
