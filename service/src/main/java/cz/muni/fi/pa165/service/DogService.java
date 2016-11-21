@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.service;
 
+import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.DAOException;
 
@@ -36,6 +37,15 @@ public interface DogService {
      *                      or <b>empty list</b> if there is no entry in database
      */
     List<Dog> getAll();
+
+    /**
+     * Retrieves all {@link Dog} objects for {@link Customer}.
+     *
+     * @param customer      {@link Customer} object
+     * @return              list with all {@link Dog} objects
+     *                      or <b>empty list</b> if there is no entry in database
+     */
+    List<Dog> getByCustomer(Customer customer);
 
     /**
      * Updates attributes of an existing {@link Dog} object.
