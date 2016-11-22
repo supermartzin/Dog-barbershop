@@ -2,14 +2,19 @@ package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.exceptions.DAOException;
-import cz.muni.fi.pa165.utils.Constants;
+import cz.muni.fi.pa165.exceptions.ValidationException;
+import cz.muni.fi.pa165.validation.EntityValidator;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 /**
- *
+ * {@inheritDoc}
  *
  * @author Denis Richtarik
  * @version 25.10.2016
@@ -17,13 +22,21 @@ import java.util.List;
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
 
-    @PersistenceUnit
-    private EntityManagerFactory managerFactory;
+    @PersistenceContext
+    private EntityManager manager;
+
+    private EntityValidator validator;
+
+    @Inject
+    public EmployeeDAOImpl(EntityValidator entityValidator) {
+        if (entityValidator == null)
+            throw new IllegalArgumentException("Entity Validator is null");
+
+        this.validator = entityValidator;
+    }
 
     /**
-     * Creates new entry in database from provided {@link Employee} object
-     *
-     * @param employee {@link Employee} object to save
+     * {@inheritDoc}
      */
     @Override
     public void create(Employee employee) throws DAOException {
@@ -32,161 +45,99 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         if (employee.getId() > 0)
             throw new DAOException("Employee ID is already set");
 
-        EntityManager manager = managerFactory.createEntityManager();
-
         try {
-            manager.getTransaction().begin();
+            // validate
+            validator.validate(employee);
 
+            // save to database
             manager.persist(employee);
-
-            manager.getTransaction().commit();
-        } catch (EntityExistsException ex){
-            if (manager.getTransaction().isActive())
-                manager.getTransaction().rollback();
-
-            throw new DAOException("Provided Employee already exists in database");
-        } catch (PersistenceException | IllegalStateException e) {
-            if (manager.getTransaction().isActive())
-                manager.getTransaction().rollback();
-
-            throw new DAOException(e);
-        } finally {
-            if (manager.isOpen())
-                manager.close();
+        } catch (ValidationException | PersistenceException | IllegalStateException ex) {
+            throw new DAOException(ex);
         }
     }
 
     /**
-     * Retrieves a {@see Employee} object with provided <b>ID</b> from database
-     *
-     * @param id <b>ID</b> number of {@link Employee} to retrieve
-     * @return found {@link Employee} object or {@link null} if <b>ID</b> not found
+     * {@inheritDoc}
      */
     @Override
     public Employee getById(long id) {
         if (id < 0)
             throw new IllegalArgumentException("id is incorrect. Must be >= 0");
 
-        EntityManager manager = null;
-        try {
-            manager = managerFactory.createEntityManager();
-            return  manager.find(Employee.class, id);
-        } finally {
-            closeManager(manager);
-        }
+        return manager.find(Employee.class, id);
     }
 
     /**
-     * Retrieves all {@link Employee} objects from database
-     *
-     * @return list of all {@link Employee} objects from database
+     * {@inheritDoc}
      */
     @Override
-    public List<Employee> getAll() {
-        EntityManager manager = managerFactory.createEntityManager();
-
-        return manager.createQuery("SELECT e FROM Employee e", Employee.class)
-                      .getResultList();
-    }
-
-    /**
-     * Retrieves a {@see Employee} object which has provided <b>username</b> from database
-     *
-     * @param username  Username of {@link Employee} to retrieve
-     * @return  found {@link Employee} object or {@link null} if <b>username</b> not found
-     * @throws  IllegalArgumentException for {@link null} or empty username
-     */
-    @Override
-    public Employee getByUsername(String username) {
+    public Employee getByUsername(String username) throws DAOException {
         if (username == null)
             throw new IllegalArgumentException("Cannot search for null username");
 
         try {
-            EntityManager manager = managerFactory.createEntityManager();
-
-            return manager.createQuery("select e from Employee e where username=:username", Employee.class)
-                          .setParameter("username", username)
-                          .getSingleResult();
+            return manager.createQuery("select employee from Employee employee where employee.username = :username", Employee.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
         } catch (NoResultException nrEx) {
             return null;
+        } catch (PersistenceException pEx) {
+            throw new DAOException(pEx);
         }
     }
 
     /**
-     * Updates attributes of an existing {@link Employee} object in database
-     *
-     * @param employee {@link Employee} object with updated attributes
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Employee> getAll() {
+        return manager.createQuery("SELECT employee FROM Employee employee", Employee.class)
+                      .getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public void update(Employee employee) throws DAOException {
         if (employee == null)
             throw new IllegalArgumentException("employee is null");
-
-        EntityManager manager = managerFactory.createEntityManager();
+        if (employee.getId() == 0)
+            throw new DAOException("Employee ID is not set");
 
         try {
-            manager.getTransaction().begin();
+            // validate
+            validator.validate(employee);
 
+            Employee existingEmployee = manager.find(Employee.class, employee.getId());
+            if (existingEmployee == null)
+                throw new DAOException("Employee does not exist in database");
+
+            // update employee in database
             manager.merge(employee);
-
-            manager.getTransaction().commit();
-        } catch (PersistenceException e) {
-            if (manager.getTransaction().isActive())
-                manager.getTransaction().rollback();
-
-            throw new DAOException(e);
-        } finally {
-            if (manager.isOpen())
-                manager.close();
+        } catch (ValidationException | PersistenceException ex) {
+            throw new DAOException(ex);
         }
     }
 
     /**
-     * Deletes an existing {@link Employee} entry from database
-     *
-     * @param employee {@link Employee} object to delete from database
+     * {@inheritDoc}
      */
     @Override
     public void delete(Employee employee) throws DAOException {
         if (employee == null)
             throw new IllegalArgumentException("Employee can't be null");
 
-        EntityManager manager = managerFactory.createEntityManager();
-
         try {
-            manager.getTransaction().begin();
-
             Employee em = manager.find(Employee.class, employee.getId());
-            if(em == null){
+            if (em == null) {
                 throw new DAOException("Employee with id: " + employee.getId() + " you want to delete doesn't exist!");
             }
 
+            // delete in database
             manager.remove(em);
-
-            manager.getTransaction().commit();
         } catch (PersistenceException e) {
-            rollbackTransaction(manager);
             throw new DAOException(e);
-        } finally {
-            closeManager(manager);
         }
-    }
-
-
-    private void rollbackTransaction(EntityManager manager) {
-        if (manager == null)
-            return;
-
-        // rollback if needed
-        if (manager.getTransaction().isActive())
-            manager.getTransaction().rollback();
-    }
-
-    private void closeManager(EntityManager manager) {
-        if (manager == null)
-            return;
-
-        if (manager.isOpen())
-            manager.close();
     }
 }

@@ -57,7 +57,10 @@ public class Employee extends User {
     public int hashCode() {
         int result = (int) (getId() ^ (getId() >>> 32));
 
-        return 31 * result + getUsername().hashCode();
+        if (getUsername() != null)
+            result = 31 * result + getUsername().hashCode();
+
+        return result;
     }
 
     @Override

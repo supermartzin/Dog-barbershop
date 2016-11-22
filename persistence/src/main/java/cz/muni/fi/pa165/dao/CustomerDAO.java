@@ -44,9 +44,8 @@ public interface CustomerDAO {
     /**
      * Retrieves all {@link Customer} objects from database.
      *
-     * @return              list with all {@link Customer} objects from database
-     *                      or <b>empty list</b> if there is no entry in database
-     * @throws DAOException when {@link Customer} objects cannot be retrieved from database
+     * @return  list with all {@link Customer} objects from database
+     *          or <b>empty list</b> if there is no entry in database
      */
     List<Customer> getAll() throws DAOException;
 
