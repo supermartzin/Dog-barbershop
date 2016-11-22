@@ -1,7 +1,5 @@
 package cz.muni.fi.pa165.dao;
 
-import cz.muni.fi.pa165.entities.Address;
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import org.junit.After;
@@ -20,17 +18,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-
 /**
- * Tests for {@link CustomerDAOImpl} class
+ * Tests for correct contract implementation defined by {@link ServiceDAO} interface
  *
  * @author Domink Gmiterko
- * @version
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
-public class ServiceDAOImplTest {
+public class ServiceDAOTest {
 
     @PersistenceUnit(name = "testing")
     private EntityManagerFactory factory;

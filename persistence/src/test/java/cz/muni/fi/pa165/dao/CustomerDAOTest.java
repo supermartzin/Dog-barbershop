@@ -27,7 +27,7 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 
 /**
- * Tests for {@link CustomerDAOImpl} class
+ * Tests for correct contract implementation defined by {@link CustomerDAO} interface
  *
  * @author Martin Vrábel
  * @version 24.10.2016 20:55
@@ -37,7 +37,7 @@ import static org.hamcrest.core.IsCollectionContaining.hasItems;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
-public class CustomerDAOImplTest {
+public class CustomerDAOTest {
 
     @PersistenceContext
     private EntityManager manager;

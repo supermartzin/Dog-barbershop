@@ -2,8 +2,6 @@ package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Address;
 import cz.muni.fi.pa165.entities.Employee;
-import cz.muni.fi.pa165.entities.Employee;
-import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import org.junit.After;
 import org.junit.Assert;
@@ -16,27 +14,25 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-
 import javax.persistence.PersistenceUnit;
-
 import java.math.BigDecimal;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
- * Tests for {@link EmployeeDAOImplTest} class
+ * Tests for correct contract implementation defined by {@link EmployeeDAO} interface
  *
  * @author Denis Richtarik
  * @version 25.10.2016
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
-public class EmployeeDAOImplTest {
+public class EmployeeDAOTest {
 
     @PersistenceUnit(name = "testing")
     private EntityManagerFactory factory;
@@ -168,12 +164,6 @@ public class EmployeeDAOImplTest {
     public void testCreate_emailInvalid() throws Exception {
         String email = "this is invalid @mail";
         testEmployee.setEmail(email);
-        employeeDAO.create(testEmployee);
-    }
-
-    @Test(expected = DAOException.class)
-    public void testCreate_idAlreadySet() throws Exception {
-        testEmployee.setId(15);
         employeeDAO.create(testEmployee);
     }
 

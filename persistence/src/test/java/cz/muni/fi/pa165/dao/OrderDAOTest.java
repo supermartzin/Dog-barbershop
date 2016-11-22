@@ -21,11 +21,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * Created by Denis Richtarik on 10/31/16.
+ * Tests for correct contract implementation defined by {@link OrderDAO} interface
+ *
+ * @author Denis Richtarik
+ * @version 31.10.2016
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
-public class OrderDAOImplTest {
+public class OrderDAOTest {
 
     @PersistenceUnit(name = "testing")
     private EntityManagerFactory factory;

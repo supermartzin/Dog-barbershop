@@ -7,37 +7,47 @@
     <parent>
         <groupId>cz.muni.fi.pa165</groupId>
         <artifactId>dog-barbershop-parent</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>dog-barbershop-persistence</artifactId>
     <packaging>jar</packaging>
-    <version>0.2-SNAPSHOT</version>
 
     <name>Dog Barbershop - Persistence layer</name>
 
     <properties>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <hibernate.core.version>5.2.4.Final</hibernate.core.version>
         <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
         <hibernate.validator.version>5.3.1.Final</hibernate.validator.version>
 
-        <junit.version>4.12</junit.version>
-
         <derby.version>10.12.1.1</derby.version>
 
-        <spring.version>4.3.3.RELEASE</spring.version>
-
-        <javax.inject.version>1</javax.inject.version>
         <javax.el-api.version>3.0.0</javax.el-api.version>
         <javax.glassfish-el.version>2.2.6</javax.glassfish-el.version>
-
-        <slf4j.version>1.7.21</slf4j.version>
     </properties>
 
     <dependencies>
+
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
 
         <!-- Hibernate -->
         <dependency>
@@ -72,41 +82,6 @@
         </dependency>
 
 
-        <!-- JUnit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-
-        <!-- Spring -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-
         <!-- Apache Derby -->
         <dependency>
             <groupId>org.apache.derby</groupId>
@@ -119,15 +94,14 @@
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
-            <version>${javax.inject.version}</version>
         </dependency>
 
 
-        <!-- Logging -->
+        <!-- JUnit -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

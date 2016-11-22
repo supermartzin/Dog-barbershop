@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.facade.facade;
+package cz.muni.fi.pa165.service.facade;
 
 import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.facade.ServiceFacade;
