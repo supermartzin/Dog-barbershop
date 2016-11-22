@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * {@inheritDoc}
  *
- * @author Dominik Gmiterko
+ * @author Martin Vrábel
  */
 public class DogFacadeImpl implements DogFacade {
 
