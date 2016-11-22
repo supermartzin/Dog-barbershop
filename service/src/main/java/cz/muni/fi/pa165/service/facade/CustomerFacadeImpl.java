@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.service.facade;
 
+import cz.muni.fi.pa165.dto.CustomerDTO;
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.facade.CustomerFacade;
 
@@ -13,32 +14,32 @@ import java.util.List;
 public class CustomerFacadeImpl implements CustomerFacade {
 
     @Override
-    public void create(Customer customer) {
+    public void create(CustomerDTO customer) {
 
     }
 
     @Override
-    public Customer getById(long id) {
+    public CustomerDTO getById(long id) {
         return null;
     }
 
     @Override
-    public Customer getByUsername(String username) {
+    public CustomerDTO getByUsername(String username) {
         return null;
     }
 
     @Override
-    public List<Customer> getAll() {
+    public List<CustomerDTO> getAll() {
         return null;
     }
 
     @Override
-    public void update(Customer customer) {
+    public void update(CustomerDTO customer) {
 
     }
 
     @Override
-    public void delete(Customer customer) {
+    public void delete(CustomerDTO customer) {
 
     }
 }

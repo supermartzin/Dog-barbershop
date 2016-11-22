@@ -1,10 +1,9 @@
 package cz.muni.fi.pa165.facade;
 
+import cz.muni.fi.pa165.dto.DogDTO;
+import cz.muni.fi.pa165.dto.OrderDTO;
+import cz.muni.fi.pa165.dto.ServiceDTO;
 import cz.muni.fi.pa165.entities.Customer;
-import cz.muni.fi.pa165.entities.Dog;
-import cz.muni.fi.pa165.entities.Order;
-import cz.muni.fi.pa165.entities.Service;
-import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Facade for acessing {@link Order} objects.
+ * Facade for acessing {@link OrderDTO} objects.
  *
  * @author Martin Vrábel
  * @version 31.10.2016 0:03
@@ -20,72 +19,72 @@ import java.util.List;
 public interface OrderFacade {
 
     /**
-     * Creates new entry from provided {@link Order} object
+     * Creates new entry from provided {@link OrderDTO} object
      *
-     * @param order         {@link Order} object to save
+     * @param order         {@link OrderDTO} object to save
      */
-    void create(Order order);
+    void create(OrderDTO order);
 
     /**
-     * Retrieves an {@link Order} object with provided <b>ID</b>
+     * Retrieves an {@link OrderDTO} object with provided <b>ID</b>
      *
-     * @param id            <b>ID</b> number of {@link Order} to retrieve
-     * @return              found {@link Order} object
+     * @param id            <b>ID</b> number of {@link OrderDTO} to retrieve
+     * @return              found {@link OrderDTO} object
      */
-    Order getById(long id);
+    OrderDTO getById(long id);
 
     /**
-     * Retrieves all {@link Order} objects
+     * Retrieves all {@link OrderDTO} objects
      *
-     * @return              list of all {@link Order} objects
+     * @return              list of all {@link OrderDTO} objects
      */
-    List<Order> getAll();
+    List<OrderDTO> getAll();
 
     /**
-     * Retrieves all {@link Order} objects relating to provided {@link Dog} object
+     * Retrieves all {@link OrderDTO} objects relating to provided {@link DogDTO} object
      *
-     * @param dog           {@link Dog} object which relates to searched {@link Order} objects
-     * @return              list of all {@link Order} objects relating to provided {@link Dog} object
+     * @param dog           {@link DogDTO} object which relates to searched {@link OrderDTO} objects
+     * @return              list of all {@link OrderDTO} objects relating to provided {@link DogDTO} object
      */
-    List<Order> getByDog(Dog dog);
+    List<OrderDTO> getByDog(DogDTO dog);
 
     /**
-     * Retrieves all {@link Order} objects relating to provided {@link Dog} object
+     * Retrieves all {@link OrderDTO} objects relating to provided {@link DogDTO} object
      *
-     * @param customer      {@link Customer} object which relates to searched {@link Order} objects
-     * @return              list of all {@link Order} objects relating to provided {@link Dog} object
+     * @param customer      {@link Customer} object which relates to searched {@link OrderDTO} objects
+     * @return              list of all {@link OrderDTO} objects relating to provided {@link DogDTO} object
      */
-    List<Order> getByCustomer(Customer customer);
+    List<OrderDTO> getByCustomer(Customer customer);
 
     /**
-     * Retrieves all {@link Order} objects for given date
+     * Retrieves all {@link OrderDTO} objects for given date
      *
      * @param date      date to retrieve orders for
-     * @return          list of all {@link Order} objects for given date
+     * @return          list of all {@link OrderDTO} objects for given date
      */
-    List<Order> getAllOrdersForDay(LocalDate date);
+    List<OrderDTO> getAllOrderDTOsForDay(LocalDate date);
 
     /**
-     * Retrieves all {@link Order} objects relating to provided {@link Service} object
+     * Retrieves all {@link OrderDTO} objects relating to provided {@link ServiceDTO} object
      *
-     * @param service       {@link Service} object which relates to searched {@link Order} objects
-     * @return              list of all {@link Order} objects relating to provided {@link Service} object
+     * @param service       {@link ServiceDTO} object which relates to searched {@link OrderDTO} objects
+     * @return              list of all {@link OrderDTO} objects relating to provided {@link ServiceDTO} object
      */
-    List<Order> getByService(Service service);
+    List<OrderDTO> getByService(ServiceDTO service);
 
     /**
-     * Updates attributes of an existing {@link Order} object
+     * Updates attributes of an existing {@link OrderDTO} object
      *
-     * @param order         {@link Order} object with updated attributes}
+     * @param order         {@link OrderDTO} object with updated attributes}
      */
-    void update(Order order);
+    void update(OrderDTO order);
 
     /**
-     * Deletes an existing {@link Order} entry
+     * Deletes an existing {@link OrderDTO} entry
      *
-     * @param order         {@link Order} object to delete
+     * @param order         {@link OrderDTO} object to delete
      */
-    void delete(Order order);
+    void delete(OrderDTO order);
 
     /**
      * Returns sum of prices of all order in given time range

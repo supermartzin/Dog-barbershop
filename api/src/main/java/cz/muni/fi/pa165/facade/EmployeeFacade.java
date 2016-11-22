@@ -1,59 +1,59 @@
 package cz.muni.fi.pa165.facade;
 
-import cz.muni.fi.pa165.entities.Employee;
+import cz.muni.fi.pa165.dto.EmployeeDTO;
 import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
 /**
- * Facade for acessing {@link Employee} objects.
+ * Facade for acessing {@link EmployeeDTO} objects.
  *
  * @author Denis Richtarik
  */
 public interface EmployeeFacade {
 
     /**
-     * Creates new entry from provided {@link Employee} object
+     * Creates new entry from provided {@link EmployeeDTO} object
      *
-     * @param employee {@link Employee} object to save
+     * @param employee {@link EmployeeDTO} object to save
      */
-    void create(Employee employee);
+    void create(EmployeeDTO employee);
 
     /**
-     * Retrieves a {@see Employee} object with provided <b>ID</b>
+     * Retrieves a {@see EmployeeDTO} object with provided <b>ID</b>
      *
-     * @param id <b>ID</b> number of {@link Employee} to retrieve
-     * @return found {@link Employee} object or {@link null} if <b>ID</b> not found
+     * @param id <b>ID</b> number of {@link EmployeeDTO} to retrieve
+     * @return found {@link EmployeeDTO} object or {@link null} if <b>ID</b> not found
      */
-    Employee getById(long id);
+    EmployeeDTO getById(long id);
 
     /**
-     * Retrieves all {@link Employee} objects
+     * Retrieves all {@link EmployeeDTO} objects
      *
-     * @return list of all {@link Employee} objects
+     * @return list of all {@link EmployeeDTO} objects
      */
-    List<Employee> getAll();
+    List<EmployeeDTO> getAll();
 
     /**
-     * Retrieves a {@link Employee} object which has provided <b>username</b>
+     * Retrieves a {@link EmployeeDTO} object which has provided <b>username</b>
      *
-     * @param username Username of {@link Employee} to retrieve
-     * @return found {@link Employee} object or {@link null} if <b>username</b> not found
+     * @param username Username of {@link EmployeeDTO} to retrieve
+     * @return found {@link EmployeeDTO} object or {@link null} if <b>username</b> not found
      * @throws IllegalArgumentException for {@link null} or empty username
      */
-    Employee getByUsername(String username);
+    EmployeeDTO getByUsername(String username);
 
     /**
-     * Updates attributes of an existing {@link Employee} object
+     * Updates attributes of an existing {@link EmployeeDTO} object
      *
-     * @param employee {@link Employee} object with updated attributes
+     * @param employee {@link EmployeeDTO} object with updated attributes
      */
-    void update(Employee employee);
+    void update(EmployeeDTO employee);
 
     /**
-     * Deletes an existing {@link Employee} entry
+     * Deletes an existing {@link EmployeeDTO} entry
      *
-     * @param employee {@link Employee} object to delete
+     * @param employee {@link EmployeeDTO} object to delete
      */
-    void delete(Employee employee);
+    void delete(EmployeeDTO employee);
 }

@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.service.facade;
 
+import cz.muni.fi.pa165.dto.DogDTO;
+import cz.muni.fi.pa165.dto.OrderDTO;
+import cz.muni.fi.pa165.dto.ServiceDTO;
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
@@ -20,47 +23,47 @@ import java.util.List;
 public class OrderFacadeImpl implements OrderFacade {
 
     @Override
-    public void create(Order order) {
+    public void create(OrderDTO order) {
 
     }
 
     @Override
-    public Order getById(long id) {
+    public OrderDTO getById(long id) {
         return null;
     }
 
     @Override
-    public List<Order> getAll() {
+    public List<OrderDTO> getAll() {
         return null;
     }
 
     @Override
-    public List<Order> getByDog(Dog dog) {
+    public List<OrderDTO> getByDog(DogDTO dog) {
         return null;
     }
 
     @Override
-    public List<Order> getByCustomer(Customer customer) {
+    public List<OrderDTO> getByCustomer(Customer customer) {
         return null;
     }
 
     @Override
-    public List<Order> getAllOrdersForDay(LocalDate date) {
+    public List<OrderDTO> getAllOrderDTOsForDay(LocalDate date) {
         return null;
     }
 
     @Override
-    public List<Order> getByService(Service service) {
+    public List<OrderDTO> getByService(ServiceDTO service) {
         return null;
     }
 
     @Override
-    public void update(Order order) {
+    public void update(OrderDTO order) {
 
     }
 
     @Override
-    public void delete(Order order) {
+    public void delete(OrderDTO order) {
 
     }
 

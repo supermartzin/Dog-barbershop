@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.service.facade;
 
+import cz.muni.fi.pa165.dto.EmployeeDTO;
 import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.facade.EmployeeFacade;
 
@@ -14,32 +15,32 @@ import java.util.List;
 public class EmployeeFacadeImpl implements EmployeeFacade {
 
     @Override
-    public void create(Employee employee) {
+    public void create(EmployeeDTO employee) {
 
     }
 
     @Override
-    public Employee getById(long id) {
+    public EmployeeDTO getById(long id) {
         return null;
     }
 
     @Override
-    public List<Employee> getAll() {
+    public List<EmployeeDTO> getAll() {
         return null;
     }
 
     @Override
-    public Employee getByUsername(String username) {
+    public EmployeeDTO getByUsername(String username) {
         return null;
     }
 
     @Override
-    public void update(Employee employee) {
+    public void update(EmployeeDTO employee) {
 
     }
 
     @Override
-    public void delete(Employee employee) {
+    public void delete(EmployeeDTO employee) {
 
     }
 }
