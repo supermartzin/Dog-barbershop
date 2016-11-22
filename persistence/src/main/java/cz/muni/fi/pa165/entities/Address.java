@@ -40,10 +40,6 @@ public class Address {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getStreet() {
         return street;
     }
@@ -88,19 +84,32 @@ public class Address {
     public boolean equals(Object object) {
         if (this == object)
             return true;
-
-        if (object == null || getClass() != object.getClass())
+        if (object == null)
+            return false;
+        if (!(object instanceof Address))
             return false;
 
         Address address = (Address) object;
 
-        return address.getId() > 0L && getId() == address.getId();
+        return getStreet().equals(address.getStreet())
+                && getNumber() == address.getNumber()
+                && getCity().equals(address.getCity())
+                && getPostalCode() == address.getPostalCode()
+                && getCountry().equals(address.getCountry());
 
     }
 
     @Override
     public int hashCode() {
-        return (int) (getId() ^ (getId() >>> 32));
+        int result;
+
+        result = getStreet() != null ? getStreet().hashCode() : 0;
+        result = 31 * result + getNumber();
+        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
+        result = 31 * result + getPostalCode();
+        result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
+
+        return result;
     }
 
     @Override

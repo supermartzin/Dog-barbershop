@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="customerDAO" class="cz.muni.fi.pa165.dao.CustomerDAOImpl" />
+    <bean id="customerDAO" class="cz.muni.fi.pa165.dao.CustomerDAOImpl"/>
 
     <bean id="serviceDAO" class="cz.muni.fi.pa165.dao.ServiceDAOImpl" />
 
@@ -12,4 +12,6 @@
     <bean id="employeeDAO" class="cz.muni.fi.pa165.dao.EmployeeDAOImpl" />
 
     <bean id="orderDAO" class="cz.muni.fi.pa165.dao.OrderDAOImpl" />
+
+    <bean id="entityValidator" class="cz.muni.fi.pa165.validation.DefaultEntityValidator"/>
 </beans>

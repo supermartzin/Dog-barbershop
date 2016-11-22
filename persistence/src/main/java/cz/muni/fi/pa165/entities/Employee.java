@@ -1,6 +1,9 @@
 package cz.muni.fi.pa165.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -12,6 +15,9 @@ import java.math.BigDecimal;
 @Entity
 public class Employee extends User {
 
+    @NotNull
+    @DecimalMin("0.0")
+    @Column(nullable = false)
     private BigDecimal salary;
 
     public Employee() {
@@ -35,18 +41,23 @@ public class Employee extends User {
     public boolean equals(Object object) {
         if (this == object)
             return true;
-
-        if (object == null || getClass() != object.getClass())
+        if (object == null)
+            return false;
+        if (!(object instanceof Employee))
             return false;
 
         Employee employee = (Employee) object;
 
-        return employee.getId() > 0 && getId() == employee.getId();
+        return employee.getId() > 0
+                && getId() == employee.getId()
+                && getUsername().equals(employee.getUsername());
     }
 
     @Override
     public int hashCode() {
-        return (int) (getId() ^ (getId() >>> 32));
+        int result = (int) (getId() ^ (getId() >>> 32));
+
+        return 31 * result + getUsername().hashCode();
     }
 
     @Override

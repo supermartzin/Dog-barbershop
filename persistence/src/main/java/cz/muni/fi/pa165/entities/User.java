@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.entities;
 
 import cz.muni.fi.pa165.utils.Constants;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,7 +37,7 @@ public abstract class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @Pattern(regexp = Constants.EMAIL_REGEX_PATTERN)
+    @Email
     private String email;
 
     @Pattern(regexp = Constants.PHONE_NUMBER_REGEX_PATTERN)
@@ -57,10 +58,6 @@ public abstract class User {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getUsername() {

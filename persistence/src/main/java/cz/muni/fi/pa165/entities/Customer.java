@@ -4,7 +4,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +30,7 @@ public class Customer extends User {
     }
 
     public Set<Dog> getDogs() {
-        return Collections.unmodifiableSet(dogs);
+        return dogs;
     }
 
     public void addDog(Dog dog) {
@@ -64,18 +63,28 @@ public class Customer extends User {
     public boolean equals(Object object) {
         if (this == object)
             return true;
-
-        if (object == null || getClass() != object.getClass())
+        if (object == null)
+            return false;
+        if (!(object instanceof Customer))
+            return false;
+        if (getId() == 0 || getUsername() == null)
             return false;
 
         Customer customer = (Customer) object;
 
-        return customer.getId() > 0 && getId() == customer.getId();
+        return customer.getId() > 0
+                && getId() == customer.getId()
+                && getUsername().equals(customer.getUsername());
     }
 
     @Override
     public int hashCode() {
-        return (int) (getId() ^ (getId() >>> 32));
+        int result = (int) (getId() ^ (getId() >>> 32));
+
+        if (getUsername() != null)
+            result = 31 * result + getUsername().hashCode();
+
+        return result;
     }
 
     @Override

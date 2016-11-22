@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -17,11 +18,14 @@ public class Dog {
     private long id;
 
     @NotNull
+    @Column(nullable = false)
     private String name;
 
     @NotNull
+    @Column(nullable = false)
     private String breed;
 
+    @Min(0)
     @Column(length = 5)
     private int age;
 
@@ -40,10 +44,6 @@ public class Dog {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -82,18 +82,32 @@ public class Dog {
     public boolean equals(Object object) {
         if (this == object)
             return true;
-
-        if (object == null || getClass() != object.getClass())
+        if (object == null)
+            return false;
+        if (!(object instanceof Dog))
+            return false;
+        if (getId() == 0
+                || getName() == null
+                || getBreed() == null)
             return false;
 
         Dog dog = (Dog) object;
 
-        return dog.getId() > 0 && getId() == dog.getId();
+        return dog.getId() > 0
+                && getId() == dog.getId()
+                && getName().equals(dog.getName())
+                && getBreed().equals(dog.getBreed());
     }
 
     @Override
     public int hashCode() {
-        return (int) (getId() ^ (getId() >>> 32));
+        int result;
+
+        result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getBreed() != null ? getBreed().hashCode() : 0);
+
+        return result;
     }
 
     @Override
