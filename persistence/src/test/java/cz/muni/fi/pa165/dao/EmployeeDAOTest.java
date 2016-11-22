@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.dao;
 import cz.muni.fi.pa165.entities.Address;
 import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.exceptions.DAOException;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,10 +50,6 @@ public class EmployeeDAOTest {
         testEmployee = new Employee("testerUsr", "testpass", "Den", "Rich",
                 new Address("Street", 32, "Townsville", 91101, "Island"),
                 "some@one.you", "555444333", new BigDecimal("2000"));
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test
@@ -297,7 +292,7 @@ public class EmployeeDAOTest {
     }
 
     @Test
-    public void testDelete_rightEmployeeDeleted() throws Exception {
+    public void testDelete_correctEmployeeDeleted() throws Exception {
         // create a new employee in database
         Employee employee2 = new Employee("secondUSR", "secondPSW", "npc", "character", new Address("Krenova", 8, "Brno", 62000, "Czech Republic"), "vendor@mail.com", "+421910325478", new BigDecimal("4200"));
 

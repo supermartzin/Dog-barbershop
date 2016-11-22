@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,32 +31,25 @@ public class Customer extends User {
     }
 
     public Set<Dog> getDogs() {
-        return dogs;
+        return Collections.unmodifiableSet(dogs);
     }
 
     public void addDog(Dog dog) {
         if (dog == null)
             throw new IllegalArgumentException("dog cannot be null");
 
-        dogs.add(dog);
-
-        // delete dog from previous owner's collection
-        Customer previousOwner = dog.getCustomer();
-        if (previousOwner != null)
-            previousOwner.removeDog(dog);
-
-        // set current customer as an owner
-        dog.setCustomer(this);
+        if (!dogs.contains(dog)) {
+            // add to collection
+            dogs.add(dog);
+        }
     }
 
     public void removeDog(Dog dog) {
         if (dog == null)
             throw new IllegalArgumentException("dog cannot be null");
 
-        if (dogs.contains(dog))
-        {
+        if (dogs.contains(dog)) {
             dogs.remove(dog);
-            dog.setCustomer(null);
         }
     }
 

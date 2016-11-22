@@ -76,6 +76,14 @@ public class Order {
         this.service = service;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object)
@@ -89,8 +97,8 @@ public class Order {
 
         Order order = (Order) object;
 
-        return getDog() == order.getDog()
-                && getService() == order.getService()
+        return getDog().equals(order.getDog())
+                && getService().equals(order.getService())
                 && getTime() == order.getTime();
     }
 

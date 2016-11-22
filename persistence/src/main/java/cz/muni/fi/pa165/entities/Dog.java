@@ -5,7 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
- * Dog entity representing dog to which our company is providing a facade
+ * Dog entity representing dog to which our company is providing a service
  *
  * @author Martin Vrábel
  * @version 23.10.2016 20:29
@@ -29,6 +29,7 @@ public class Dog {
     @Column(length = 5)
     private int age;
 
+    @NotNull
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -36,10 +37,11 @@ public class Dog {
     public Dog() {
     }
 
-    public Dog(String name, String breed, int age) {
+    public Dog(String name, String breed, int age, Customer customer) {
         this.name = name;
         this.breed = breed;
         this.age = age;
+        this.customer = customer;
     }
 
     public long getId() {
@@ -88,7 +90,8 @@ public class Dog {
             return false;
         if (getId() == 0
                 || getName() == null
-                || getBreed() == null)
+                || getBreed() == null
+                || getCustomer() == null)
             return false;
 
         Dog dog = (Dog) object;
@@ -96,7 +99,8 @@ public class Dog {
         return dog.getId() > 0
                 && getId() == dog.getId()
                 && getName().equals(dog.getName())
-                && getBreed().equals(dog.getBreed());
+                && getBreed().equals(dog.getBreed())
+                && getCustomer().equals(dog.getCustomer());
     }
 
     @Override
@@ -106,6 +110,7 @@ public class Dog {
         result = (int) (getId() ^ (getId() >>> 32));
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         result = 31 * result + (getBreed() != null ? getBreed().hashCode() : 0);
+        result = 31 * result + (getCustomer() != null ? getCustomer().hashCode() : 0);
 
         return result;
     }

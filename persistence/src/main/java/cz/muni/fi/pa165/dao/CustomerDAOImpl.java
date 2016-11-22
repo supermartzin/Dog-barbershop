@@ -25,7 +25,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     @PersistenceContext
     private EntityManager manager;
 
-    private EntityValidator validator;
+    private final EntityValidator validator;
 
     @Inject
     public CustomerDAOImpl(EntityValidator entityValidator) {

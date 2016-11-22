@@ -58,8 +58,8 @@ public class CustomerDAOTest {
         address = new Address("Testing Avenue", 25, "Testero", 2356, "Testing Republic");
         testingCustomer = new Customer("testing", "password", "John", "Tester", address,
                                        "testing.customer@mail.com", "755468236");
-        buddy = new Dog("Buddy", "American Foxhound", 5);
-        charlie = new Dog("Charlie", "Neapolitan Mastiff", 9);
+        buddy = new Dog("Buddy", "American Foxhound", 5, testingCustomer);
+        charlie = new Dog("Charlie", "Neapolitan Mastiff", 9, testingCustomer);
 
         // add dogs
         testingCustomer.addDog(buddy);
@@ -155,16 +155,12 @@ public class CustomerDAOTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetById_idInvalid() throws Exception {
-        long id = -1;
-
-        customerDAO.getById(id);
+        customerDAO.getById(-1);
     }
 
     @Test
     public void testGetById_customerDoesNotExists() throws Exception {
-        long id = 100;
-
-        Customer retrievedCustomer = customerDAO.getById(id);
+        Customer retrievedCustomer = customerDAO.getById(100);
 
         Assert.assertNull(retrievedCustomer);
     }
@@ -357,15 +353,14 @@ public class CustomerDAOTest {
     }
 
     @Test
-    public void testDelete_rightCustomerDeleted() throws Exception {
+    @Rollback
+    public void testDelete_correctCustomerDeleted() throws Exception {
         // create custoemrs in database
         Customer customer1 = new Customer("testmaster", "masterpassword", "Albert", "Master",
                 new Address("Botanicka", 68, "Brno", 62000, "Czech Republic"),
                 "testmaster@mail.com", "+421910325478");
-        customer1.addDog(buddy);
         Customer customer2 = new Customer("secondtest", "testpass", "Anna", "Testing",
                 address, "anna@testing.com", "+421695856321");
-        customer2.addDog(charlie);
 
         manager.persist(testingCustomer);
         manager.persist(customer1);

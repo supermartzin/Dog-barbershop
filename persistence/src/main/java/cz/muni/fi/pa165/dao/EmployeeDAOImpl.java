@@ -25,7 +25,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @PersistenceContext
     private EntityManager manager;
 
-    private EntityValidator validator;
+    private final EntityValidator validator;
 
     @Inject
     public EmployeeDAOImpl(EntityValidator entityValidator) {
@@ -77,8 +77,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
         try {
             return manager.createQuery("select employee from Employee employee where employee.username = :username", Employee.class)
-                    .setParameter("username", username)
-                    .getSingleResult();
+                          .setParameter("username", username)
+                          .getSingleResult();
         } catch (NoResultException nrEx) {
             return null;
         } catch (PersistenceException pEx) {
@@ -130,9 +130,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
         try {
             Employee em = manager.find(Employee.class, employee.getId());
-            if (em == null) {
+            if (em == null)
                 throw new DAOException("Employee with id: " + employee.getId() + " you want to delete doesn't exist!");
-            }
 
             // delete in database
             manager.remove(em);

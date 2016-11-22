@@ -2,9 +2,14 @@ package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.exceptions.ValidationException;
+import cz.muni.fi.pa165.validation.EntityValidator;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 /**
@@ -15,8 +20,18 @@ import java.util.List;
 @Repository
 public class DogDAOImpl implements DogDAO {
 
-    @PersistenceUnit
-    private EntityManagerFactory managerFactory;
+    @PersistenceContext
+    private EntityManager manager;
+
+    private final EntityValidator validator;
+
+    @Inject
+    public DogDAOImpl(EntityValidator entityValidator) {
+        if (entityValidator == null)
+            throw new IllegalArgumentException("Entity Validator is null");
+
+        this.validator = entityValidator;
+    }
 
     /**
      * {@inheritDoc}
@@ -28,31 +43,16 @@ public class DogDAOImpl implements DogDAO {
         if (dog.getId() > 0)
             throw new DAOException("Dog ID is already set");
 
-        if (dog.getCustomer() == null)
-            throw new DAOException("Dog has to have owner");
-        if (dog.getCustomer().getId() == 0)
-            throw new DAOException("Dog owner is not saved");
-
-        EntityManager manager = null;
-
         try {
-            manager = managerFactory.createEntityManager();
-            manager.getTransaction().begin();
+            // validate
+            validator.validate(dog);
 
-            // save Customer to database
+            // save to database
             manager.persist(dog);
-
-            manager.getTransaction().commit();
-        } catch (EntityExistsException eeEx){
-            rollbackTransaction(manager);
-
-            throw new DAOException("Provided Customer already exists in database");
-        } catch (PersistenceException | IllegalStateException ex) {
-            rollbackTransaction(manager);
-
+        } catch (ValidationException | PersistenceException ex) {
             throw new DAOException(ex);
-        } finally {
-            closeManager(manager);
+        } catch (IllegalStateException isEx) {
+            throw new DAOException("Cannot persist Dog object, its Customer is not persisted", isEx);
         }
     }
 
@@ -64,15 +64,7 @@ public class DogDAOImpl implements DogDAO {
         if (id < 0)
             throw new IllegalArgumentException("id is incorrect. Must be >= 0");
 
-        EntityManager manager = null;
-
-        try {
-            manager = managerFactory.createEntityManager();
-
-            return manager.find(Dog.class, id);
-        } finally {
-            closeManager(manager);
-        }
+        return manager.find(Dog.class, id);
     }
 
     /**
@@ -80,9 +72,7 @@ public class DogDAOImpl implements DogDAO {
      */
     @Override
     public List<Dog> getAll() throws DAOException {
-        EntityManager manager = managerFactory.createEntityManager();
-
-        return manager.createQuery("SELECT d FROM Dog d", Dog.class)
+        return manager.createQuery("SELECT dog FROM Dog dog", Dog.class)
                       .getResultList();
     }
 
@@ -94,23 +84,16 @@ public class DogDAOImpl implements DogDAO {
         if (dog == null)
             throw new IllegalArgumentException("dog is null");
 
-        EntityManager manager = null;
-
         try {
-            manager = managerFactory.createEntityManager();
-
-            manager.getTransaction().begin();
+            // validate
+            validator.validate(dog);
 
             // update Dog in database
             manager.merge(dog);
-
-            manager.getTransaction().commit();
-        } catch (PersistenceException pEx) {
-            rollbackTransaction(manager);
-
+        } catch (ValidationException | PersistenceException pEx) {
             throw new DAOException(pEx);
-        } finally {
-            closeManager(manager);
+        } catch (IllegalStateException isEx) {
+            throw new DAOException("Cannot update Dog object, its Customer is not persisted", isEx);
         }
     }
 
@@ -122,44 +105,15 @@ public class DogDAOImpl implements DogDAO {
         if (dog == null)
             throw new IllegalArgumentException("Dog cannot be null");
 
-        EntityManager manager = null;
-
         try {
-            manager = managerFactory.createEntityManager();
-
-            manager.getTransaction().begin();
-
             Dog existingDog = manager.find(Dog.class, dog.getId());
             if (existingDog == null)
                 throw new DAOException("Dog with does not exist in database");
 
             // delete Dog in database
             manager.remove(existingDog);
-
-            manager.getTransaction().commit();
         } catch (PersistenceException pEx) {
-            rollbackTransaction(manager);
-
             throw new DAOException(pEx);
-        } finally {
-            closeManager(manager);
         }
-    }
-
-    private void rollbackTransaction(EntityManager manager) {
-        if (manager == null)
-            return;
-
-        // rollback if needed
-        if (manager.getTransaction().isActive())
-            manager.getTransaction().rollback();
-    }
-
-    private void closeManager(EntityManager manager) {
-        if (manager == null)
-            return;
-
-        if (manager.isOpen())
-            manager.close();
     }
 }
