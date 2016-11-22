@@ -5,7 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
- * Dog entity representing dog to which our company is providing a service
+ * Dog entity representing dog to which our company is providing a facade
  *
  * @author Martin Vrábel
  * @version 23.10.2016 20:29

@@ -16,8 +16,8 @@ public interface ServiceDAO {
      * Creates new entry in database from provided {@link Service} object.
      *
      * @param service                   {@link Service} object to save
-     * @throws IllegalArgumentException when {@code service} is {@code null}
-     * @throws DAOException             when {@code service} is in invalid state or the object cannot be saved to database
+     * @throws IllegalArgumentException when {@code facade} is {@code null}
+     * @throws DAOException             when {@code facade} is in invalid state or the object cannot be saved to database
      */
     void create(Service service) throws DAOException;
 
@@ -43,8 +43,8 @@ public interface ServiceDAO {
      * Updates attributes of an existing {@link Service} object in database.
      *
      * @param service                   {@link Service} object with updated attributes
-     * @throws IllegalArgumentException when {@code service} is {@code null}
-     * @throws DAOException             when {@code service} is in invalid state or the object cannot be updated in database
+     * @throws IllegalArgumentException when {@code facade} is {@code null}
+     * @throws DAOException             when {@code facade} is in invalid state or the object cannot be updated in database
      */
     void update(Service service) throws DAOException;
 
@@ -52,8 +52,8 @@ public interface ServiceDAO {
      * Deletes an existing {@link Service} entry from database.
      *
      * @param service                   {@link Service} object to delete from database
-     * @throws IllegalArgumentException when {@code service} is {@code null}
-     * @throws DAOException             when {@code service} does not exist or the object cannot be deleted from database
+     * @throws IllegalArgumentException when {@code facade} is {@code null}
+     * @throws DAOException             when {@code facade} does not exist or the object cannot be deleted from database
      */
     void delete(Service service) throws DAOException;
 }
