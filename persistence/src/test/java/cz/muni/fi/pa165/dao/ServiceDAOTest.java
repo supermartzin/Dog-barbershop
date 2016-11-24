@@ -2,150 +2,115 @@ package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.not;
 
 /**
  * Tests for correct contract implementation defined by {@link ServiceDAO} interface
  *
  * @author Domink Gmiterko
  */
+@Rollback(false)
+@Transactional
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
 public class ServiceDAOTest {
 
-    @PersistenceUnit(name = "testing")
-    private EntityManagerFactory factory;
+    @PersistenceContext
+    private EntityManager manager;
 
     @Inject
     private ServiceDAO serviceDAO;
 
+    private Service testingService;
+
     @Before
     public void setUp() throws Exception {
-
+        testingService = new Service("testingService", 45, BigDecimal.valueOf(150));
     }
 
-    @After
-    public void tearDown() throws Exception {
-        EntityManager manager = createManager();
-
-        manager.createNativeQuery("DELETE FROM Service s").executeUpdate();
-
-        closeManager(manager);
-    }
-
-    @Test
-    public void testCreate() throws Exception {
-        Service service = new Service("testingService", 12, BigDecimal.TEN);
-
-        serviceDAO.create(service);
-
-        // testing
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
-
-        Assert.assertNotEquals(0, service.getId());
-
-        Service testService = manager.find(Service.class, service.getId());
-
-        Assert.assertEquals("testingService", testService.getTitle());
-        Assert.assertEquals(12, testService.getLength());
-        Assert.assertEquals(new BigDecimal("10.00"), testService.getPrice());
-
-        manager.getTransaction().commit();
-        manager.close();
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreate_serviceNull() throws Exception {
+        serviceDAO.create(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_idAlreadySet() throws Exception {
-        Service service = new Service("testingService", 12, BigDecimal.TEN);
-        service.setId(15);
+    public void testCreate_titleInvalid() throws Exception {
+        testingService.setTitle(null);
 
-        serviceDAO.create(service);
+        serviceDAO.create(testingService);
+    }
+
+    @Test(expected = DAOException.class)
+    public void testCreate_lengthInvalid() throws Exception {
+        testingService.setLength(-15);
+
+        serviceDAO.create(testingService);
+    }
+
+    @Test(expected = DAOException.class)
+    public void testCreate_priceInvalid() throws Exception {
+        testingService.setPrice(null);
+
+        serviceDAO.create(testingService);
+    }
+
+    @Test(expected = DAOException.class)
+    public void testCreate_serviceAlreadyExists() throws Exception {
+        serviceDAO.create(testingService);
+        serviceDAO.create(testingService);
     }
 
     @Test
-    public void getById() throws Exception {
-        Service service = new Service("testingService", 12, BigDecimal.TEN);
+    public void testCreate_serviceValid() throws Exception {
+        serviceDAO.create(testingService);
 
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
+        Assert.assertTrue(testingService.getId() > 0);
 
-        manager.persist(service);
+        Service testService = manager.find(Service.class, testingService.getId());
 
-        manager.getTransaction().commit();
-        manager.close();
+        Assert.assertNotNull(testService);
+        assertDeepEquals(testingService, testService);
+    }
 
-
-        Service foundService = serviceDAO.getById(service.getId());
-
-        Assert.assertEquals(service, foundService);
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetById_idInvalid() throws Exception {
+        serviceDAO.getById(-5);
     }
 
     @Test
-    public void getAll() throws Exception {
-        Service service1 = new Service("testingService1", 12, BigDecimal.TEN);
-        Service service2 = new Service("testingService2", 9, BigDecimal.ONE);
+    public void testGetById_serviceDoesNotExist() throws Exception {
+        Service service = serviceDAO.getById(500);
 
-        List<Service> originalServices = new ArrayList<>();
-        originalServices.add(service1);
-        originalServices.add(service2);
-
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
-
-        manager.persist(service1);
-        manager.persist(service2);
-
-        manager.getTransaction().commit();
-        manager.close();
-
-
-        List<Service> foundServices = serviceDAO.getAll();
-
-        Assert.assertEquals(originalServices, foundServices);
+        Assert.assertNull(service);
     }
 
     @Test
-    public void update() throws Exception {
-        // Arrange
-        Service service1 = new Service("testingService1", 12, BigDecimal.TEN);
-        Service service2 = new Service("testingService2", 9, BigDecimal.ONE);
+    public void testGetById_serviceValid() throws Exception {
+        manager.persist(testingService);
 
-        persistServices(service1, service2);
+        Service service = serviceDAO.getById(testingService.getId());
 
-        service1.setTitle("changedTitle");
-        service1.setPrice(BigDecimal.valueOf(12));
-
-        // Act
-        serviceDAO.update(service1);
-
-        // Assert
-        EntityManager manager = createManager();
-        Service testService1 = manager.find(Service.class, service1.getId());
-        Service testService2 = manager.find(Service.class, service2.getId());
-        closeManager(manager);
-
-        Assert.assertEquals("changedTitle", testService1.getTitle());
-        Assert.assertEquals(12, testService1.getLength());
-        Assert.assertEquals(0, testService1.getPrice().compareTo(BigDecimal.valueOf(12)));
-
-        Assert.assertEquals("testingService2", testService2.getTitle());
-        Assert.assertEquals(9, testService2.getLength());
-        Assert.assertEquals(0, testService2.getPrice().compareTo(BigDecimal.ONE));
+        Assert.assertNotNull(service);
+        assertDeepEquals(testingService, service);
     }
 
     @Test
@@ -157,64 +122,108 @@ public class ServiceDAOTest {
     }
 
     @Test
-    public void delete() throws Exception {
-        Service service = new Service("testingService", 12, BigDecimal.TEN);
+    public void testGetAll_servicesExist() throws Exception {
+        Service service = new Service("Another testing service", 120, BigDecimal.valueOf(550));
 
-        serviceDAO.create(service);
+        manager.persist(testingService);
+        manager.persist(service);
+
+        List<Service> foundServices = serviceDAO.getAll();
+
+        Assert.assertNotNull(foundServices);
+        Assert.assertFalse(foundServices.isEmpty());
+        Assert.assertEquals(2, foundServices.size());
+        Assert.assertThat(foundServices, hasItems(testingService, service));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdate_serviceNull() throws Exception {
+        serviceDAO.update(null);
+    }
+
+    @Test(expected = DAOException.class)
+    public void testUpdate_serviceDoesNotExist() throws Exception {
+        serviceDAO.update(testingService);
+    }
+
+    @Rollback
+    @Test(expected = DAOException.class)
+    public void testUpdate_titleInvalid() throws Exception {
+        manager.persist(testingService);
+
+        testingService.setTitle(null);
+
+        serviceDAO.update(testingService);
+    }
+
+    @Rollback
+    @Test(expected = DAOException.class)
+    public void testUpdate_lengthInvalid() throws Exception {
+        manager.persist(testingService);
+
+        testingService.setLength(-5);
+
+        serviceDAO.update(testingService);
+    }
+
+    @Rollback
+    @Test(expected = DAOException.class)
+    public void testUpdate_priceInvalid() throws Exception {
+        manager.persist(testingService);
+
+        testingService.setPrice(null);
+
+        serviceDAO.update(testingService);
+    }
+
+    @Test
+    public void testUpdate_serviceValid() throws Exception {
+        manager.persist(testingService);
+
+        testingService.setTitle("Another testing service");
+        testingService.setLength(15);
+        testingService.setPrice(BigDecimal.valueOf(1200));
+
+        serviceDAO.update(testingService);
+
+        Service updatedService = manager.find(Service.class, testingService.getId());
+
+        Assert.assertNotNull(updatedService);
+        assertDeepEquals(testingService, updatedService);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDelete_serviceNull() throws Exception {
+        serviceDAO.delete(null);
+    }
+
+    @Test(expected = DAOException.class)
+    public void testDelete_serviceDoesNotExist() throws Exception {
+        serviceDAO.delete(testingService);
+    }
+
+    @Test
+    @Rollback
+    public void testDelete_correctServiceDeleted() throws Exception {
+        Service service = new Service("Another testring service", 70, BigDecimal.valueOf(300));
+
+        manager.persist(testingService);
+        manager.persist(service);
 
         serviceDAO.delete(service);
 
-        // testing
-        EntityManager manager = factory.createEntityManager();
-        manager.getTransaction().begin();
+        List<Service> remainingServices = manager.createQuery("SELECT service FROM Service service", Service.class)
+                                                 .getResultList();
 
-        Assert.assertNotEquals(0, service.getId());
-
-        Service testService = manager.find(Service.class, service.getId());
-
-        Assert.assertNull(testService);
-
-        manager.getTransaction().commit();
-        manager.close();
+        Assert.assertThat(remainingServices, hasItem(testingService));
+        Assert.assertThat(remainingServices, not(hasItem(service)));
     }
 
-
-    private EntityManager createManager() {
-        // create new manager
-        EntityManager manager = factory.createEntityManager();
-
-        // start transaction
-        manager.getTransaction().begin();
-
-        return manager;
-    }
-
-    private void closeManager(EntityManager manager) {
-        if (manager == null)
-            return;
-
-        // commit current transaction
-        manager.getTransaction().commit();
-
-        // close the manager
-        manager.close();
-    }
-
-    private void persistServices(Service... services){
-        EntityManager manager = createManager();
-
-        for (Service service : services) {
-            manager.persist(service);
-        }
-
-        closeManager(manager);
-    }
 
     private void assertDeepEquals(Service expected, Service actual) {
         Assert.assertEquals(expected.getId(), actual.getId());
         Assert.assertEquals(expected.getTitle(), actual.getTitle());
         Assert.assertEquals(expected.getLength(), actual.getLength());
-        Assert.assertEquals(expected.getPrice(), actual.getPrice());
+        Assert.assertEquals(0, expected.getPrice().compareTo(actual.getPrice()));
     }
-
 }

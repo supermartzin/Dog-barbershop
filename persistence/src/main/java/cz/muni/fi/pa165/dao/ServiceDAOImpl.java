@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.exceptions.ValidationException;
+import cz.muni.fi.pa165.validation.EntityValidator;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -15,8 +17,17 @@ import java.util.List;
 @Repository
 public class ServiceDAOImpl implements ServiceDAO {
 
-    @PersistenceUnit
-    private EntityManagerFactory managerFactory;
+    @PersistenceContext
+    private EntityManager manager;
+
+    private final EntityValidator validator;
+
+    public ServiceDAOImpl(EntityValidator entityValidator) {
+        if (entityValidator == null)
+            throw new IllegalArgumentException("Entity Validator is null");
+
+        this.validator = entityValidator;
+    }
 
     /**
      * {@inheritDoc}
@@ -28,27 +39,14 @@ public class ServiceDAOImpl implements ServiceDAO {
         if (service.getId() > 0)
             throw new DAOException("Service ID is already set");
 
-        EntityManager manager = null;
-
         try {
-            manager = createManager();
+            // validate
+            validator.validate(service);
 
-            manager.getTransaction().begin();
-
-            // save Customer to database
+            // save to database
             manager.persist(service);
-
-            manager.getTransaction().commit();
-        } catch (EntityExistsException eeEx){
-            rollbackTransaction(manager);
-
-            throw new DAOException("Provided facade already exists in database", eeEx);
-        } catch (PersistenceException | IllegalStateException ex) {
-            rollbackTransaction(manager);
-
+        } catch (ValidationException | PersistenceException | IllegalStateException ex) {
             throw new DAOException(ex);
-        } finally {
-            closeManager(manager);
         }
     }
 
@@ -60,15 +58,7 @@ public class ServiceDAOImpl implements ServiceDAO {
         if (id < 0)
             throw new IllegalArgumentException("ID must be positive integer number");
 
-        EntityManager manager = null;
-
-        try {
-            manager = createManager();
-
-            return manager.find(Service.class, id);
-        } finally {
-            closeManager(manager);
-        }
+        return manager.find(Service.class, id);
     }
 
     /**
@@ -76,18 +66,8 @@ public class ServiceDAOImpl implements ServiceDAO {
      */
     @Override
     public List<Service> getAll() throws DAOException {
-        EntityManager manager = null;
-
-        try {
-            manager = createManager();
-
-            return manager.createQuery("SELECT u FROM Service u", Service.class)
-                          .getResultList();
-        } catch (PersistenceException pEx) {
-            throw new DAOException(pEx);
-        } finally {
-            closeManager(manager);
-        }
+        return manager.createQuery("SELECT service FROM Service service", Service.class)
+                      .getResultList();
     }
 
     /**
@@ -98,29 +78,18 @@ public class ServiceDAOImpl implements ServiceDAO {
         if (service == null)
             throw new IllegalArgumentException("Service cannot be null");
 
-        EntityManager manager = null;
-
         try {
-            manager = createManager();
-
-            manager.getTransaction().begin();
+            // validate
+            validator.validate(service);
 
             Service existingService = manager.find(Service.class, service.getId());
             if (existingService == null)
                 throw new DAOException("Service does not exist in database");
 
-            // update Customer in database
+            // update Service in database
             manager.merge(service);
-
-            manager.getTransaction().commit();
-        } catch (PersistenceException pEx) {
-            rollbackTransaction(manager);
-
-            throw new DAOException(pEx);
-        } catch (DAOException e) {
-            e.printStackTrace();
-        } finally {
-            closeManager(manager);
+        } catch (ValidationException | PersistenceException ex) {
+            throw new DAOException(ex);
         }
     }
 
@@ -132,49 +101,15 @@ public class ServiceDAOImpl implements ServiceDAO {
         if (service == null)
             throw new IllegalArgumentException("Service cannot be null");
 
-        EntityManager manager = null;
-
         try {
-            manager = createManager();
-
-            manager.getTransaction().begin();
-
             Service existingService = manager.find(Service.class, service.getId());
             if (existingService == null)
                 throw new DAOException("Service does not exist in database");
 
-            // delete Customer in database
+            // delete Service in database
             manager.remove(existingService);
-
-            manager.getTransaction().commit();
         } catch (PersistenceException pEx) {
-            rollbackTransaction(manager);
-
             throw new DAOException(pEx);
-        } finally {
-            closeManager(manager);
         }
-    }
-
-
-    private EntityManager createManager() {
-        return managerFactory.createEntityManager();
-    }
-
-    private void rollbackTransaction(EntityManager manager) {
-        if (manager == null)
-            return;
-
-        // rollback if needed
-        if (manager.getTransaction().isActive())
-            manager.getTransaction().rollback();
-    }
-
-    private void closeManager(EntityManager manager) {
-        if (manager == null)
-            return;
-
-        if (manager.isOpen())
-            manager.close();
     }
 }
