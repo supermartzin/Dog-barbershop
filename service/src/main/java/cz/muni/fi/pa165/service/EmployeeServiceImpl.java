@@ -1,7 +1,10 @@
 package cz.muni.fi.pa165.service;
 
+import cz.muni.fi.pa165.dao.EmployeeDAO;
 import cz.muni.fi.pa165.entities.Employee;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -12,33 +15,36 @@ import java.util.List;
  */
 public class EmployeeServiceImpl implements EmployeeService {
 
-    @Override
-    public void create(Employee employee) {
+    @Inject
+    private EmployeeDAO employeeDAO;
 
+    @Override
+    public void create(Employee employee) throws DAOException {
+        employeeDAO.create(employee);
     }
 
     @Override
     public Employee getById(long id) {
-        return null;
+        return employeeDAO.getById(id);
     }
 
     @Override
     public List<Employee> getAll() {
-        return null;
+        return employeeDAO.getAll();
     }
 
     @Override
-    public Employee getByUsername(String username) {
-        return null;
+    public Employee getByUsername(String username) throws DAOException {
+        return employeeDAO.getByUsername(username);
     }
 
     @Override
-    public void update(Employee employee) {
-
+    public void update(Employee employee) throws DAOException {
+        employeeDAO.update(employee);
     }
 
     @Override
-    public void delete(Employee employee) {
-
+    public void delete(Employee employee) throws DAOException {
+        employeeDAO.delete(employee);
     }
 }

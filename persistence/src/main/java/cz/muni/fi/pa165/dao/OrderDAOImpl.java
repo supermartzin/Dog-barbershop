@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dao;
 
+import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
@@ -7,6 +8,7 @@ import cz.muni.fi.pa165.exceptions.DAOException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -140,6 +142,36 @@ public class OrderDAOImpl implements OrderDAO {
         } catch (PersistenceException pEx) {
             throw new DAOException(pEx);
         }
+    }
+
+    /**
+     * Retrieves all {@link Order} objects from database relating to provided {@link Customer} object
+     *
+     * @param customer       {@link Service} object which relates to searched {@link Order} objects
+     * @return              list of all {@link Order} objects from database relating to provided {@link Customer} object
+     * @throws DAOException when some error occurs during getting {@link Order} objects from database
+     */
+    @Override
+    public List<Order> getByCustomer(Customer customer) throws DAOException {
+        if (customer == null) throw new IllegalArgumentException("Customer cannot be null");
+
+        EntityManager manager = managerFactory.createEntityManager();
+
+        try {
+            return manager.createQuery("SELECT o FROM Order o WHERE customer = :service", Order.class)
+                    .setParameter("customer", customer)
+                    .getResultList();
+        } catch (PersistenceException e) {
+            throw new DAOException(e);
+        }
+    }
+
+    @Override
+    public List<Order> getAllOrdersForDay(LocalDate date) throws DAOException {
+        if (date == null) throw new IllegalArgumentException("Date cannot be null");
+
+        EntityManager manager = managerFactory.createEntityManager();
+        return null;
     }
 
     /**

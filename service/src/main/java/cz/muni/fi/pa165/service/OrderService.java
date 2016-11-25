@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ public interface OrderService {
      *
      * @param order         {@link Order} object to save
      */
-    void create(Order order);
+    void create(Order order) throws DAOException;
 
     /**
      * Retrieves an {@link Order} object with provided <b>ID</b>
@@ -31,14 +32,14 @@ public interface OrderService {
      * @param id            <b>ID</b> number of {@link Order} to retrieve
      * @return              found {@link Order} object
      */
-    Order getById(long id);
+    Order getById(long id) throws DAOException;
 
     /**
      * Retrieves all {@link Order} objects
      *
      * @return              list of all {@link Order} objects
      */
-    List<Order> getAll();
+    List<Order> getAll() throws DAOException;
 
     /**
      * Retrieves all {@link Order} objects relating to provided {@link Dog} object
@@ -46,7 +47,7 @@ public interface OrderService {
      * @param dog           {@link Dog} object which relates to searched {@link Order} objects
      * @return              list of all {@link Order} objects relating to provided {@link Dog} object
      */
-    List<Order> getByDog(Dog dog);
+    List<Order> getByDog(Dog dog) throws DAOException;
 
     /**
      * Retrieves all {@link Order} objects relating to provided {@link Dog} object
@@ -54,7 +55,7 @@ public interface OrderService {
      * @param customer      {@link Customer} object which relates to searched {@link Order} objects
      * @return              list of all {@link Order} objects relating to provided {@link Dog} object
      */
-    List<Order> getByCustomer(Customer customer);
+    List<Order> getByCustomer(Customer customer) throws DAOException;
 
     /**
      * Retrieves all {@link Order} objects for given date
@@ -62,7 +63,7 @@ public interface OrderService {
      * @param date      date to retrieve orders for
      * @return          list of all {@link Order} objects for given date
      */
-    List<Order> getAllOrdersForDay(LocalDate date);
+    List<Order> getAllOrdersForDay(LocalDate date) throws DAOException;
 
     /**
      * Retrieves all {@link Order} objects relating to provided {@link Service} object
@@ -70,21 +71,21 @@ public interface OrderService {
      * @param service       {@link Service} object which relates to searched {@link Order} objects
      * @return              list of all {@link Order} objects relating to provided {@link Service} object
      */
-    List<Order> getByService(Service service);
+    List<Order> getByService(Service service) throws DAOException;
 
     /**
      * Updates attributes of an existing {@link Order} object
      *
      * @param order         {@link Order} object with updated attributes}
      */
-    void update(Order order);
+    void update(Order order) throws DAOException;
 
     /**
      * Deletes an existing {@link Order} entry
      *
      * @param order         {@link Order} object to delete
      */
-    void delete(Order order);
+    void delete(Order order) throws DAOException;
 
     /**
      * Returns sum of prices of all order in given time range
