@@ -50,6 +50,17 @@ public class BeanMappingServiceTest {
     }
 
     @Test
+    public void testMapToNull(){
+
+        Address empty = null;
+
+        AddressDTO result = beanMappingService.mapTo(empty, AddressDTO.class);
+
+        verify(dozer, times(0)).map(any(), any());
+        assertSame(null, result);
+    }
+
+    @Test
     public void testMapToAddressDTOSingle(){
         when(dozer.map(address, AddressDTO.class)).thenReturn(addressDTO);
 

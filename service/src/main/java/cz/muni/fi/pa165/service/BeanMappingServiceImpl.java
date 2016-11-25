@@ -17,13 +17,16 @@ public class BeanMappingServiceImpl implements BeanMappingService {
     public  <T> List<T> mapTo(Collection<?> objects, Class<T> mapToClass) {
         List<T> mappedCollection = new ArrayList<>();
         for (Object object : objects) {
-            mappedCollection.add(dozer.map(object, mapToClass));
+            mappedCollection.add(mapTo(object, mapToClass));
         }
         return mappedCollection;
     }
 
     public  <T> T mapTo(Object u, Class<T> mapToClass)
     {
+        if(u == null) {
+            return null;
+        }
         return dozer.map(u,mapToClass);
     }
     
