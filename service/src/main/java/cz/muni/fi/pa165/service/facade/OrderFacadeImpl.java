@@ -81,7 +81,7 @@ public class OrderFacadeImpl implements OrderFacade {
     }
 
     @Override
-    public BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) {
+    public BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) throws DAOException {
         return orderService.getTotalAmountGained(from, to);
     }
 }

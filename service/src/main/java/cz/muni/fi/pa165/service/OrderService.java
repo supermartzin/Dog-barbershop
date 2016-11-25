@@ -1,15 +1,13 @@
 package cz.muni.fi.pa165.service;
 
-import cz.muni.fi.pa165.entities.Customer;
-import cz.muni.fi.pa165.entities.Dog;
-import cz.muni.fi.pa165.entities.Order;
-import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.entities.*;
 import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service for retrieving {@link Order} objects.
@@ -94,5 +92,15 @@ public interface OrderService {
      * @param to        to time
      * @return          sum of order prices
      */
-    BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to);
+    BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) throws DAOException;
+
+
+    /**
+     * Returns sum of prices of all order in given time range for each employee
+     *
+     * @param from      from time
+     * @param to        to time
+     * @return          sum of order prices
+     */
+    Map<Employee, BigDecimal> getTotalAmountGainedByEmployee(LocalDateTime from, LocalDateTime to) throws DAOException;
 }

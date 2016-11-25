@@ -94,5 +94,5 @@ public interface OrderFacade {
      * @param to        to time
      * @return          sum of order prices
      */
-    BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to);
+    BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) throws DAOException;
 }

@@ -2,16 +2,16 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.CustomerDAO;
 import cz.muni.fi.pa165.dao.OrderDAO;
-import cz.muni.fi.pa165.entities.Customer;
-import cz.muni.fi.pa165.entities.Dog;
-import cz.muni.fi.pa165.entities.Order;
-import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.entities.*;
 import cz.muni.fi.pa165.exceptions.DAOException;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+import java.util.*;
 
 /**
  * {@inheritDoc}
@@ -53,8 +53,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getAllOrdersForDay(LocalDateTime dateTime) throws DAOException {
-        return orderDAO.getAllOrdersForDay(dateTime);
+    public List<Order> getAllOrdersForDay(LocalDate dateTime) throws DAOException {
+        LocalDateTime from = LocalDateTime.from(dateTime);
+        LocalDateTime to = from.plus(1, ChronoUnit.DAYS);
+        return orderDAO.getAllOrdersInTimeRange(from, to);
     }
 
     @Override
@@ -73,7 +75,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) {
-        return null;
+    public BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) throws DAOException {
+        List<Order> orders = orderDAO.getAllOrdersInTimeRange(from, to);
+        BigDecimal total = new BigDecimal("0.0");
+        for(Order order : orders) {
+            total = total.add(order.getService().getPrice());
+        }
+        return total;
+    }
+
+    @Override
+    public Map<Employee, BigDecimal> getTotalAmountGainedByEmployee(LocalDateTime from, LocalDateTime to) throws DAOException {
+        List<Order> orders = orderDAO.getAllOrdersInTimeRange(from, to);
+        Map<Employee, BigDecimal> total = new HashMap<Employee, BigDecimal>();
+        for(Order order : orders) {
+            Employee e = order.getEmployee();
+            if(!total.containsKey(e)) {
+                total.put(e, new BigDecimal("0.0"));
+            }
+            total.put(e, total.get(e).add(order.getService().getPrice()));
+        }
+        return total;
     }
 }

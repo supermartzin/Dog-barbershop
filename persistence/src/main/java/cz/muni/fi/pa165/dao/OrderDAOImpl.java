@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -108,12 +109,13 @@ public class OrderDAOImpl implements OrderDAO {
      * {@inheritDoc}
      */
     @Override
-    public List<Order> getAllOrdersForDay(LocalDateTime dateTime) throws DAOException {
-        if (dateTime == null)
+    public List<Order> getAllOrdersInTimeRange(LocalDateTime from, LocalDateTime to) throws DAOException {
+        if (from == null || to == null)
             throw new IllegalArgumentException("Date cannot be null");
 
-        return manager.createQuery("SELECT ord FROM Order ord WHERE ord.time = :dateTime", Order.class)
-                      .setParameter("dateTime", dateTime)
+        return manager.createQuery("SELECT ord FROM Order ord WHERE ord.time > :from AND ord.time < :to", Order.class)
+                      .setParameter("from", from)
+                      .setParameter("to", to)
                       .getResultList();
     }
 
