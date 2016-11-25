@@ -77,11 +77,11 @@ public class CustomerServiceTest {
 
     @Test
     public void testCreate_customerValid() throws Exception {
-        ArgumentCaptor<Customer> customerCaptor = ArgumentCaptor.forClass(Customer.class);
-        verify(customerDAO, times(1)).create(customerCaptor.capture());
 
         customerService.create(testingCustomer);
 
+        ArgumentCaptor<Customer> customerCaptor = ArgumentCaptor.forClass(Customer.class);
+        verify(customerDAO, times(1)).create(customerCaptor.capture());
         assertDeepEquals(testingCustomer, customerCaptor.getValue());
     }
 
@@ -195,8 +195,6 @@ public class CustomerServiceTest {
 
     @Test
     public void testUpdate_customerValid() throws Exception {
-        ArgumentCaptor<Customer> customerCaptor = ArgumentCaptor.forClass(Customer.class);
-        verify(customerDAO, times(1)).update(customerCaptor.capture());
 
         // update username
         testingCustomer.setUsername("new_username");
@@ -207,6 +205,8 @@ public class CustomerServiceTest {
 
         customerService.update(testingCustomer);
 
+        ArgumentCaptor<Customer> customerCaptor = ArgumentCaptor.forClass(Customer.class);
+        verify(customerDAO, times(1)).update(customerCaptor.capture());
         assertDeepEquals(testingCustomer, customerCaptor.getValue());
     }
 
@@ -228,11 +228,11 @@ public class CustomerServiceTest {
 
     @Test
     public void testDelete_correctCustomerDeleted() throws Exception {
-        ArgumentCaptor<Customer> customerCaptor = ArgumentCaptor.forClass(Customer.class);
-        verify(customerDAO, times(1)).delete(customerCaptor.capture());
 
         customerService.delete(testingCustomer);
 
+        ArgumentCaptor<Customer> customerCaptor = ArgumentCaptor.forClass(Customer.class);
+        verify(customerDAO, times(1)).delete(customerCaptor.capture());
         assertDeepEquals(testingCustomer, customerCaptor.getValue());
     }
 

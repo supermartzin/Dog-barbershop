@@ -67,11 +67,10 @@ public class EmployeeServiceTest {
 
     @Test
     public void testCreate_employeeValid() throws Exception {
-        ArgumentCaptor<Employee> employeeCaptor = ArgumentCaptor.forClass(Employee.class);
-        verify(employeeDAO, times(1)).create(employeeCaptor.capture());
-
         employeeService.create(testingEmployee);
 
+        ArgumentCaptor<Employee> employeeCaptor = ArgumentCaptor.forClass(Employee.class);
+        verify(employeeDAO, times(1)).create(employeeCaptor.capture());
         assertDeepEquals(testingEmployee, employeeCaptor.getValue());
     }
 
@@ -184,8 +183,6 @@ public class EmployeeServiceTest {
 
     @Test
     public void testUpdate_employeeValid() throws Exception {
-        ArgumentCaptor<Employee> employeeCaptor = ArgumentCaptor.forClass(Employee.class);
-        verify(employeeDAO, times(1)).update(employeeCaptor.capture());
 
         // update username
         testingEmployee.setUsername("new_username");
@@ -196,6 +193,8 @@ public class EmployeeServiceTest {
 
         employeeService.update(testingEmployee);
 
+        ArgumentCaptor<Employee> employeeCaptor = ArgumentCaptor.forClass(Employee.class);
+        verify(employeeDAO, times(1)).update(employeeCaptor.capture());
         assertDeepEquals(testingEmployee, employeeCaptor.getValue());
     }
 
@@ -217,11 +216,11 @@ public class EmployeeServiceTest {
 
     @Test
     public void testDelete_correctEmployeeDeleted() throws Exception {
-        ArgumentCaptor<Employee> employeeCaptor = ArgumentCaptor.forClass(Employee.class);
-        verify(employeeDAO, times(1)).delete(employeeCaptor.capture());
 
         employeeService.delete(testingEmployee);
 
+        ArgumentCaptor<Employee> employeeCaptor = ArgumentCaptor.forClass(Employee.class);
+        verify(employeeDAO, times(1)).delete(employeeCaptor.capture());
         assertDeepEquals(testingEmployee, employeeCaptor.getValue());
     }
 
