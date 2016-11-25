@@ -24,6 +24,14 @@ public class AddressDTO {
     public AddressDTO() {
     }
 
+    public AddressDTO(String street, int number, String city, int postalCode, String country) {
+        this.street = street;
+        this.number = number;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.country = country;
+    }
+
     public long getId() {
         return id;
     }
