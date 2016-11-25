@@ -7,7 +7,11 @@ import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.facade.OrderFacade;
+import cz.muni.fi.pa165.service.BeanMappingService;
+import cz.muni.fi.pa165.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,53 +26,62 @@ import java.util.List;
  */
 public class OrderFacadeImpl implements OrderFacade {
 
-    @Override
-    public void create(OrderDTO order) {
+    @Autowired
+    private OrderService orderService;
 
+    @Autowired
+    private BeanMappingService beanMappingService;
+
+    @Override
+    public void create(OrderDTO service) throws DAOException {
+        Order orderEntity = beanMappingService.mapTo(service, Order.class);
+        orderService.create(orderEntity);
     }
 
     @Override
-    public OrderDTO getById(long id) {
-        return null;
+    public OrderDTO getById(long id) throws DAOException {
+        return beanMappingService.mapTo(orderService.getById(id), OrderDTO.class);
     }
 
     @Override
-    public List<OrderDTO> getAll() {
-        return null;
+    public List<OrderDTO> getAll() throws DAOException {
+        return beanMappingService.mapTo(orderService.getAll(), OrderDTO.class);
     }
 
     @Override
-    public List<OrderDTO> getByDog(DogDTO dog) {
-        return null;
+    public List<OrderDTO> getByDog(DogDTO dog) throws DAOException {
+        return beanMappingService.mapTo(orderService.getByDog(beanMappingService.mapTo(dog, Dog.class)), OrderDTO.class);
     }
 
     @Override
-    public List<OrderDTO> getByCustomer(Customer customer) {
-        return null;
+    public List<OrderDTO> getByCustomer(Customer customer) throws DAOException {
+        return beanMappingService.mapTo(orderService.getByCustomer(beanMappingService.mapTo(customer, Customer.class)), OrderDTO.class);
     }
 
     @Override
-    public List<OrderDTO> getAllOrderDTOsForDay(LocalDate date) {
-        return null;
+    public List<OrderDTO> getAllOrdersForDay(LocalDate date) throws DAOException {
+        return beanMappingService.mapTo(orderService.getAllOrdersForDay(date), OrderDTO.class);
     }
 
     @Override
-    public List<OrderDTO> getByService(ServiceDTO service) {
-        return null;
+    public List<OrderDTO> getByService(ServiceDTO service) throws DAOException {
+        return beanMappingService.mapTo(orderService.getByService(beanMappingService.mapTo(service, Service.class)), OrderDTO.class);
     }
 
     @Override
-    public void update(OrderDTO order) {
-
+    public void update(OrderDTO service) throws DAOException {
+        Order orderEntity = beanMappingService.mapTo(service, Order.class);
+        orderService.update(orderEntity);
     }
 
     @Override
-    public void delete(OrderDTO order) {
-
+    public void delete(OrderDTO service) throws DAOException {
+        Order orderEntity = beanMappingService.mapTo(service, Order.class);
+        orderService.delete(orderEntity);
     }
 
     @Override
     public BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) {
-        return null;
+        return orderService.getTotalAmountGained(from, to);
     }
 }

@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.facade;
 
 
 import cz.muni.fi.pa165.dto.CustomerDTO;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface CustomerFacade {
      * @param customer                  {@link CustomerDTO} object to save
      * @throws IllegalArgumentException when {@code customer} is {@code null}
      */
-    void create(CustomerDTO customer);
+    void create(CustomerDTO customer) throws DAOException;
 
     /**
      * Retrieves a {@link CustomerDTO} object with provided <b>ID</b>.
@@ -37,14 +38,14 @@ public interface CustomerFacade {
      * @return                          found {@link CustomerDTO} object or {@link null} if <b>username</b> not found
      * @throws IllegalArgumentException when {@code username} is {@code null
      */
-    CustomerDTO getByUsername(String username);
+    CustomerDTO getByUsername(String username) throws DAOException;
 
     /**
      * Retrieves all {@link CustomerDTO} objects.
      *
      * @return              list with all {@link CustomerDTO} objects or <b>empty list</b> if there are no entries
      */
-    List<CustomerDTO> getAll();
+    List<CustomerDTO> getAll() throws DAOException;
 
     /**
      * Updates attributes of an existing {@link CustomerDTO} object.
@@ -52,7 +53,7 @@ public interface CustomerFacade {
      * @param customer                  {@link CustomerDTO} object with updated attributes
      * @throws IllegalArgumentException when {@code customer} is {@code null}
      */
-    void update(CustomerDTO customer);
+    void update(CustomerDTO customer) throws DAOException;
 
     /**
      * Deletes an existing {@link CustomerDTO} entry from database.
@@ -60,5 +61,5 @@ public interface CustomerFacade {
      * @param customer                  {@link CustomerDTO} object to delete from database
      * @throws IllegalArgumentException when {@code customer} is {@code null}
      */
-    void delete(CustomerDTO customer);
+    void delete(CustomerDTO customer) throws DAOException;
 }

@@ -17,7 +17,7 @@ public interface EmployeeFacade {
      *
      * @param employee {@link EmployeeDTO} object to save
      */
-    void create(EmployeeDTO employee);
+    void create(EmployeeDTO employee) throws DAOException;
 
     /**
      * Retrieves a {@see EmployeeDTO} object with provided <b>ID</b>
@@ -32,7 +32,7 @@ public interface EmployeeFacade {
      *
      * @return list of all {@link EmployeeDTO} objects
      */
-    List<EmployeeDTO> getAll();
+    List<EmployeeDTO> getAll() throws DAOException;
 
     /**
      * Retrieves a {@link EmployeeDTO} object which has provided <b>username</b>
@@ -41,19 +41,19 @@ public interface EmployeeFacade {
      * @return found {@link EmployeeDTO} object or {@link null} if <b>username</b> not found
      * @throws IllegalArgumentException for {@link null} or empty username
      */
-    EmployeeDTO getByUsername(String username);
+    EmployeeDTO getByUsername(String username) throws DAOException;
 
     /**
      * Updates attributes of an existing {@link EmployeeDTO} object
      *
      * @param employee {@link EmployeeDTO} object with updated attributes
      */
-    void update(EmployeeDTO employee);
+    void update(EmployeeDTO employee) throws DAOException;
 
     /**
      * Deletes an existing {@link EmployeeDTO} entry
      *
      * @param employee {@link EmployeeDTO} object to delete
      */
-    void delete(EmployeeDTO employee);
+    void delete(EmployeeDTO employee) throws DAOException;
 }

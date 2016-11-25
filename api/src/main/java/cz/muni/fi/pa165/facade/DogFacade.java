@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.dto.DogDTO;
 import cz.muni.fi.pa165.entities.Customer;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface DogFacade {
      * @param dog                       {@link DogDTO} object to save
      * @throws IllegalArgumentException when {@code dog} is {@code null}
      */
-    void create(DogDTO dog);
+    void create(DogDTO dog) throws DAOException;
 
     /**
      * Retrieves a {@see DogDTO} object with provided <b>ID</b>.
@@ -35,7 +36,7 @@ public interface DogFacade {
      * @return              list with all {@link DogDTO} objects
      *                      or <b>empty list</b> if there is no entry in database
      */
-    List<DogDTO> getAll();
+    List<DogDTO> getAll() throws DAOException;
 
     /**
      * Retrieves all {@link DogDTO} objects for {@link Customer}.
@@ -52,7 +53,7 @@ public interface DogFacade {
      * @param dog                       {@link DogDTO} object with updated attributes
      * @throws IllegalArgumentException when {@code dog} is {@code null}
      */
-    void update(DogDTO dog);
+    void update(DogDTO dog) throws DAOException;
 
     /**
      * Deletes an existing {@link DogDTO} entry.
@@ -60,5 +61,5 @@ public interface DogFacade {
      * @param dog                       {@link DogDTO} object to delete
      * @throws IllegalArgumentException when {@code dog} is {@code null}
      */
-    void delete(DogDTO dog);
+    void delete(DogDTO dog) throws DAOException;
 }
