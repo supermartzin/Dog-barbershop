@@ -1,12 +1,11 @@
 package cz.muni.fi.pa165.dao;
 
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -61,16 +60,12 @@ public interface OrderDAO {
     List<Order> getByService(Service service) throws DAOException;
 
     /**
-     * Retrieves all {@link Order} objects from database relating to provided {@link Customer} object
-     *
-     * @param customer       {@link Service} object which relates to searched {@link Order} objects
-     * @return              list of all {@link Order} objects from database relating to provided {@link Customer} object
+     * Retrieves all {@link Order} objects from database that where created at specific {@link LocalDateTime
+     * @param dateTime      {@link LocalDateTime} of demanded {@link Order} objects
+     * @return              list of all {@link Order} object with provided {@link LocalDateTime}
      * @throws DAOException when some error occurs during getting {@link Order} objects from database
      */
-    List<Order> getByCustomer(Customer customer) throws DAOException;
-
-
-    List<Order> getAllOrdersForDay(LocalDate date) throws DAOException;
+    List<Order> getAllOrdersForDay(LocalDateTime dateTime) throws DAOException;
 
     /**
      * Updates attributes of an existing {@link Order} object in database

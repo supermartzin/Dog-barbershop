@@ -135,8 +135,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
             // delete in database
             manager.remove(em);
-        } catch (PersistenceException e) {
-            throw new DAOException(e);
+        } catch (PersistenceException ex) {
+            throw new DAOException(ex);
         }
     }
 }

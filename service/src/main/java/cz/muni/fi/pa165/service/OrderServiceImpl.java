@@ -10,7 +10,6 @@ import cz.muni.fi.pa165.exceptions.DAOException;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,12 +49,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getByCustomer(Customer customer) throws DAOException {
-        return orderDAO.getByCustomer(customer);
+        return null;
     }
 
     @Override
-    public List<Order> getAllOrdersForDay(LocalDate date) throws DAOException {
-        return orderDAO.getAllOrdersForDay(date);
+    public List<Order> getAllOrdersForDay(LocalDateTime dateTime) throws DAOException {
+        return orderDAO.getAllOrdersForDay(dateTime);
     }
 
     @Override

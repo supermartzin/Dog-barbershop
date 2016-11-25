@@ -7,7 +7,6 @@ import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -60,10 +59,10 @@ public interface OrderService {
     /**
      * Retrieves all {@link Order} objects for given date
      *
-     * @param date      date to retrieve orders for
-     * @return          list of all {@link Order} objects for given date
+     * @param dateTime      date to retrieve orders for
+     * @return              list of all {@link Order} objects for given date
      */
-    List<Order> getAllOrdersForDay(LocalDate date) throws DAOException;
+    List<Order> getAllOrdersForDay(LocalDateTime dateTime) throws DAOException;
 
     /**
      * Retrieves all {@link Order} objects relating to provided {@link Service} object
