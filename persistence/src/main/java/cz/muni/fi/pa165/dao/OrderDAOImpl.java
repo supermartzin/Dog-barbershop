@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.exceptions.ValidationException;
 import cz.muni.fi.pa165.validation.EntityValidator;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
@@ -28,6 +29,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     private final EntityValidator validator;
 
+    @Inject
     public OrderDAOImpl(EntityValidator entityValidator) {
         if (entityValidator == null)
             throw new IllegalArgumentException("Entity Validator is null");

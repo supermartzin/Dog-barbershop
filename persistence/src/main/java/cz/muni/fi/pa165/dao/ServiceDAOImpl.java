@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.exceptions.ValidationException;
 import cz.muni.fi.pa165.validation.EntityValidator;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import javax.persistence.*;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class ServiceDAOImpl implements ServiceDAO {
 
     private final EntityValidator validator;
 
+    @Inject
     public ServiceDAOImpl(EntityValidator entityValidator) {
         if (entityValidator == null)
             throw new IllegalArgumentException("Entity Validator is null");

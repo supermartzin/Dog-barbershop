@@ -5,11 +5,11 @@
 
     <bean id="customerService" class="cz.muni.fi.pa165.service.CustomerServiceImpl" />
 
-    <bean id="serviceService" class="cz.muni.fi.pa165.service.CustomerServiceImpl" />
+    <bean id="serviceService" class="cz.muni.fi.pa165.service.ServiceServiceImpl" />
 
-    <bean id="dogService" class="cz.muni.fi.pa165.service.CustomerServiceImpl" />
+    <bean id="dogService" class="cz.muni.fi.pa165.service.DogServiceImpl" />
 
-    <bean id="employeeService" class="cz.muni.fi.pa165.service.CustomerServiceImpl" />
+    <bean id="employeeService" class="cz.muni.fi.pa165.service.EmployeeServiceImpl" />
 
-    <bean id="orderService" class="cz.muni.fi.pa165.service.CustomerServiceImpl" />
+    <bean id="orderService" class="cz.muni.fi.pa165.service.OrderServiceImpl" />
 </beans>
