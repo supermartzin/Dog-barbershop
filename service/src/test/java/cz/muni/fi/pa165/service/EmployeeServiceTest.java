@@ -3,33 +3,35 @@ package cz.muni.fi.pa165.service;
 import cz.muni.fi.pa165.dao.EmployeeDAO;
 import cz.muni.fi.pa165.entities.Address;
 import cz.muni.fi.pa165.entities.Employee;
-import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.DAOException;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 /**
  * Tests for correct contract implementation defined by {@link EmployeeService} interface
  *
  * @author Dominik Gmiterko
  */
+@Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
 public class EmployeeServiceTest {
@@ -37,7 +39,7 @@ public class EmployeeServiceTest {
     @Mock
     private EmployeeDAO employeeDAO;
 
-    @Autowired
+    @Inject
     @InjectMocks
     private EmployeeService employeeService;
 

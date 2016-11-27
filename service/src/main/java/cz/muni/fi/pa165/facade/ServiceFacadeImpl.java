@@ -1,13 +1,12 @@
-package cz.muni.fi.pa165.service.facade;
+package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.dto.ServiceDTO;
 import cz.muni.fi.pa165.entities.Service;
-import cz.muni.fi.pa165.facade.ServiceFacade;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.ServiceService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -16,16 +15,20 @@ import java.util.List;
  * @author Dominik Gmiterko
  */
 @Transactional
+@org.springframework.stereotype.Service
 public class ServiceFacadeImpl implements ServiceFacade {
 
-    @Autowired
+    @Inject
     private ServiceService serviceService;
 
-    @Autowired
+    @Inject
     private BeanMappingService beanMappingService;
 
     @Override
     public void create(ServiceDTO service) {
+        if (service == null)
+            throw new IllegalArgumentException("Service is null");
+
         Service serviceEntity = beanMappingService.mapTo(service, Service.class);
         serviceService.create(serviceEntity);
     }

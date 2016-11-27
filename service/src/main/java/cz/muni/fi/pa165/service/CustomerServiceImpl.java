@@ -1,9 +1,9 @@
 package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.CustomerDAO;
-import cz.muni.fi.pa165.dao.EmployeeDAO;
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.exceptions.DAOException;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -13,10 +13,15 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
+@Service
 public class CustomerServiceImpl implements CustomerService {
 
+    private final CustomerDAO customerDAO;
+
     @Inject
-    private CustomerDAO customerDAO;
+    public CustomerServiceImpl(CustomerDAO customerDAO) {
+        this.customerDAO = customerDAO;
+    }
 
     @Override
     public void create(Customer customer) throws DAOException {

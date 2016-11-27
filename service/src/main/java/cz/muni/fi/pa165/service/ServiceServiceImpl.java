@@ -9,6 +9,7 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
+@org.springframework.stereotype.Service
 public class ServiceServiceImpl implements ServiceService {
 
     @Override

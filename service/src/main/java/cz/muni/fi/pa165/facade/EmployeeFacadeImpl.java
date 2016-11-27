@@ -1,15 +1,14 @@
-package cz.muni.fi.pa165.service.facade;
+package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.dto.EmployeeDTO;
-import cz.muni.fi.pa165.dto.EmployeeDTO;
-import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.exceptions.DAOException;
-import cz.muni.fi.pa165.facade.EmployeeFacade;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -18,12 +17,14 @@ import java.util.List;
  * @author Denis Richtarik
  * @version 25.10.2016
  */
+@Service
+@Transactional
 public class EmployeeFacadeImpl implements EmployeeFacade {
 
-    @Autowired
+    @Inject
     private EmployeeService employeeService;
 
-    @Autowired
+    @Inject
     private BeanMappingService beanMappingService;
 
     @Override

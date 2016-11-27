@@ -1,16 +1,14 @@
-package cz.muni.fi.pa165.customer.facade;
+package cz.muni.fi.pa165.facade;
 
-import cz.muni.fi.pa165.dto.CustomerDTO;
 import cz.muni.fi.pa165.dto.CustomerDTO;
 import cz.muni.fi.pa165.entities.Customer;
-import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
-import cz.muni.fi.pa165.facade.CustomerFacade;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.CustomerService;
-import cz.muni.fi.pa165.service.ServiceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -18,12 +16,14 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
+@Service
+@Transactional
 public class CustomerFacadeImpl implements CustomerFacade {
 
-    @Autowired
+    @Inject
     private CustomerService customerService;
 
-    @Autowired
+    @Inject
     private BeanMappingService beanMappingService;
 
     @Override

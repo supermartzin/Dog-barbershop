@@ -6,11 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -22,12 +19,9 @@ import static org.junit.Assert.*;
 /**
  * @author Dominik Gmiterko
  */
-@Transactional
-@Rollback(false)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
-public class ServiceFacadeImplTest {
+public class ServiceFacadeTest {
 
     @Inject
     private ServiceFacade serviceFacade;
@@ -56,7 +50,6 @@ public class ServiceFacadeImplTest {
 
     @Test
     public void getById() throws Exception {
-
         ServiceDTO result = serviceFacade.getById(1);
 
         assertNull(result);
@@ -69,7 +62,6 @@ public class ServiceFacadeImplTest {
 
     @Test
     public void getAll() throws Exception {
-
         List<ServiceDTO> result = serviceFacade.getAll();
 
         assertNotNull(result);

@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.service;
 import cz.muni.fi.pa165.dao.EmployeeDAO;
 import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.exceptions.DAOException;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -13,10 +14,15 @@ import java.util.List;
  * @author Denis Richtarik
  * @version 25.10.2016
  */
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+    private final EmployeeDAO employeeDAO;
+
     @Inject
-    private EmployeeDAO employeeDAO;
+    public EmployeeServiceImpl(EmployeeDAO employeeDAO) {
+        this.employeeDAO = employeeDAO;
+    }
 
     @Override
     public void create(Employee employee) throws DAOException {

@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
+@Service
 public class DogServiceImpl implements DogService {
 
     @Override

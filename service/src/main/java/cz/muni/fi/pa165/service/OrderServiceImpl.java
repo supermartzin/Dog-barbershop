@@ -10,8 +10,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * {@inheritDoc}
@@ -19,13 +20,18 @@ import java.util.*;
  * @author Martin Vrábel
  * @version 31.10.2016 0:18
  */
+@org.springframework.stereotype.Service
 public class OrderServiceImpl implements OrderService {
 
-    @Inject
-    private OrderDAO orderDAO;
+    private final OrderDAO orderDAO;
+
+    private final CustomerDAO customerDAO;
 
     @Inject
-    private CustomerDAO customerDAO;
+    public OrderServiceImpl(OrderDAO orderDAO, CustomerDAO customerDAO) {
+        this.orderDAO = orderDAO;
+        this.customerDAO = customerDAO;
+    }
 
     @Override
     public void create(Order order) throws DAOException {
@@ -87,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Map<Employee, BigDecimal> getTotalAmountGainedByEmployee(LocalDateTime from, LocalDateTime to) throws DAOException {
         List<Order> orders = orderDAO.getAllOrdersInTimeRange(from, to);
-        Map<Employee, BigDecimal> total = new HashMap<Employee, BigDecimal>();
+        Map<Employee, BigDecimal> total = new HashMap<>();
         for(Order order : orders) {
             Employee e = order.getEmployee();
             if(!total.containsKey(e)) {

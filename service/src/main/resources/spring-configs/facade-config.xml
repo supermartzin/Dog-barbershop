@@ -3,13 +3,16 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="customerFacade" class="cz.muni.fi.pa165.service.facade.CustomerFacadeImpl" />
+    <bean id="customerFacade" class="cz.muni.fi.pa165.facade.CustomerFacadeImpl" />
 
-    <bean id="serviceFacade" class="cz.muni.fi.pa165.service.facade.ServiceFacadeImpl" />
+    <bean id="serviceFacade" class="cz.muni.fi.pa165.facade.ServiceFacadeImpl" />
 
-    <bean id="dogFacade" class="cz.muni.fi.pa165.service.facade.DogFacadeImpl" />
+    <bean id="dogFacade" class="cz.muni.fi.pa165.facade.DogFacadeImpl" />
 
-    <bean id="employeeFacade" class="cz.muni.fi.pa165.service.facade.EmployeeFacadeImpl" />
+    <bean id="employeeFacade" class="cz.muni.fi.pa165.facade.EmployeeFacadeImpl" />
 
-    <bean id="orderFacade" class="cz.muni.fi.pa165.service.facade.OrderFacadeImpl" />
+    <bean id="orderFacade" class="cz.muni.fi.pa165.facade.OrderFacadeImpl" />
+
+
+
 </beans>

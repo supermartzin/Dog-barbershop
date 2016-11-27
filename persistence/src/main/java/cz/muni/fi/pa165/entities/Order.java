@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Order entity representing a facade provision to customer's dog.
+ * Order entity representing a cz.muni.fi.pa165.facade.facade provision to customer's dog.
  *
  * @author Martin Vrábel
  * @version 23.10.2016 20:40

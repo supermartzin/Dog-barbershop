@@ -98,7 +98,7 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public List<Order> getByService(Service service) throws DAOException {
         if (service == null)
-            throw new IllegalArgumentException("facade is null");
+            throw new IllegalArgumentException("cz.muni.fi.pa165.facade.facade is null");
 
         return manager.createQuery("SELECT ord FROM Order ord WHERE ord.service = :service", Order.class)
                       .setParameter("service", service)

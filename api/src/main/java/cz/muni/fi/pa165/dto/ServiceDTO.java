@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
- * Service entity representing a facade that our Barbershop is providing to customers' dogs
+ * Service entity representing a cz.muni.fi.pa165.facade.facade that our Barbershop is providing to customers' dogs
  *
  * @author Dominik Gmiterko
  */

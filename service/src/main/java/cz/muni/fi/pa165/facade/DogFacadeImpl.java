@@ -1,16 +1,15 @@
-package cz.muni.fi.pa165.service.facade;
+package cz.muni.fi.pa165.facade;
 
-import cz.muni.fi.pa165.dto.DogDTO;
 import cz.muni.fi.pa165.dto.DogDTO;
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
-import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.DAOException;
-import cz.muni.fi.pa165.facade.DogFacade;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.DogService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -18,13 +17,14 @@ import java.util.List;
  *
  * @author Martin Vrábel
  */
+@Service
+@Transactional
 public class DogFacadeImpl implements DogFacade {
 
-
-    @Autowired
+    @Inject
     private DogService dogService;
 
-    @Autowired
+    @Inject
     private BeanMappingService beanMappingService;
 
     @Override

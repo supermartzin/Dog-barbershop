@@ -3,8 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="beanMappingService" class="cz.muni.fi.pa165.service.BeanMappingServiceImpl" />
-
     <bean id="customerService" class="cz.muni.fi.pa165.service.CustomerServiceImpl" />
 
     <bean id="serviceService" class="cz.muni.fi.pa165.service.ServiceServiceImpl" />
@@ -14,7 +12,5 @@
     <bean id="employeeService" class="cz.muni.fi.pa165.service.EmployeeServiceImpl" />
 
     <bean id="orderService" class="cz.muni.fi.pa165.service.OrderServiceImpl" />
-
-    <bean id="mapper" class="org.dozer.DozerBeanMapper" />
 
 </beans>

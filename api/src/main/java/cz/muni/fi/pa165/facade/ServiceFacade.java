@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.dto.ServiceDTO;
-import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface ServiceFacade {
      * Creates new entry from provided {@link ServiceDTO} object.
      *
      * @param service                   {@link ServiceDTO} object to save
-     * @throws IllegalArgumentException when {@code facade} is {@code null}
+     * @throws IllegalArgumentException when {@code cz.muni.fi.pa165.facade.facade} is {@code null}
      */
     void create(ServiceDTO service);
 
@@ -41,7 +40,7 @@ public interface ServiceFacade {
      * Updates attributes of an existing {@link ServiceDTO} object.
      *
      * @param service                   {@link ServiceDTO} object with updated attributes
-     * @throws IllegalArgumentException when {@code facade} is {@code null}
+     * @throws IllegalArgumentException when {@code cz.muni.fi.pa165.facade.facade} is {@code null}
      */
     void update(ServiceDTO service);
 
@@ -49,7 +48,7 @@ public interface ServiceFacade {
      * Deletes an existing {@link ServiceDTO} entry.
      *
      * @param service                   {@link ServiceDTO} object to delete
-     * @throws IllegalArgumentException when {@code facade} is {@code null}
+     * @throws IllegalArgumentException when {@code cz.muni.fi.pa165.facade.facade} is {@code null}
      */
     void delete(ServiceDTO service);
 }
