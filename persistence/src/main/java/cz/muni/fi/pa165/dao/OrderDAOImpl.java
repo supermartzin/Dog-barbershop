@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Dog;
+import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
@@ -65,7 +66,7 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public Order getById(long id) throws DAOException {
         if (id < 0)
-            throw new IllegalArgumentException("Order ID must be positive integral number");
+            throw new IllegalArgumentException("Order ID must be positive number");
 
         return manager.find(Order.class, id);
     }
@@ -98,7 +99,7 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public List<Order> getByService(Service service) throws DAOException {
         if (service == null)
-            throw new IllegalArgumentException("cz.muni.fi.pa165.facade.facade is null");
+            throw new IllegalArgumentException("service is null");
 
         return manager.createQuery("SELECT ord FROM Order ord WHERE ord.service = :service", Order.class)
                       .setParameter("service", service)
@@ -109,13 +110,28 @@ public class OrderDAOImpl implements OrderDAO {
      * {@inheritDoc}
      */
     @Override
+    public List<Order> getByEmployee(Employee employee) throws DAOException {
+        if (employee == null)
+            throw new IllegalArgumentException("employee is null");
+
+        return manager.createQuery("SELECT ord FROM Order ord WHERE ord.employee = :employee", Order.class)
+                      .setParameter("employee", employee)
+                      .getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<Order> getAllOrdersInTimeRange(LocalDateTime from, LocalDateTime to) throws DAOException {
         if (from == null || to == null)
             throw new IllegalArgumentException("Date cannot be null");
+        if (to.isBefore(from))
+            throw new IllegalArgumentException("Date to is lower than date from");
 
-        return manager.createQuery("SELECT ord FROM Order ord WHERE ord.time > :from AND ord.time < :to", Order.class)
-                      .setParameter("from", from)
-                      .setParameter("to", to)
+        return manager.createQuery("SELECT ord FROM Order ord WHERE ord.time > :dateFrom AND ord.time < :dateTo", Order.class)
+                      .setParameter("dateFrom", from)
+                      .setParameter("dateTo", to)
                       .getResultList();
     }
 

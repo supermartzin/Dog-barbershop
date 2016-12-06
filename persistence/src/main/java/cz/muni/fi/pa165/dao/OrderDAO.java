@@ -1,11 +1,11 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entities.Dog;
+import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -59,6 +59,15 @@ public interface OrderDAO {
      * @throws DAOException when some error occurs during getting {@link Order} objects from database
      */
     List<Order> getByService(Service service) throws DAOException;
+
+    /**
+     * Retrieves all {@link Order} objects from database related to provided {@link Employee} object
+     *
+     * @param employee      {@link Employee} object which relates to serached {@link Order} objects
+     * @return              list of all {@link Order} objects from database related to provided {@link Employee} object
+     * @throws DAOException when some error occurs during getting {@link Order} objects from database
+     */
+    List<Order> getByEmployee(Employee employee) throws DAOException;
 
     /**
      * Retrieves all {@link Order} objects from database that where created in specifica time range

@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,20 +16,16 @@ import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
  * Tests for correct contract implementation defined by {@link ServiceDAO} interface
  *
  * @author Domink Gmiterko
  */
-@Rollback(false)
 @Transactional
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
+@ContextConfiguration(locations = {"classpath:persistence-config.xml"})
 public class ServiceDAOTest {
 
     @PersistenceContext
@@ -43,44 +37,44 @@ public class ServiceDAOTest {
     private Service testingService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws DAOException {
         testingService = new Service("testingService", 45, BigDecimal.valueOf(150));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreate_serviceNull() throws Exception {
+    public void testCreate_serviceNull() throws DAOException {
         serviceDAO.create(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_titleInvalid() throws Exception {
+    public void testCreate_titleInvalid() throws DAOException {
         testingService.setTitle(null);
 
         serviceDAO.create(testingService);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_lengthInvalid() throws Exception {
+    public void testCreate_lengthInvalid() throws DAOException {
         testingService.setLength(-15);
 
         serviceDAO.create(testingService);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_priceInvalid() throws Exception {
+    public void testCreate_priceInvalid() throws DAOException {
         testingService.setPrice(null);
 
         serviceDAO.create(testingService);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_serviceAlreadyExists() throws Exception {
+    public void testCreate_serviceAlreadyExists() throws DAOException {
         serviceDAO.create(testingService);
         serviceDAO.create(testingService);
     }
 
     @Test
-    public void testCreate_serviceValid() throws Exception {
+    public void testCreate_serviceValid() throws DAOException {
         serviceDAO.create(testingService);
 
         Assert.assertTrue(testingService.getId() > 0);
@@ -92,19 +86,19 @@ public class ServiceDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetById_idInvalid() throws Exception {
+    public void testGetById_idInvalid() throws DAOException {
         serviceDAO.getById(-5);
     }
 
     @Test
-    public void testGetById_serviceDoesNotExist() throws Exception {
+    public void testGetById_serviceDoesNotExist() throws DAOException {
         Service service = serviceDAO.getById(500);
 
         Assert.assertNull(service);
     }
 
     @Test
-    public void testGetById_serviceValid() throws Exception {
+    public void testGetById_serviceValid() throws DAOException {
         manager.persist(testingService);
 
         Service service = serviceDAO.getById(testingService.getId());
@@ -114,7 +108,7 @@ public class ServiceDAOTest {
     }
 
     @Test
-    public void testGetAll_noServices() throws Exception {
+    public void testGetAll_noServices() throws DAOException {
         List<Service> allServices = serviceDAO.getAll();
 
         Assert.assertNotNull(allServices);
@@ -122,7 +116,7 @@ public class ServiceDAOTest {
     }
 
     @Test
-    public void testGetAll_servicesExist() throws Exception {
+    public void testGetAll_servicesExist() throws DAOException {
         Service service = new Service("Another testing service", 120, BigDecimal.valueOf(550));
 
         manager.persist(testingService);
@@ -137,18 +131,17 @@ public class ServiceDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUpdate_serviceNull() throws Exception {
+    public void testUpdate_serviceNull() throws DAOException {
         serviceDAO.update(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_serviceDoesNotExist() throws Exception {
+    public void testUpdate_serviceDoesNotExist() throws DAOException {
         serviceDAO.update(testingService);
     }
 
-    @Rollback
     @Test(expected = DAOException.class)
-    public void testUpdate_titleInvalid() throws Exception {
+    public void testUpdate_titleInvalid() throws DAOException {
         manager.persist(testingService);
 
         testingService.setTitle(null);
@@ -156,9 +149,8 @@ public class ServiceDAOTest {
         serviceDAO.update(testingService);
     }
 
-    @Rollback
     @Test(expected = DAOException.class)
-    public void testUpdate_lengthInvalid() throws Exception {
+    public void testUpdate_lengthInvalid() throws DAOException {
         manager.persist(testingService);
 
         testingService.setLength(-5);
@@ -166,9 +158,8 @@ public class ServiceDAOTest {
         serviceDAO.update(testingService);
     }
 
-    @Rollback
     @Test(expected = DAOException.class)
-    public void testUpdate_priceInvalid() throws Exception {
+    public void testUpdate_priceInvalid() throws DAOException {
         manager.persist(testingService);
 
         testingService.setPrice(null);
@@ -177,7 +168,7 @@ public class ServiceDAOTest {
     }
 
     @Test
-    public void testUpdate_serviceValid() throws Exception {
+    public void testUpdate_serviceValid() throws DAOException {
         manager.persist(testingService);
 
         testingService.setTitle("Another testing service");
@@ -193,18 +184,17 @@ public class ServiceDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testDelete_serviceNull() throws Exception {
+    public void testDelete_serviceNull() throws DAOException {
         serviceDAO.delete(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testDelete_serviceDoesNotExist() throws Exception {
+    public void testDelete_serviceDoesNotExist() throws DAOException {
         serviceDAO.delete(testingService);
     }
 
     @Test
-    @Rollback
-    public void testDelete_correctServiceDeleted() throws Exception {
+    public void testDelete_correctServiceDeleted() throws DAOException {
         Service service = new Service("Another testring service", 70, BigDecimal.valueOf(300));
 
         manager.persist(testingService);

@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  * @author Dominik Gmiterko
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
+@ContextConfiguration(locations = {"classpath:api-config.xml"})
 public class ServiceFacadeTest {
 
     @Inject

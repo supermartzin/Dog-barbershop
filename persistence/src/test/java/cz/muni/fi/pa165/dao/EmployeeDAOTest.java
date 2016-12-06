@@ -7,8 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,10 +29,8 @@ import static org.junit.Assert.assertEquals;
  * @version 25.10.2016
  */
 @Transactional
-@Rollback(false)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
+@ContextConfiguration(locations = {"classpath:persistence-config.xml"})
 public class EmployeeDAOTest {
 
     @PersistenceContext
@@ -46,14 +42,14 @@ public class EmployeeDAOTest {
     private Employee testEmployee;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws DAOException {
         testEmployee = new Employee("testerUsr", "testpass", "Den", "Rich",
                 new Address("Street", 32, "Townsville", 91101, "Island"),
                 "some@one.you", "555444333", new BigDecimal("2000"));
     }
 
     @Test
-    public void testGetByUsername_employeeDoesNotExist() throws Exception {
+    public void testGetByUsername_employeeDoesNotExist() throws DAOException {
         String username = "testing";
 
         Employee employee = employeeDAO.getByUsername(username);
@@ -62,7 +58,7 @@ public class EmployeeDAOTest {
     }
 
     @Test
-    public void testCreate_employeeValid() throws Exception {
+    public void testCreate_employeeValid() throws DAOException {
         employeeDAO.create(testEmployee);
 
         Assert.assertTrue(testEmployee.getId() >= 0);
@@ -74,33 +70,33 @@ public class EmployeeDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreate_employeeNull() throws Exception {
+    public void testCreate_employeeNull() throws DAOException {
         employeeDAO.create(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_usernameNotSet() throws Exception {
+    public void testCreate_usernameNotSet() throws DAOException {
         testEmployee.setUsername(null);
 
         employeeDAO.create(testEmployee);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_passwordNotSet() throws Exception {
+    public void testCreate_passwordNotSet() throws DAOException {
         testEmployee.setPassword(null);
 
         employeeDAO.create(testEmployee);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_passwordInvalid() throws Exception {
+    public void testCreate_passwordInvalid() throws DAOException {
         String password = "pass";
         testEmployee.setPassword(password);
         employeeDAO.create(testEmployee);
     }
 
     @Test
-    public void testCreate_addressNull() throws Exception {
+    public void testCreate_addressNull() throws DAOException {
         testEmployee.setAddress(null);
 
         employeeDAO.create(testEmployee);
@@ -113,21 +109,21 @@ public class EmployeeDAOTest {
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_emailInvalid() throws Exception {
+    public void testCreate_emailInvalid() throws DAOException {
         String email = "this is invalid @mail";
         testEmployee.setEmail(email);
         employeeDAO.create(testEmployee);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetById_idInvalid() throws Exception {
+    public void testGetById_idInvalid() throws DAOException {
         long id = -1;
 
         employeeDAO.getById(id);
     }
 
     @Test
-    public void testGetById_employeeDoesNotExists() throws Exception {
+    public void testGetById_employeeDoesNotExists() throws DAOException {
         long id = 100;
 
         Employee retrievedEmployee = employeeDAO.getById(id);
@@ -136,7 +132,7 @@ public class EmployeeDAOTest {
     }
 
     @Test
-    public void testGetById_employeeValid() throws Exception {
+    public void testGetById_employeeValid() throws DAOException {
         // create employee in database
         manager.persist(testEmployee);
 
@@ -148,7 +144,7 @@ public class EmployeeDAOTest {
     }
 
     @Test
-    public void testGetAll_noEmployees() throws Exception {
+    public void testGetAll_noEmployees() throws DAOException {
         List<Employee> allEmployees = employeeDAO.getAll();
 
         Assert.assertNotNull(allEmployees);
@@ -156,7 +152,7 @@ public class EmployeeDAOTest {
     }
 
     @Test
-    public void testGetAll_employeesExist() throws Exception {
+    public void testGetAll_employeesExist() throws DAOException {
         Employee employee = new Employee("testmaster", "masterpassword", "Albert", "Master",
                 new Address("Botanicka", 68, "Brno", 62000, "Czech Republic"),
                 "testmaster@mail.com", "+421910325478", new BigDecimal("4200"));
@@ -174,18 +170,17 @@ public class EmployeeDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUpdate_employeeNull() throws Exception {
+    public void testUpdate_employeeNull() throws DAOException {
         employeeDAO.update(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_employeeDoesNotExist() throws Exception {
+    public void testUpdate_employeeDoesNotExist() throws DAOException {
         employeeDAO.update(testEmployee);
     }
 
     @Test(expected = DAOException.class)
-    @Rollback
-    public void testUpdate_usernameInvalid() throws Exception {
+    public void testUpdate_usernameInvalid() throws DAOException {
         // create employee in database
         manager.persist(testEmployee);
 
@@ -196,8 +191,7 @@ public class EmployeeDAOTest {
     }
 
     @Test(expected = DAOException.class)
-    @Rollback
-    public void testUpdate_passwordNull() throws Exception {
+    public void testUpdate_passwordNull() throws DAOException {
         // create employee in database
         manager.persist(testEmployee);
 
@@ -208,8 +202,7 @@ public class EmployeeDAOTest {
     }
 
     @Test(expected = DAOException.class)
-    @Rollback
-    public void testUpdate_passwordInvalid() throws Exception {
+    public void testUpdate_passwordInvalid() throws DAOException {
         // create employee in database
         manager.persist(testEmployee);
 
@@ -220,7 +213,7 @@ public class EmployeeDAOTest {
     }
 
     @Test
-    public void testUpdate_addressNull() throws Exception {
+    public void testUpdate_addressNull() throws DAOException {
         // create employee in database
         manager.persist(testEmployee);
 
@@ -236,8 +229,7 @@ public class EmployeeDAOTest {
     }
 
     @Test(expected = DAOException.class)
-    @Rollback
-    public void testUpdate_emailInvalid() throws Exception {
+    public void testUpdate_emailInvalid() throws DAOException {
         // create employee in database
         manager.persist(testEmployee);
 
@@ -248,8 +240,7 @@ public class EmployeeDAOTest {
     }
 
     @Test(expected = DAOException.class)
-    @Rollback
-    public void testUpdate_phoneInvalid() throws Exception {
+    public void testUpdate_phoneInvalid() throws DAOException {
         // create employee in database
         manager.persist(testEmployee);
 
@@ -260,7 +251,7 @@ public class EmployeeDAOTest {
     }
 
     @Test
-    public void testUpdate_employeeValid() throws Exception {
+    public void testUpdate_employeeValid() throws DAOException {
         // create employee in database
         manager.persist(testEmployee);
 
@@ -282,17 +273,17 @@ public class EmployeeDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testDelete_employeeNull() throws Exception {
+    public void testDelete_employeeNull() throws DAOException {
         employeeDAO.delete(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testDelete_employeeDoesNotExist() throws Exception {
+    public void testDelete_employeeDoesNotExist() throws DAOException {
         employeeDAO.delete(testEmployee);
     }
 
     @Test
-    public void testDelete_correctEmployeeDeleted() throws Exception {
+    public void testDelete_correctEmployeeDeleted() throws DAOException {
         // create a new employee in database
         Employee employee2 = new Employee("secondUSR", "secondPSW", "npc", "character", new Address("Krenova", 8, "Brno", 62000, "Czech Republic"), "vendor@mail.com", "+421910325478", new BigDecimal("4200"));
 

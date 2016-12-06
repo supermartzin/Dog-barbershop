@@ -8,8 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,10 +27,8 @@ import static org.hamcrest.core.IsCollectionContaining.hasItems;
  * @author Dominik Gmiterko
  */
 @Transactional
-@Rollback(false)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
+@ContextConfiguration(locations = {"classpath:persistence-config.xml"})
 public class DogDAOTest {
 
     @PersistenceContext
@@ -45,7 +41,7 @@ public class DogDAOTest {
     private Customer customer;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws DAOException {
         customer = new Customer("testing", "password", "John", "Tester", new Address("Testing Avenue", 25, "Testero", 2356, "Testing Republic"), "tester@mail.com", "+4209658412");
         testingDog = new Dog("Linda", "testingBreed", 2, customer);
 
@@ -54,48 +50,47 @@ public class DogDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreate_dogNull() throws Exception {
+    public void testCreate_dogNull() throws DAOException {
         dogDAO.create(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_nameInvalid() throws Exception {
+    public void testCreate_nameInvalid() throws DAOException {
         testingDog.setName(null);
 
         dogDAO.create(testingDog);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_breedInvalid() throws Exception {
+    public void testCreate_breedInvalid() throws DAOException {
         testingDog.setBreed(null);
 
         dogDAO.create(testingDog);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_ageInvalid() throws Exception {
+    public void testCreate_ageInvalid() throws DAOException {
         testingDog.setAge(-5);
 
         dogDAO.create(testingDog);
     }
 
     @Test(expected = DAOException.class)
-    public void testCreate_customerInvalid() throws Exception {
+    public void testCreate_customerInvalid() throws DAOException {
         testingDog.setCustomer(null);
 
         dogDAO.create(testingDog);
     }
 
-    @Rollback
     @Test(expected = DAOException.class)
-    public void testCreate_customerNotSaved() throws Exception {
+    public void testCreate_customerNotSaved() throws DAOException {
         testingDog.setCustomer(new Customer());
 
         dogDAO.create(testingDog);
     }
 
     @Test
-    public void testCreate_dogValid() throws Exception {
+    public void testCreate_dogValid() throws DAOException {
         // save Dog to database
         dogDAO.create(testingDog);
 
@@ -108,19 +103,19 @@ public class DogDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetById_idInvalid() throws Exception {
+    public void testGetById_idInvalid() throws DAOException {
         dogDAO.getById(-1);
     }
 
     @Test
-    public void testGetById_dogDoesNotExist() throws Exception {
+    public void testGetById_dogDoesNotExist() throws DAOException {
         Dog foundDog = dogDAO.getById(100);
 
         Assert.assertNull(foundDog);
     }
 
     @Test
-    public void testGetById_dogValid() throws Exception {
+    public void testGetById_dogValid() throws DAOException {
         manager.persist(testingDog);
 
         Dog foundDog = dogDAO.getById(testingDog.getId());
@@ -130,7 +125,7 @@ public class DogDAOTest {
     }
 
     @Test
-    public void testGetAll_noDogs() throws Exception {
+    public void testGetAll_noDogs() throws DAOException {
         List<Dog> foundDogs = dogDAO.getAll();
 
         Assert.assertNotNull(foundDogs);
@@ -138,7 +133,7 @@ public class DogDAOTest {
     }
 
     @Test
-    public void testGetAll_dogsExist() throws Exception {
+    public void testGetAll_dogsExist() throws DAOException {
         Dog dog = new Dog("Miau", "cat", 3, customer);
 
         manager.persist(testingDog);
@@ -153,48 +148,47 @@ public class DogDAOTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUpdate_dogNull() throws Exception {
+    public void testUpdate_dogNull() throws DAOException {
         dogDAO.update(null);
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_nameInvalid() throws Exception {
+    public void testUpdate_nameInvalid() throws DAOException {
         testingDog.setName(null);
 
         dogDAO.update(testingDog);
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_breedInvalid() throws Exception {
+    public void testUpdate_breedInvalid() throws DAOException {
         testingDog.setBreed(null);
 
         dogDAO.update(testingDog);
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_ageInvalid() throws Exception {
+    public void testUpdate_ageInvalid() throws DAOException {
         testingDog.setAge(-5);
 
         dogDAO.update(testingDog);
     }
 
     @Test(expected = DAOException.class)
-    public void testUpdate_customerInvalid() throws Exception {
+    public void testUpdate_customerInvalid() throws DAOException {
         testingDog.setCustomer(null);
 
         dogDAO.update(testingDog);
     }
 
-    @Rollback
     @Test(expected = DAOException.class)
-    public void testUpdate_customerNotSaved() throws Exception {
+    public void testUpdate_customerNotSaved() throws DAOException {
         testingDog.setCustomer(new Customer());
 
         dogDAO.update(testingDog);
     }
 
     @Test
-    public void testUpdate_dogValid() throws Exception {
+    public void testUpdate_dogValid() throws DAOException {
         Dog dog = new Dog("Miau", "cat", 3, customer);
 
         manager.persist(testingDog);

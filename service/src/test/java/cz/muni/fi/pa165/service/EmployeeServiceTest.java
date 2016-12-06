@@ -33,7 +33,7 @@ import static org.mockito.Mockito.*;
  */
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
+@ContextConfiguration(locations = {"classpath:api-config.xml"})
 public class EmployeeServiceTest {
 
     @Mock

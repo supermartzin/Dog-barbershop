@@ -33,7 +33,7 @@ import static org.mockito.Mockito.*;
  * @author Dominik Gmiterko
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-configs/main-config.xml"})
+@ContextConfiguration(locations = {"classpath:api-config.xml"})
 public class CustomerServiceTest {
 
     @Mock
@@ -69,7 +69,6 @@ public class CustomerServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreate_customerNull() throws Exception {
-
         doThrow(new IllegalArgumentException()).when(customerDAO).create(null);
 
         customerService.create(null);

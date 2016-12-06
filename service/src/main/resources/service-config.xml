@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:persistence-config.xml"/>
+
+    <bean id="beanMappingService" class="cz.muni.fi.pa165.service.BeanMappingServiceImpl" />
+
+    <bean id="beanMapper" class="org.dozer.DozerBeanMapper" />
+
+    <!-- Services -->
+    <bean id="customerService" class="cz.muni.fi.pa165.service.CustomerServiceImpl" />
+
+    <bean id="serviceService" class="cz.muni.fi.pa165.service.ServiceServiceImpl" />
+
+    <bean id="dogService" class="cz.muni.fi.pa165.service.DogServiceImpl" />
+
+    <bean id="employeeService" class="cz.muni.fi.pa165.service.EmployeeServiceImpl" />
+
+    <bean id="orderService" class="cz.muni.fi.pa165.service.OrderServiceImpl" />
+
+    <!-- Facades -->
+    <bean id="customerFacade" class="cz.muni.fi.pa165.facade.CustomerFacadeImpl" />
+
+    <bean id="serviceFacade" class="cz.muni.fi.pa165.facade.ServiceFacadeImpl" />
+
+    <bean id="dogFacade" class="cz.muni.fi.pa165.facade.DogFacadeImpl" />
+
+    <bean id="employeeFacade" class="cz.muni.fi.pa165.facade.EmployeeFacadeImpl" />
+
+    <bean id="orderFacade" class="cz.muni.fi.pa165.facade.OrderFacadeImpl" />
+
+</beans>
