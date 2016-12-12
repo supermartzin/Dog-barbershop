@@ -17,7 +17,7 @@ import javax.servlet.Filter;
  *
  * @author Dominik Gmiterko
  */
-public class DogBarbershopStartInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class DogBarbershopInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
