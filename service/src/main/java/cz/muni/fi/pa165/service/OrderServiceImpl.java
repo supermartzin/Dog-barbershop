@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.CustomerDAO;
+import cz.muni.fi.pa165.dao.DogDAO;
 import cz.muni.fi.pa165.dao.OrderDAO;
 import cz.muni.fi.pa165.entities.*;
 import cz.muni.fi.pa165.exceptions.DAOException;
@@ -10,9 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * {@inheritDoc}
@@ -55,7 +54,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getByCustomer(Customer customer) throws DAOException {
-        return null;
+        Customer myCustomer = customerDAO.getById(customer.getId());
+        Set<Dog> allCustomersDogs = myCustomer.getDogs();
+        List<Order> allCustomersOrders = new ArrayList<>();
+
+        for(Dog dog : allCustomersDogs){
+            allCustomersOrders.addAll(orderDAO.getByDog(dog));
+        }
+        return allCustomersOrders;
     }
 
     @Override
