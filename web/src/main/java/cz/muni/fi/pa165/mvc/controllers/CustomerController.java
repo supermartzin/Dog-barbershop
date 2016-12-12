@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.controllers;
+package cz.muni.fi.pa165.mvc.controllers;
 
 import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.facade.CustomerFacade;
