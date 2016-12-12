@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.dto.ServiceDTO;
+import cz.muni.fi.pa165.exceptions.DAOException;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface ServiceFacade {
      * @param service                   {@link ServiceDTO} object to save
      * @throws IllegalArgumentException when {@code cz.muni.fi.pa165.facade.facade} is {@code null}
      */
-    void create(ServiceDTO service);
+    void create(ServiceDTO service) throws DAOException;
 
     /**
      * Retrieves a {@see ServiceDTO} object with provided <b>ID</b>.
@@ -34,7 +35,7 @@ public interface ServiceFacade {
      * @return              list with all {@link ServiceDTO} objects
      *                      or <b>empty list</b> if there are no entities
      */
-    List<ServiceDTO> getAll();
+    List<ServiceDTO> getAll() throws DAOException;
 
     /**
      * Updates attributes of an existing {@link ServiceDTO} object.
@@ -42,7 +43,7 @@ public interface ServiceFacade {
      * @param service                   {@link ServiceDTO} object with updated attributes
      * @throws IllegalArgumentException when {@code cz.muni.fi.pa165.facade.facade} is {@code null}
      */
-    void update(ServiceDTO service);
+    void update(ServiceDTO service) throws DAOException;
 
     /**
      * Deletes an existing {@link ServiceDTO} entry.
@@ -50,5 +51,5 @@ public interface ServiceFacade {
      * @param service                   {@link ServiceDTO} object to delete
      * @throws IllegalArgumentException when {@code cz.muni.fi.pa165.facade.facade} is {@code null}
      */
-    void delete(ServiceDTO service);
+    void delete(ServiceDTO service) throws DAOException;
 }

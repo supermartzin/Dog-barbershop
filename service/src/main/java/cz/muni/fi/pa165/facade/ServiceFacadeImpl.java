@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.dto.ServiceDTO;
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.ServiceService;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,7 @@ public class ServiceFacadeImpl implements ServiceFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public void create(ServiceDTO service) {
+    public void create(ServiceDTO service) throws DAOException {
         if (service == null)
             throw new IllegalArgumentException("Service is null");
 
@@ -39,18 +40,18 @@ public class ServiceFacadeImpl implements ServiceFacade {
     }
 
     @Override
-    public List<ServiceDTO> getAll() {
+    public List<ServiceDTO> getAll() throws DAOException {
         return beanMappingService.mapTo(serviceService.getAll(), ServiceDTO.class);
     }
 
     @Override
-    public void update(ServiceDTO service) {
+    public void update(ServiceDTO service) throws DAOException {
         Service serviceEntity = beanMappingService.mapTo(service, Service.class);
         serviceService.update(serviceEntity);
     }
 
     @Override
-    public void delete(ServiceDTO service) {
+    public void delete(ServiceDTO service) throws DAOException {
         Service serviceEntity = beanMappingService.mapTo(service, Service.class);
         serviceService.delete(serviceEntity);
     }
