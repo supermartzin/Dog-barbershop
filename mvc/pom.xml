@@ -10,10 +10,10 @@
         <version>0.2-SNAPSHOT</version>
     </parent>
     
-    <artifactId>dog-barbershop-web</artifactId>
+    <artifactId>dog-barbershop-mvc</artifactId>
     <packaging>war</packaging>
 
-    <name>Dog Barbershop - Web</name>
+    <name>Dog Barbershop - Spring MVC</name>
 
     <properties>
         <tomcat.version>8.0.32</tomcat.version>
@@ -33,7 +33,7 @@
         <!-- Modules -->
         <dependency>
             <groupId>cz.muni.fi.pa165</groupId>
-            <artifactId>dog-barbershop-api</artifactId>
+            <artifactId>dog-barbershop-service</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

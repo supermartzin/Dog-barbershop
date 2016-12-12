@@ -15,13 +15,13 @@ import javax.servlet.Filter;
  * <li>maps filters returned by {@link #getServletFilters()} to the dispatcher servlet</li>
  * </ul>
  *
- * @author Martin Kuba makub@ics.muni.cz
+ * @author Dominik Gmiterko
  */
-public class MyStartInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class DogBarbershopStartInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{MySpringMvcConfig.class};
+        return new Class<?>[]{DogBarbershopSpringMvcConfig.class};
     }
 
     @Override
