@@ -15,7 +15,8 @@
         <module>persistence</module>
         <module>service</module>
         <module>api</module>
-        <module>web</module>
+        <module>mvc</module>
+        <module>rest</module>
     </modules>
 
     <properties>

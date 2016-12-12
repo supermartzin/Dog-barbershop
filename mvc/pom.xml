@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cz.muni.fi.pa165</groupId>
+        <artifactId>dog-barbershop-parent</artifactId>
+        <version>0.2-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>dog-barbershop-mvc</artifactId>
+    <packaging>war</packaging>
+
+    <name>Dog Barbershop - Spring MVC</name>
+
+    <properties>
+        <tomcat.version>8.0.32</tomcat.version>
+        <taglibs-standard.version>1.2.5</taglibs-standard.version>
+        <json-path.version>2.2.0</json-path.version>
+        <spring.webmvc.version>4.3.4.RELEASE</spring.webmvc.version>
+        <spring.hateoas.version>0.21.0.RELEASE</spring.hateoas.version>
+        <spring.plugin.version>1.2.0.RELEASE</spring.plugin.version>
+        <jackson.annotations.version>2.8.5</jackson.annotations.version>
+        <jackson.databind.version>2.8.5</jackson.databind.version>
+        <javax.validation.version>1.1.0.Final</javax.validation.version>
+        <hibernate.validator.version>5.3.3.Final</hibernate.validator.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- Modules -->
+        <dependency>
+            <groupId>cz.muni.fi.pa165</groupId>
+            <artifactId>dog-barbershop-service</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-api</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-spec</artifactId>
+            <version>${taglibs-standard.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.taglibs</groupId>
+            <artifactId>taglibs-standard-impl</artifactId>
+            <version>${taglibs-standard.version}</version>
+        </dependency>
+
+        <!-- Spring MVC -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.webmvc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.hateoas</groupId>
+            <artifactId>spring-hateoas</artifactId>
+            <version>${spring.hateoas.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-core</artifactId>
+            <version>${spring.plugin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${json-path.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.databind.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax.validation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- what to do when only "mvn" is run -->
+        <defaultGoal>tomcat7:run</defaultGoal>
+        <plugins>
+            <!-- Servlet 3.0 allows no web.xml deployment descriptor -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <path>/pa165</path>
+                </configuration>
+            </plugin>
+            <!-- try "mavn javadoc:javadoc" and see target/site/apidocs -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                    <detectLinks>false</detectLinks>
+                    <links>
+                        <link>http://docs.oracle.com/javaee/6/api/</link>
+                        <link>http://docs.spring.io/spring/docs/current/javadoc-api/</link>
+                        <link>http://docs.spring.io/spring-hateoas/docs/current/api/</link>
+                        <link>http://fasterxml.github.io/jackson-annotations/javadoc/2.5/</link>
+                        <!--<link>http://docs.oracle.com/javase/8/docs/api/</link>-->
+                    </links>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

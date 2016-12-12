@@ -5,15 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cz.muni.fi.pa165</groupId>
         <artifactId>dog-barbershop-parent</artifactId>
+        <groupId>cz.muni.fi.pa165</groupId>
         <version>0.2-SNAPSHOT</version>
     </parent>
+
+    <artifactId>dog-barbershop-rest</artifactId>
     
-    <artifactId>dog-barbershop-web</artifactId>
     <packaging>war</packaging>
 
-    <name>Dog Barbershop - Web</name>
+    <name>Dog Barbershop - REST api</name>
 
     <properties>
         <tomcat.version>8.0.32</tomcat.version>
@@ -22,22 +23,12 @@
         <spring.webmvc.version>4.3.4.RELEASE</spring.webmvc.version>
         <spring.hateoas.version>0.21.0.RELEASE</spring.hateoas.version>
         <spring.plugin.version>1.2.0.RELEASE</spring.plugin.version>
+        <jackson.core.version>2.8.5</jackson.core.version>
         <jackson.annotations.version>2.8.5</jackson.annotations.version>
         <jackson.databind.version>2.8.5</jackson.databind.version>
-        <javax.validation.version>1.1.0.Final</javax.validation.version>
-        <hibernate.validator.version>5.3.3.Final</hibernate.validator.version>
     </properties>
 
     <dependencies>
-
-        <!-- Modules -->
-        <dependency>
-            <groupId>cz.muni.fi.pa165</groupId>
-            <artifactId>dog-barbershop-api</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <!-- JUnit -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-api</artifactId>
@@ -45,36 +36,30 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.taglibs</groupId>
-            <artifactId>taglibs-standard-spec</artifactId>
-            <version>${taglibs-standard.version}</version>
+            <groupId>cz.muni.fi.pa165</groupId>
+            <artifactId>dog-barbershop-service</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.taglibs</groupId>
-            <artifactId>taglibs-standard-impl</artifactId>
-            <version>${taglibs-standard.version}</version>
-        </dependency>
-
-        <!-- Spring MVC -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.webmvc.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.hateoas</groupId>
             <artifactId>spring-hateoas</artifactId>
             <version>${spring.hateoas.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.plugin</groupId>
-            <artifactId>spring-plugin-core</artifactId>
-            <version>${spring.plugin.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <version>${json-path.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.core.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -87,16 +72,31 @@
             <version>${jackson.databind.version}</version>
         </dependency>
 
+        <!-- librarries needed for unit tests
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>${javax.validation.version}</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+            <version>${}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <scope>test</scope>
+        </dependency>
+        -->
+
     </dependencies>
 
     <build>
@@ -117,7 +117,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.0</version>
                 <configuration>
-                    <path>/pa165</path>
+                    <path>/pa165/rest</path>
                 </configuration>
             </plugin>
             <!-- try "mavn javadoc:javadoc" and see target/site/apidocs -->
