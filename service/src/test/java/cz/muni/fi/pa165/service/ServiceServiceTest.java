@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.exceptions.DAOException;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -16,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 
 /**
@@ -60,7 +64,7 @@ public class ServiceServiceTest {
         ArgumentCaptor<Service> serviceCaptor = ArgumentCaptor.forClass(Service.class);
         verify(serviceDAO, times(1)).create(serviceCaptor.capture());
         assertDeepEquals(testingService, serviceCaptor.getValue());
-    } */
+    }*/
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetById_IdInvalid() throws Exception {
