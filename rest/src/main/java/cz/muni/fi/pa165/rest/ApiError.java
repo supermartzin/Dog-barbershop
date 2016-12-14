@@ -5,9 +5,9 @@ import java.util.List;
 
 /**
  * Represents a possible representation of errors to be used 
- * with @ControllerAdvice global exception handler
+ * with global exception handler
  * 
- * @author brossi
+ * @author Dominik Gmiterko
  */
 @XmlRootElement
 public class ApiError {

@@ -19,7 +19,7 @@ import java.util.Locale;
 @EnableWebMvc
 @Configuration
 //@Import({ServiceConfiguration.class, EshopWithSampleDataConfiguration.class})
-@ComponentScan(basePackages = {"cz.fi.muni.pa165.rest.controllers", "cz.fi.muni.pa165.rest.assemblers"})
+@ComponentScan(basePackages = {"cz.muni.fi.pa165.rest.controllers"})
 public class DogBarbershopRestConfig extends WebMvcConfigurerAdapter {
 
     @Override

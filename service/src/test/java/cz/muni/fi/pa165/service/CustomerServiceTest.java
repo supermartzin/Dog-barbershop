@@ -15,7 +15,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -39,9 +38,8 @@ public class CustomerServiceTest {
     @Mock
     private CustomerDAO customerDAO;
 
-    @Autowired
     @InjectMocks
-    private CustomerService customerService;
+    private CustomerServiceImpl customerService;
 
     private Customer testingCustomer;
     private Address address;
@@ -53,7 +51,6 @@ public class CustomerServiceTest {
 
     @Before
     public void setUp() throws Exception {
-
         MockitoAnnotations.initMocks(this);
 
         address = new Address("Testing Avenue", 25, "Testero", 2356, "Testing Republic");
@@ -76,11 +73,11 @@ public class CustomerServiceTest {
 
     @Test
     public void testCreate_customerValid() throws Exception {
-
         customerService.create(testingCustomer);
 
         ArgumentCaptor<Customer> customerCaptor = ArgumentCaptor.forClass(Customer.class);
         verify(customerDAO, times(1)).create(customerCaptor.capture());
+
         assertDeepEquals(testingCustomer, customerCaptor.getValue());
     }
 
@@ -157,7 +154,7 @@ public class CustomerServiceTest {
 
     @Test
     public void testGetAll_customersExist() throws Exception {
-        ArrayList<Customer> mockedCustomers = new ArrayList<Customer>();
+        ArrayList<Customer> mockedCustomers = new ArrayList<>();
         mockedCustomers.add(testingCustomer);
         Customer customer = new Customer("testmaster", "masterpassword", "Albert", "Master",
                 new Address("Botanicka", 68, "Brno", 62000, "Czech Republic"),

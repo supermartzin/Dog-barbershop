@@ -24,9 +24,9 @@ import java.util.Collection;
  */
 @RestController
 @RequestMapping(ApiUris.ROOT_URI_CUSTOMERS)
-public class CusotmersController {
+public class CustomersController {
     
-    final static Logger logger = LoggerFactory.getLogger(CusotmersController.class);
+    final static Logger logger = LoggerFactory.getLogger(CustomersController.class);
 
     @Inject
     private CustomerFacade customerFacade;
