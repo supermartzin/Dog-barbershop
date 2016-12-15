@@ -1,36 +1,53 @@
 package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.dto.ServiceDTO;
+import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.service.BeanMappingService;
+import cz.muni.fi.pa165.service.ServiceService;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.*;
 
 /**
+ * Tests for correct implementation of {@link ServiceFacadeImpl} class
+ *
  * @author Dominik Gmiterko
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:api-config.xml"})
+@RunWith(MockitoJUnitRunner.class)
 public class ServiceFacadeTest {
 
-    @Inject
-    private ServiceFacade serviceFacade;
+    @Mock
+    private ServiceService serviceService;
 
-    private ServiceDTO testingService;
+    @Mock
+    private BeanMappingService mappingService;
+
+    @InjectMocks
+    private ServiceFacadeImpl serviceFacade;
+
+    private ServiceDTO testingServiceDTO;
+    private Service testingService;
 
     @Before
     public void setUp() throws Exception {
-        testingService = new ServiceDTO("testingService", 45, BigDecimal.valueOf(150));
+        // init Mockito
+        MockitoAnnotations.initMocks(this);
+
+        testingServiceDTO = new ServiceDTO("testingService", 45, BigDecimal.valueOf(150));
+        testingService = new Service("testingService", 45, BigDecimal.valueOf(150));
     }
 
     @After
@@ -39,26 +56,41 @@ public class ServiceFacadeTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateNull() throws Exception {
+    public void testCreate_null() throws Exception {
         serviceFacade.create(null);
     }
 
     @Test
-    public void create() throws Exception {
-        serviceFacade.create(testingService);
+    public void testCreate_valid() throws Exception {
+        when(mappingService.mapTo(testingServiceDTO, Service.class)).thenReturn(testingService);
+
+        serviceFacade.create(testingServiceDTO);
+
+        verify(mappingService, times(1)).mapTo(testingServiceDTO, Service.class);
+        verify(serviceService, times(1)).create(testingService);
     }
 
     @Test
-    public void getById() throws Exception {
+    public void testGetById_noService() throws Exception {
+        when(serviceService.getById(anyInt())).thenReturn(null);
+        when(mappingService.mapTo(null, ServiceDTO.class)).thenReturn(null);
+
         ServiceDTO result = serviceFacade.getById(1);
 
         assertNull(result);
+    }
 
-        serviceFacade.create(testingService);
-        result = serviceFacade.getById(1);
+    @Test
+    public void testGetById_validService() throws Exception {
+        when(mappingService.mapTo(testingService, (ServiceDTO.class))).thenReturn(testingServiceDTO);
+        when(serviceService.getById(anyLong())).thenReturn(testingService);
+
+        ServiceDTO result = serviceFacade.getById(1);
 
         assertNotNull(result);
-        assertDeepEquals(testingService, result);
+        assertEquals(testingServiceDTO, result);
+
+        verify(mappingService, times(1)).mapTo(any(), eq(ServiceDTO.class));
     }
 
     @Test
@@ -70,7 +102,7 @@ public class ServiceFacadeTest {
 
         ServiceDTO testingService1 = new ServiceDTO("ServiceService", 18, new BigDecimal("8.21"));
         ServiceDTO testingService2 = new ServiceDTO("ServiceService2", 21, new BigDecimal("4.00"));
-        serviceFacade.create(testingService);
+        serviceFacade.create(testingServiceDTO);
         serviceFacade.create(testingService1);
         serviceFacade.create(testingService2);
 
@@ -78,19 +110,17 @@ public class ServiceFacadeTest {
 
         assertNotNull(result);
         assertEquals(3, result.size());
-        assertDeepEquals(testingService, result.get(0));
-        assertDeepEquals(testingService1, result.get(1));
-        assertDeepEquals(testingService2, result.get(2));
+        assertThat(result, hasItems(testingServiceDTO, testingService1, testingService2));
     }
 
     @Test
     public void update() throws Exception {
-        serviceFacade.create(testingService);
+        serviceFacade.create(testingServiceDTO);
 
 //        System.out.println(serviceFacade.getAll());
 
         ServiceDTO result = serviceFacade.getById(1);
-        assertDeepEquals(testingService, result);
+        assertDeepEquals(testingServiceDTO, result);
 
         ServiceDTO updateService = new ServiceDTO("Changed service name", 30, new BigDecimal("12.99"));
         updateService.setId(1);
@@ -102,21 +132,21 @@ public class ServiceFacadeTest {
 
     @Test
     public void delete() throws Exception {
-        serviceFacade.create(testingService);
+        serviceFacade.create(testingServiceDTO);
 
         ServiceDTO result = serviceFacade.getById(1);
-        assertDeepEquals(testingService, result);
+        assertDeepEquals(testingServiceDTO, result);
 
-        serviceFacade.delete(result);
+        serviceFacade.delete(testingServiceDTO);
 
         result = serviceFacade.getById(1);
         assertNull(result);
     }
 
     private void assertDeepEquals(ServiceDTO expected, ServiceDTO actual) {
-        Assert.assertEquals(expected == null, actual == null);
-        Assert.assertEquals(expected.getTitle(), actual.getTitle());
-        Assert.assertEquals(expected.getLength(), actual.getLength());
-        Assert.assertEquals(0, expected.getPrice().compareTo(actual.getPrice()));
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getTitle(), actual.getTitle());
+        assertEquals(expected.getLength(), actual.getLength());
+        assertEquals(0, expected.getPrice().compareTo(actual.getPrice()));
     }
 }
