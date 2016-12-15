@@ -37,6 +37,10 @@ public class Dog {
     public Dog() {
     }
 
+    public Dog(long id) {
+        this.id = id;
+    }
+
     public Dog(String name, String breed, int age, Customer customer) {
         this.name = name;
         this.breed = breed;
@@ -46,6 +50,10 @@ public class Dog {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

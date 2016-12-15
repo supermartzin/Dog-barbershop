@@ -33,6 +33,11 @@ public class Service {
     private BigDecimal price;
 
     public Service() {
+
+    }
+
+    public Service(long id) {
+        this.id = id;
     }
 
     public Service(String title, int length, BigDecimal price) {
@@ -43,6 +48,10 @@ public class Service {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
