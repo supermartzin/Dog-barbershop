@@ -61,7 +61,7 @@ public class OrderFacadeImpl implements OrderFacade {
     }
 
     @Override
-    public List<OrderDTO> getAllOrdersForDay(LocalDate date) throws DAOException {
+    public List<OrderDTO> getAllOrdersForDay(LocalDateTime date) throws DAOException {
         return beanMappingService.mapTo(orderService.getAllOrdersForDay(date), OrderDTO.class);
     }
 

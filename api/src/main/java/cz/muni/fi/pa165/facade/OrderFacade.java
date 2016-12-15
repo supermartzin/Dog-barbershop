@@ -63,7 +63,7 @@ public interface OrderFacade {
      * @param date      date to retrieve orders for
      * @return          list of all {@link OrderDTO} objects for given date
      */
-    List<OrderDTO> getAllOrdersForDay(LocalDate date) throws DAOException;
+    List<OrderDTO> getAllOrdersForDay(LocalDateTime date) throws DAOException;
 
     /**
      * Retrieves all {@link OrderDTO} objects relating to provided {@link ServiceDTO} object

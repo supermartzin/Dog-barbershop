@@ -31,7 +31,6 @@ import static org.mockito.Mockito.*;
  *
  * @author Dominik Gmiterko
  */
-@Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:api-config.xml"})
 public class EmployeeServiceTest {
@@ -39,9 +38,8 @@ public class EmployeeServiceTest {
     @Mock
     private EmployeeDAO employeeDAO;
 
-    @Inject
     @InjectMocks
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     private Employee testingEmployee;
     private Address address;

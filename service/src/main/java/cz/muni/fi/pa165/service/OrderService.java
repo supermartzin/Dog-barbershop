@@ -61,7 +61,7 @@ public interface OrderService {
      * @param dateTime      date to retrieve orders for
      * @return              list of all {@link Order} objects for given date
      */
-    List<Order> getAllOrdersForDay(LocalDate dateTime) throws DAOException;
+    List<Order> getAllOrdersForDay(LocalDateTime dateTime) throws DAOException;
 
     /**
      * Retrieves all {@link Order} objects relating to provided {@link Service} object

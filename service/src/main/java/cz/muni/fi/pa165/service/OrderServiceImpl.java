@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getAllOrdersForDay(LocalDate dateTime) throws DAOException {
+    public List<Order> getAllOrdersForDay(LocalDateTime dateTime) throws DAOException {
         LocalDateTime from = LocalDateTime.from(dateTime);
         LocalDateTime to = from.plus(1, ChronoUnit.DAYS);
         return orderDAO.getAllOrdersInTimeRange(from, to);
