@@ -5,11 +5,11 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate>
+<my:pagetemplate title="Dog barbershop">
 <jsp:attribute name="body">
 
     <div class="jumbotron">
-        <h1>Welcome to SpringMVC !</h1>
+        <h1>Dog barbershop!</h1>
         <p class="lead">In this seminar, the mysteries of Spring MVC will be revealed to you. </p>
         <p><a class="btn btn-lg btn-success" href="${pageContext.request.contextPath}/example/foo/1/platypus55?b=42"
               role="button">Call ExampleController</a></p>

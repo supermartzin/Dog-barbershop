@@ -9,5 +9,7 @@ package cz.muni.fi.pa165.rest;
  * @author Dominik Gmiterko
  */
 public abstract class ApiUris {
-    public static final String ROOT_URI_CUSTOMERS   = "/customers";
+    public static final String ROOT_URI_CUSTOMER = "/customer";
+    public static final String ROOT_URI_EMPLOYEE = "/employee";
+    public static final String ROOT_URI_DOG = "/dog";
 }

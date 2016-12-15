@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Locale;
 
 @EnableWebMvc
-@Configuration
+@Configuration()
+@ImportResource("classpath:rest-config.xml")
 //@Import({ServiceConfiguration.class, EshopWithSampleDataConfiguration.class})
 @ComponentScan(basePackages = {"cz.muni.fi.pa165.rest.controllers"})
 public class DogBarbershopRestConfig extends WebMvcConfigurerAdapter {
