@@ -28,6 +28,10 @@ public class Address {
     public Address() {
     }
 
+    public Address(long id) {
+        this.id = id;
+    }
+
     public Address(String street, int number, String city, int postalCode, String country) {
         this.street = street;
         this.number = number;
@@ -38,6 +42,10 @@ public class Address {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getStreet() {

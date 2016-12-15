@@ -23,10 +23,10 @@ import java.util.Collection;
  * @author brossi
  */
 @RestController
-@RequestMapping(ApiUris.ROOT_URI_CUSTOMERS)
-public class CustomersController {
+@RequestMapping(ApiUris.ROOT_URI_CUSTOMER)
+public class CustomerController {
     
-    final static Logger logger = LoggerFactory.getLogger(CustomersController.class);
+    final static Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @Inject
     private CustomerFacade customerFacade;
@@ -38,7 +38,7 @@ public class CustomersController {
      * @throws JsonProcessingException
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Collection<CustomerDTO> getUsers() throws JsonProcessingException, DAOException {
+    public final Collection<CustomerDTO> getAll() throws JsonProcessingException, DAOException {
         return customerFacade.getAll();
     }
 
@@ -51,7 +51,7 @@ public class CustomersController {
      * @throws ResourceNotFoundException
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final CustomerDTO getUser(@PathVariable("id") long id) throws Exception {
+    public final CustomerDTO getById(@PathVariable("id") long id) throws Exception {
          CustomerDTO customer = customerFacade.getById(id);
          if (customer == null){
             throw new ResourceNotFoundException();

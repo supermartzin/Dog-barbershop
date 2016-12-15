@@ -57,6 +57,7 @@ public class ServiceFacadeTest {
         serviceFacade.create(testingService);
         result = serviceFacade.getById(1);
 
+        assertNotNull(result);
         assertDeepEquals(testingService, result);
     }
 
@@ -73,14 +74,20 @@ public class ServiceFacadeTest {
         serviceFacade.create(testingService1);
         serviceFacade.create(testingService2);
 
+        result = serviceFacade.getAll();
+
         assertNotNull(result);
         assertEquals(3, result.size());
-        assertThat(result, hasItems(testingService, testingService1, testingService2));
+        assertDeepEquals(testingService, result.get(0));
+        assertDeepEquals(testingService1, result.get(1));
+        assertDeepEquals(testingService2, result.get(2));
     }
 
     @Test
     public void update() throws Exception {
         serviceFacade.create(testingService);
+
+//        System.out.println(serviceFacade.getAll());
 
         ServiceDTO result = serviceFacade.getById(1);
         assertDeepEquals(testingService, result);
@@ -100,14 +107,14 @@ public class ServiceFacadeTest {
         ServiceDTO result = serviceFacade.getById(1);
         assertDeepEquals(testingService, result);
 
-        serviceFacade.delete(testingService);
+        serviceFacade.delete(result);
 
         result = serviceFacade.getById(1);
         assertNull(result);
     }
 
     private void assertDeepEquals(ServiceDTO expected, ServiceDTO actual) {
-        Assert.assertEquals(expected.getId(), actual.getId());
+        Assert.assertEquals(expected == null, actual == null);
         Assert.assertEquals(expected.getTitle(), actual.getTitle());
         Assert.assertEquals(expected.getLength(), actual.getLength());
         Assert.assertEquals(0, expected.getPrice().compareTo(actual.getPrice()));

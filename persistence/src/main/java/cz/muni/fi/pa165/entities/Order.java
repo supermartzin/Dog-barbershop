@@ -40,6 +40,11 @@ public class Order {
     private Employee employee;
 
     public Order() {
+
+    }
+
+    public Order(long id) {
+        this.id = id;
     }
 
     public Order(LocalDateTime time, Dog dog, Service service) {
@@ -50,6 +55,10 @@ public class Order {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public LocalDateTime getTime() {

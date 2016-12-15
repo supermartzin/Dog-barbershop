@@ -17,7 +17,7 @@
     <name>Dog Barbershop - REST api</name>
 
     <properties>
-        <tomcat.version>8.0.32</tomcat.version>
+        <tomcat.version>7.0.50</tomcat.version>
         <taglibs-standard.version>1.2.5</taglibs-standard.version>
         <json-path.version>2.2.0</json-path.version>
         <spring.webmvc.version>4.3.4.RELEASE</spring.webmvc.version>
