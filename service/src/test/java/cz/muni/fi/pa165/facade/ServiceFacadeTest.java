@@ -35,7 +35,9 @@ public class ServiceFacadeTest {
 
     @After
     public void tearDown() throws Exception {
-
+        for(ServiceDTO s : serviceFacade.getAll()) {
+            serviceFacade.delete(s);
+        }
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -107,7 +109,6 @@ public class ServiceFacadeTest {
     }
 
     private void assertDeepEquals(ServiceDTO expected, ServiceDTO actual) {
-        Assert.assertEquals(expected.getId(), actual.getId());
         Assert.assertEquals(expected.getTitle(), actual.getTitle());
         Assert.assertEquals(expected.getLength(), actual.getLength());
         Assert.assertEquals(0, expected.getPrice().compareTo(actual.getPrice()));

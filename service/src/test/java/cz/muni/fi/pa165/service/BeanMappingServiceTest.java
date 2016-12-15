@@ -32,9 +32,8 @@ public class BeanMappingServiceTest {
     @Mock
     private Mapper dozer;
 
-    @Autowired
     @InjectMocks
-    private BeanMappingService beanMappingService;
+    private BeanMappingServiceImpl beanMappingService;
 
     private Address address;
     private AddressDTO addressDTO;

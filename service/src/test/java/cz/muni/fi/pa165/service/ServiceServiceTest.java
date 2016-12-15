@@ -36,9 +36,8 @@ public class ServiceServiceTest {
     @Mock
     private ServiceDAO serviceDAO;
 
-    @Inject
     @InjectMocks
-    private ServiceService serviceService;
+    private ServiceServiceImpl serviceService;
 
     private Service testingService;
 

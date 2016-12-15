@@ -109,7 +109,7 @@ public class ServiceDAOImpl implements ServiceDAO {
                 throw new DAOException("Service does not exist in database");
 
             // delete Service in database
-            manager.remove(existingService);
+            manager.remove(service);
         } catch (PersistenceException pEx) {
             throw new DAOException(pEx);
         }

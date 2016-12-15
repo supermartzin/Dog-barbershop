@@ -39,9 +39,8 @@ public class EmployeeServiceTest {
     @Mock
     private EmployeeDAO employeeDAO;
 
-    @Inject
     @InjectMocks
-    private EmployeeService employeeService;
+    private EmployeeServiceImpl employeeService;
 
     private Employee testingEmployee;
     private Address address;
