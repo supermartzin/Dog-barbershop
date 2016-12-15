@@ -206,7 +206,6 @@ public class OrderServiceTest {
         Assert.assertNotNull(wantedHashMap);
         Assert.assertFalse(wantedHashMap.isEmpty());
         Assert.assertEquals(result, wantedHashMap);
-        //Assert.assertThat(wantedOrders, hasItems(testingOrder2));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -221,11 +220,24 @@ public class OrderServiceTest {
         orderService.getByService(testingService);
     }
 
+    @Test
+    public void testOrderCompleted() throws Exception{
+        Assert.assertFalse(testingOrder.getStatus());
+        orderService.orderCompleted(testingOrder);
+
+        ArgumentCaptor<Order> orderArgumentCaptor = ArgumentCaptor.forClass(Order.class);
+        verify(orderDAO, times(1)).update(orderArgumentCaptor.capture());
+        Assert.assertTrue(orderArgumentCaptor.getValue().getStatus());
+        assertDeepEquals(testingOrder, orderArgumentCaptor.getValue());
+    }
+
+
     private void assertDeepEquals(Order expected, Order actual) {
         Assert.assertEquals(expected.getId(), actual.getId());
         Assert.assertEquals(expected.getTime(), actual.getTime());
         Assert.assertEquals(expected.getDog(), actual.getDog());
         Assert.assertEquals(expected.getEmployee(), actual.getEmployee());
         Assert.assertEquals(expected.getService(), actual.getService());
+        Assert.assertEquals(expected.getStatus(), actual.getStatus());
     }
 }

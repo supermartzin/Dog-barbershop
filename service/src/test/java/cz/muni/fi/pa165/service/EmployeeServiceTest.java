@@ -1,8 +1,7 @@
 package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.EmployeeDAO;
-import cz.muni.fi.pa165.entities.Address;
-import cz.muni.fi.pa165.entities.Employee;
+import cz.muni.fi.pa165.entities.*;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,9 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -223,7 +220,6 @@ public class EmployeeServiceTest {
         verify(employeeDAO, times(1)).delete(employeeCaptor.capture());
         assertDeepEquals(testingEmployee, employeeCaptor.getValue());
     }
-
 
     private void assertDeepEquals(Employee expected, Employee actual) {
         Assert.assertEquals(expected.getId(), actual.getId());

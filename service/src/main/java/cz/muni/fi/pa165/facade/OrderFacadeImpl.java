@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -85,5 +84,11 @@ public class OrderFacadeImpl implements OrderFacade {
     @Override
     public BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) throws DAOException {
         return orderService.getTotalAmountGained(from, to);
+    }
+
+    @Override
+    public void orderCompleted(OrderDTO orderDTO) throws DAOException {
+        Order orderEntity = beanMappingService.mapTo(orderDTO, Order.class);
+        orderService.orderCompleted(orderEntity);
     }
 }

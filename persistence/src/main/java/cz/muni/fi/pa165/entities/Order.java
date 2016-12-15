@@ -26,6 +26,10 @@ public class Order {
     private LocalDateTime time;
 
     @NotNull
+    @Column(nullable = false)
+    private boolean status;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dog_id")
     private Dog dog;
@@ -51,6 +55,7 @@ public class Order {
         this.time = time;
         this.dog = dog;
         this.service = service;
+        this.status = false;
     }
 
     public long getId() {
@@ -91,6 +96,14 @@ public class Order {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     @Override

@@ -103,4 +103,11 @@ public interface OrderService {
      * @return          sum of order prices
      */
     Map<Employee, BigDecimal> getTotalAmountGainedByEmployee(LocalDateTime from, LocalDateTime to) throws DAOException;
+
+    /**
+     * Updates Order status do done {@link Order} entry
+     *
+     * @param order {@link Order} object to update
+     */
+    void orderCompleted(Order order);
 }

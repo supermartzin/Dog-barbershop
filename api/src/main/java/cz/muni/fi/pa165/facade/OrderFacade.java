@@ -95,4 +95,13 @@ public interface OrderFacade {
      * @return          sum of order prices
      */
     BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) throws DAOException;
+
+
+
+    /**
+     * Updates Order status do done {@link OrderDTO} entry
+     *
+     * @param order {@link OrderDTO} object to update
+     */
+    void orderCompleted(OrderDTO order) throws DAOException;
 }

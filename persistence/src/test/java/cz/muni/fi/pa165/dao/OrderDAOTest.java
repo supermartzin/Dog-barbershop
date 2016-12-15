@@ -444,5 +444,6 @@ public class OrderDAOTest {
         Assert.assertEquals(expected.getDog(), actual.getDog());
         Assert.assertEquals(expected.getService(), actual.getService());
         Assert.assertEquals(expected.getEmployee(), actual.getEmployee());
+        Assert.assertEquals(expected.getStatus(), actual.getStatus());
     }
 }

@@ -109,4 +109,14 @@ public class OrderServiceImpl implements OrderService {
         }
         return total;
     }
+
+    @Override
+    public void orderCompleted(Order order) {
+        try {
+            order.setStatus(true);
+            orderDAO.update(order);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+    }
 }

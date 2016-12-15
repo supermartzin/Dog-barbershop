@@ -26,6 +26,9 @@ public class OrderDTO {
 
     private EmployeeDTO employee;
 
+    @NotNull
+    private boolean status;
+
     public OrderDTO() {
     }
 
@@ -33,6 +36,7 @@ public class OrderDTO {
         this.time = time;
         this.dog = dog;
         this.service = service;
+        this.status = false;
     }
 
     public long getId() {
@@ -61,6 +65,14 @@ public class OrderDTO {
 
     public void setService(ServiceDTO service) {
         this.service = service;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     @Override
