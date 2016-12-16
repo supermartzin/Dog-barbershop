@@ -5,6 +5,9 @@ import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.facade.EmployeeFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 
 /**
  * @author Denis Richtarik
@@ -47,6 +51,23 @@ public class EmployeeController {
         EmployeeDTO orderDTO = employeeFacade.getById(id);
         employeeFacade.delete(orderDTO);
         redirectAttributes.addFlashAttribute("alert_success", "Employee \"" + orderDTO.getId() + "\" was deleted.");
+        return "redirect:" + uriBuilder.path("/employee/list").toUriString();
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String create(@Valid @ModelAttribute("employeeCreate") EmployeeDTO formBean, BindingResult bindingResult,
+                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) throws FacadeException {
+        //in case of validation error forward back to the the form
+        if (bindingResult.hasErrors()) {
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }
+            return "employee/new";
+        }
+        //create product
+        employeeFacade.create(formBean);
+        //report success
+        redirectAttributes.addFlashAttribute("alert_success", "Employee " + formBean.getId() + " was created");
         return "redirect:" + uriBuilder.path("/employee/list").toUriString();
     }
 

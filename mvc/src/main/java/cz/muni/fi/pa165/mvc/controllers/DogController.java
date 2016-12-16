@@ -67,7 +67,7 @@ public class DogController {
         //create product
         dogFacade.create(formBean);
         //report success
-        redirectAttributes.addFlashAttribute("alert_success", "Dog " + formBean.getName() + " was created");
+        redirectAttributes.addFlashAttribute("alert_success", "Dog " + formBean.getId() + " was created");
         return "redirect:" + uriBuilder.path("/dog/list").toUriString();
     }
 }
