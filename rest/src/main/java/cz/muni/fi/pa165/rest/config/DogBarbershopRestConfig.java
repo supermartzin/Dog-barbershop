@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import cz.muni.fi.pa165.sampleData.DogBarbershopSampleDataConfiguration;
 import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -19,7 +20,7 @@ import java.util.Locale;
 @EnableWebMvc
 @Configuration()
 @ImportResource("classpath:rest-config.xml")
-//@Import({ServiceConfiguration.class, EshopWithSampleDataConfiguration.class})
+@Import({DogBarbershopSampleDataConfiguration.class})
 @ComponentScan(basePackages = {"cz.muni.fi.pa165.rest.controllers"})
 public class DogBarbershopRestConfig extends WebMvcConfigurerAdapter {
 

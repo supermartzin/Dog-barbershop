@@ -1,11 +1,9 @@
 package cz.muni.fi.pa165.mvc.config;
 
+import cz.muni.fi.pa165.sampleData.DogBarbershopSampleDataConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.*;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -28,7 +26,7 @@ import javax.validation.Validator;
 @EnableWebMvc
 @Configuration
 @ImportResource("classpath:mvc-config.xml")
-//TODO @Import({EshopWithSampleDataConfiguration.class})
+@Import({DogBarbershopSampleDataConfiguration.class})
 @ComponentScan(basePackages = "cz.muni.fi.pa165.mvc.controllers")
 public class DogBarbershopSpringMvcConfig extends WebMvcConfigurerAdapter {
 

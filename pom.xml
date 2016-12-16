@@ -17,6 +17,7 @@
         <module>api</module>
         <module>mvc</module>
         <module>rest</module>
+        <module>sample-data</module>
     </modules>
 
     <properties>
