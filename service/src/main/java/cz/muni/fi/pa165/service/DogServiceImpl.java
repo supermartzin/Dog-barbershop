@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.CustomerDAO;
 import cz.muni.fi.pa165.dao.DogDAO;
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Set;
 
 /**
  * {@inheritDoc}
@@ -65,22 +63,6 @@ public class DogServiceImpl implements DogService {
         } catch (DAOException daoEx) {
             throw new ServiceException(daoEx);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Set<Dog> getByCustomer(Customer customer) throws ServiceException {
-        if (customer == null)
-            throw new IllegalArgumentException("Customer is null");
-
-        // retrieve existing Customer
-        Customer myCustomer = customerDAO.getById(customer.getId());
-        if (myCustomer == null)
-            throw new ServiceException("Customer not found");
-
-        return myCustomer.getDogs();
     }
 
     /**

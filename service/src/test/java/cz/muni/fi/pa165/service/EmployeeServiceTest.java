@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.service;
 import cz.muni.fi.pa165.dao.EmployeeDAO;
 import cz.muni.fi.pa165.entities.*;
 import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.exceptions.ServiceException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -170,9 +171,8 @@ public class EmployeeServiceTest {
         employeeService.update(null);
     }
 
-    @Test(expected = DAOException.class)
+    @Test(expected = ServiceException.class)
     public void testUpdate_employeeDoesNotExist() throws Exception {
-
         doThrow(new DAOException()).when(employeeDAO).update(testingEmployee);
 
         employeeService.update(testingEmployee);
@@ -203,9 +203,8 @@ public class EmployeeServiceTest {
         employeeService.delete(null);
     }
 
-    @Test(expected = DAOException.class)
+    @Test(expected = ServiceException.class)
     public void testDelete_employeeDoesNotExist() throws Exception {
-
         doThrow(new DAOException()).when(employeeDAO).delete(testingEmployee);
 
         employeeService.delete(testingEmployee);

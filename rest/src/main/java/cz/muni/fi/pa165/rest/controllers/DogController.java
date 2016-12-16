@@ -1,11 +1,8 @@
 package cz.muni.fi.pa165.rest.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import cz.muni.fi.pa165.dao.DogDAO;
-import cz.muni.fi.pa165.dto.CustomerDTO;
 import cz.muni.fi.pa165.dto.DogDTO;
-import cz.muni.fi.pa165.exceptions.DAOException;
-import cz.muni.fi.pa165.facade.CustomerFacade;
+import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.facade.DogFacade;
 import cz.muni.fi.pa165.rest.ApiUris;
 import cz.muni.fi.pa165.rest.exceptions.ResourceNotFoundException;
@@ -41,7 +38,7 @@ public class DogController {
      * @throws JsonProcessingException
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Collection<DogDTO> getUsers() throws JsonProcessingException, DAOException {
+    public final Collection<DogDTO> getUsers() throws JsonProcessingException, FacadeException {
         return dogFacade.getAll();
     }
 

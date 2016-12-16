@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.OrderDAO;
 import cz.muni.fi.pa165.entities.*;
-import cz.muni.fi.pa165.exceptions.DAOException;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
@@ -12,11 +11,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -188,8 +184,8 @@ public class OrderServiceTest {
     @Test
     public void testGetTotalAmountGainedByEmployee() throws Exception {
         Map<Employee, BigDecimal> result = new HashMap<>();
-        result.put(testingEmployee1, new BigDecimal("5000.0"));
-        result.put(testingEmployee2, new BigDecimal("5000.0"));
+        result.put(testingEmployee1, BigDecimal.valueOf(5000));
+        result.put(testingEmployee2, BigDecimal.valueOf(5000));
 
         List<Order> mockedOrders = new ArrayList<>();
 
@@ -201,7 +197,7 @@ public class OrderServiceTest {
 
         when(orderDAO.getAllOrdersInTimeRange(any(), any())).thenReturn(mockedOrders);
 
-        Map<Employee, BigDecimal> wantedHashMap = orderService.getTotalAmountGainedByEmployee(LocalDateTime.of(2016, 11, 20, 01, 00, 00), LocalDateTime.of(2016, 12, 14, 01, 00, 00));
+        Map<Employee, BigDecimal> wantedHashMap = orderService.getTotalAmountGainedForEmployees(LocalDateTime.of(2016, 11, 20, 1, 0), LocalDateTime.of(2016, 12, 14, 1, 0));
 
         Assert.assertNotNull(wantedHashMap);
         Assert.assertFalse(wantedHashMap.isEmpty());

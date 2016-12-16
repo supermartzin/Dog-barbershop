@@ -1,11 +1,9 @@
 package cz.muni.fi.pa165.service;
 
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Service for working with {@link Dog} objects.
@@ -41,16 +39,6 @@ public interface DogService {
      * @throws ServiceException if error occurs during retrieving of {@link Dog}s
      */
     List<Dog> getAll() throws ServiceException;
-
-    /**
-     * Retrieves all {@link Dog} objects for {@link Customer}.
-     *
-     * @param customer          {@link Customer} object
-     * @return                  list with all {@link Dog} objects
-     *                          or <b>empty list</b> if there is no entry in database
-     * @throws ServiceException if error occurs during retrieving of {@link Dog}s
-     */
-    Set<Dog> getByCustomer(Customer customer) throws ServiceException;
 
     /**
      * Updates attributes of an existing {@link Dog} object.

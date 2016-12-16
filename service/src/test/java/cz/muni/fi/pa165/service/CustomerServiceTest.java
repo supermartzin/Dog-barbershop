@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.entities.Address;
 import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.exceptions.ServiceException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -181,9 +182,8 @@ public class CustomerServiceTest {
         customerService.update(null);
     }
 
-    @Test(expected = DAOException.class)
+    @Test(expected = ServiceException.class)
     public void testUpdate_customerDoesNotExist() throws Exception {
-
         doThrow(new DAOException()).when(customerDAO).update(testingCustomer);
 
         customerService.update(testingCustomer);
@@ -214,9 +214,8 @@ public class CustomerServiceTest {
         customerService.delete(null);
     }
 
-    @Test(expected = DAOException.class)
+    @Test(expected = ServiceException.class)
     public void testDelete_customerDoesNotExist() throws Exception {
-
         doThrow(new DAOException()).when(customerDAO).delete(testingCustomer);
 
         customerService.delete(testingCustomer);

@@ -17,6 +17,7 @@
 
     <properties>
         <tomcat.version>7.0.30</tomcat.version>
+        <maven-javadoc.plugin>2.10.4</maven-javadoc.plugin>
         <taglibs-standard.version>1.2.5</taglibs-standard.version>
         <json-path.version>2.2.0</json-path.version>
         <spring.webmvc.version>4.3.4.RELEASE</spring.webmvc.version>
@@ -124,6 +125,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc.plugin}</version>
                 <configuration>
                     <additionalparam>-Xdoclint:none</additionalparam>
                     <detectLinks>false</detectLinks>
