@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ *
+ * @author Dominik Gmiterko
+ */
 @Service
 public class BeanMappingServiceImpl implements BeanMappingService {
 
@@ -18,22 +23,31 @@ public class BeanMappingServiceImpl implements BeanMappingService {
         this.dozer = dozer;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public <T> List<T> mapTo(Collection<?> objects, Class<T> mapToClass) {
+        if (objects == null)
+            return null;
+
         List<T> mappedCollection = new ArrayList<>();
+
         for (Object object : objects) {
             mappedCollection.add(mapTo(object, mapToClass));
         }
+
         return mappedCollection;
     }
 
-    public <T> T mapTo(Object u, Class<T> mapToClass) {
-        if (u == null) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> T mapTo(Object object, Class<T> mapToClass) {
+        if (object == null)
             return null;
-        }
-        return dozer.map(u, mapToClass);
-    }
 
-    public Mapper getMapper() {
-        return dozer;
+        return dozer.map(object, mapToClass);
     }
 }

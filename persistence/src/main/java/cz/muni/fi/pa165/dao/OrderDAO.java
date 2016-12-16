@@ -30,7 +30,7 @@ public interface OrderDAO {
      *
      * @param id            <b>ID</b> number of {@link Order} to retrieve
      * @return              found {@link Order} object
-     * @throws DAOException if {@link Order} with provided <b>ID</b> not found in database
+     * @throws DAOException when some error occurs during getting {@link Order} objects from database
      */
     Order getById(long id) throws DAOException;
 
