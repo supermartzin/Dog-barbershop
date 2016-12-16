@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.sampleData;
 
 import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.exceptions.FacadeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class DogBarbershopSampleDataConfiguration {
     SampleDataLoadingFacade sampleDataLoadingFacade;
 
     @PostConstruct
-    public void sampleData() throws DAOException {
+    public void sampleData() throws FacadeException {
         if(!initialized) {
             log.info("Loading sample data..");
             sampleDataLoadingFacade.loadData();

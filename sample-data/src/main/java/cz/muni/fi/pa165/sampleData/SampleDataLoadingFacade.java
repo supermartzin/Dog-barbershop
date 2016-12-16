@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.sampleData;
 
 import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.exceptions.FacadeException;
 
 import java.io.IOException;
 
@@ -11,5 +12,5 @@ import java.io.IOException;
  */
 public interface SampleDataLoadingFacade {
 
-    void loadData() throws DAOException;
+    void loadData() throws FacadeException;
 }
