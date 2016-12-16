@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dao;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.entities.Order;
@@ -59,6 +60,15 @@ public interface OrderDAO {
      * @throws DAOException when some error occurs during getting {@link Order} objects from database
      */
     List<Order> getByService(Service service) throws DAOException;
+
+    /**
+     * Retrieves all {@link Order} objects from database relating to provided state
+     *
+     * @param status        if the order is done or not
+     * @return              list of all {@link Order} objects from database relating to provided <b>status</b>
+     * @throws DAOException when some error occurs during getting {@link Order} objects from database
+     */
+    List<Order> getByStatus(Boolean status) throws DAOException;
 
     /**
      * Retrieves all {@link Order} objects from database related to provided {@link Employee} object

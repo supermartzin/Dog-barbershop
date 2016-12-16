@@ -84,6 +84,16 @@ public interface OrderService {
     List<Order> getByService(Service service) throws ServiceException;
 
     /**
+     * Retrieves all {@link Order} objects relating to provided <b>state</b>.
+     *
+     * @param status                     <b>status</b> status of {@link Order} to retrieve
+     * @return                          found {@link Order} object
+     * @throws IllegalArgumentException if provided {@code id} is less than 0
+     * @throws ServiceException         if error occurs during retrieveing {@link Order}
+     */
+    List<Order> getByStatus(Boolean status) throws ServiceException;
+
+    /**
      * Updates attributes of an existing {@link Order} object.
      *
      * @param order                     {@link Order} object with updated attributes}

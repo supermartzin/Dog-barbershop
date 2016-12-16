@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.dto.DogDTO;
 import cz.muni.fi.pa165.dto.OrderDTO;
 import cz.muni.fi.pa165.dto.ServiceDTO;
 import cz.muni.fi.pa165.exceptions.FacadeException;
+import org.hibernate.service.spi.ServiceException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -94,6 +95,8 @@ public interface OrderFacade {
      */
     void update(OrderDTO orderDTO) throws FacadeException;
 
+    List<OrderDTO> getByState(Boolean status) throws FacadeException;
+
     /**
      * Deletes an existing {@link OrderDTO} entry.
      *
@@ -122,4 +125,5 @@ public interface OrderFacade {
      * @throws FacadeException          in case of any underlaying error during updating {@link OrderDTO} state
      */
     void orderCompleted(OrderDTO order) throws FacadeException;
+
 }
