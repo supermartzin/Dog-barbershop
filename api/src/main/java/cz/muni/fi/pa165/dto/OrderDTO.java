@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.dto;
 
 import cz.muni.fi.pa165.utils.Constants;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
