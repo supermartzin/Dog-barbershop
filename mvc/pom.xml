@@ -38,7 +38,12 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-        <!-- JUnit -->
+        <dependency>
+            <groupId>cz.muni.fi.pa165</groupId>
+            <artifactId>dog-barbershop-sample-data</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-api</artifactId>
