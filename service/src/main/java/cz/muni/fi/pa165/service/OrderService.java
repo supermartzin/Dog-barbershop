@@ -1,16 +1,15 @@
 package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.entities.*;
-import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.exceptions.ServiceException;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Service for retrieving {@link Order} objects.
+ * Service for working with {@link Order}s.
  *
  * @author Martin Vrábel
  * @version 31.10.2016 0:03
@@ -18,96 +17,117 @@ import java.util.Map;
 public interface OrderService {
 
     /**
-     * Creates new entry from provided {@link Order} object
+     * Creates new entry from provided {@link Order} object.
      *
-     * @param order         {@link Order} object to save
+     * @param order                     {@link Order} object to save
+     * @throws IllegalArgumentException if provided {@link Order} is {@code null}
+     * @throws ServiceException         if error occurs during creation of {@link Order}
      */
-    void create(Order order) throws DAOException;
+    void create(Order order) throws ServiceException;
 
     /**
-     * Retrieves an {@link Order} object with provided <b>ID</b>
+     * Retrieves an {@link Order} object with provided <b>ID</b>.
      *
-     * @param id            <b>ID</b> number of {@link Order} to retrieve
-     * @return              found {@link Order} object
+     * @param id                        <b>ID</b> number of {@link Order} to retrieve
+     * @return                          found {@link Order} object
+     * @throws IllegalArgumentException if provided {@code id} is less than 0
+     * @throws ServiceException         if error occurs during retrieveing {@link Order}
      */
-    Order getById(long id) throws DAOException;
+    Order getById(long id) throws ServiceException;
 
     /**
-     * Retrieves all {@link Order} objects
+     * Retrieves all {@link Order} objects.
      *
-     * @return              list of all {@link Order} objects
+     * @return                  list of all {@link Order} objects
+     * @throws ServiceException if error occurs during retrieving {@link Order}s
      */
-    List<Order> getAll() throws DAOException;
+    List<Order> getAll() throws ServiceException;
 
     /**
-     * Retrieves all {@link Order} objects relating to provided {@link Dog} object
+     * Retrieves all {@link Order} objects relating to provided {@link Dog} object.
      *
-     * @param dog           {@link Dog} object which relates to searched {@link Order} objects
-     * @return              list of all {@link Order} objects relating to provided {@link Dog} object
+     * @param dog                       {@link Dog} object which relates to searched {@link Order} objects
+     * @return                          list of all {@link Order} objects relating to provided {@link Dog} object
+     * @throws IllegalArgumentException if provided {@link Dog} is {@code null}
+     * @throws ServiceException         if error occurs during retrieving {@link Order}s
      */
-    List<Order> getByDog(Dog dog) throws DAOException;
+    List<Order> getByDog(Dog dog) throws ServiceException;
 
     /**
-     * Retrieves all {@link Order} objects relating to provided {@link Dog} object
+     * Retrieves all {@link Order} objects relating to provided {@link Dog} object.
      *
-     * @param customer      {@link Customer} object which relates to searched {@link Order} objects
-     * @return              list of all {@link Order} objects relating to provided {@link Dog} object
+     * @param customer                  {@link Customer} object which relates to searched {@link Order} objects
+     * @return                          list of all {@link Order} objects relating to provided {@link Dog} object
+     * @throws IllegalArgumentException if provided {@link Customer} is {@code null}
+     * @throws ServiceException         if error occurs during retrieving {@link Order}s
      */
-    List<Order> getByCustomer(Customer customer) throws DAOException;
+    List<Order> getByCustomer(Customer customer) throws ServiceException;
 
     /**
-     * Retrieves all {@link Order} objects for given date
+     * Retrieves all {@link Order} objects for given date.
      *
-     * @param dateTime      date to retrieve orders for
-     * @return              list of all {@link Order} objects for given date
+     * @param dateTime                  date to retrieve orders for
+     * @return                          list of all {@link Order} objects for given date
+     * @throws IllegalArgumentException if provided {@link LocalDateTime} is {@code null}
+     * @throws ServiceException         if error occurs during retrieving {@link Order}s
      */
-    List<Order> getAllOrdersForDay(LocalDateTime dateTime) throws DAOException;
+    List<Order> getAllOrdersForDay(LocalDateTime dateTime) throws ServiceException;
 
     /**
-     * Retrieves all {@link Order} objects relating to provided {@link Service} object
+     * Retrieves all {@link Order} objects relating to provided {@link Service} object.
      *
-     * @param service       {@link Service} object which relates to searched {@link Order} objects
-     * @return              list of all {@link Order} objects relating to provided {@link Service} object
+     * @param service                   {@link Service} object which relates to searched {@link Order} objects
+     * @return                          list of all {@link Order} objects relating to provided {@link Service} object
+     * @throws IllegalArgumentException if provided {@link Service} is {@code null}
+     * @throws ServiceException         if error occurs during retrieving {@link Order}s
      */
-    List<Order> getByService(Service service) throws DAOException;
+    List<Order> getByService(Service service) throws ServiceException;
 
     /**
-     * Updates attributes of an existing {@link Order} object
+     * Updates attributes of an existing {@link Order} object.
      *
-     * @param order         {@link Order} object with updated attributes}
+     * @param order                     {@link Order} object with updated attributes}
+     * @throws IllegalArgumentException if provided {@link Order} is {@code null}
+     * @throws ServiceException         if error occurs during updating of {@link Order}
      */
-    void update(Order order) throws DAOException;
+    void update(Order order) throws ServiceException;
 
     /**
-     * Deletes an existing {@link Order} entry
+     * Deletes an existing {@link Order} entry.
      *
-     * @param order         {@link Order} object to delete
+     * @param order                     {@link Order} object to delete
+     * @throws IllegalArgumentException if provided {@link Order} is {@code null}
+     * @throws ServiceException         if error occurs during deleting of {@link Order}
      */
-    void delete(Order order) throws DAOException;
+    void delete(Order order) throws ServiceException;
 
     /**
-     * Returns sum of prices of all order in given time range
+     * Returns sum of prices of all order in given time range.
      *
-     * @param from      from time
-     * @param to        to time
-     * @return          sum of order prices
+     * @param from                      from time
+     * @param to                        to time
+     * @return                          sum of order prices
+     * @throws IllegalArgumentException if either of provided {@link LocalDateTime} parameters is {@code null}
+     * @throws ServiceException         if error occurs during retrieving total amount gained
      */
-    BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) throws DAOException;
-
-
-    /**
-     * Returns sum of prices of all order in given time range for each employee
-     *
-     * @param from      from time
-     * @param to        to time
-     * @return          sum of order prices
-     */
-    Map<Employee, BigDecimal> getTotalAmountGainedByEmployee(LocalDateTime from, LocalDateTime to) throws DAOException;
+    BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) throws ServiceException;
 
     /**
-     * Updates Order status do done {@link Order} entry
+     * Returns sum of prices of all order in given time range for each employee.
      *
-     * @param order {@link Order} object to update
+     * @param from                      from time
+     * @param to                        to time
+     * @return                          {@link Map} with total price gained from {@link Order}s for each {@link Employee} in the system
+     * @throws IllegalArgumentException if either of provided {@link LocalDateTime} parameters is {@code null}
+     * @throws ServiceException         if error occurs during retrieving total amount gained
      */
-    void orderCompleted(Order order);
+    Map<Employee, BigDecimal> getTotalAmountGainedForEmployees(LocalDateTime from, LocalDateTime to) throws ServiceException;
+
+    /**
+     * Updates {@link Order} status to completed
+     *
+     * @param order             {@link Order} object to update
+     * @throws ServiceException when provided {@link Order} cannot be set completed
+     */
+    void orderCompleted(Order order) throws ServiceException;
 }

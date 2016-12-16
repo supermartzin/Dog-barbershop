@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
- * Service entity representing a cz.muni.fi.pa165.facade.facade that our Barbershop is providing to customers' dogs
+ * Service entity representing a service that our Barbershop is providing to customers' dogs
  *
  * @author Dominik Gmiterko
  */
@@ -35,10 +35,6 @@ public class ServiceDTO {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -97,7 +93,7 @@ public class ServiceDTO {
 
     @Override
     public String toString() {
-        return "Service '" + getTitle() + "' [ID: " + getId() + "] - length: " + getLength()
+        return "ServiceDTO '" + getTitle() + "' [ID: " + getId() + "] - length: " + getLength()
                 + ", price: " + getPrice();
     }
 }

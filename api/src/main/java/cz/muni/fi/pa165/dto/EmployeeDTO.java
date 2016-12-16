@@ -3,7 +3,6 @@ package cz.muni.fi.pa165.dto;
 import cz.muni.fi.pa165.utils.Constants;
 import org.hibernate.validator.constraints.Email;
 
-import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

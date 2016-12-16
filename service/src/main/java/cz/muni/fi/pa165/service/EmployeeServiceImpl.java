@@ -3,16 +3,16 @@ package cz.muni.fi.pa165.service;
 import cz.muni.fi.pa165.dao.EmployeeDAO;
 import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.exceptions.ServiceException;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
 
 /**
- *
+ * {@inheritDoc}
  *
  * @author Denis Richtarik
- * @version 25.10.2016
  */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -24,33 +24,82 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeDAO = employeeDAO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void create(Employee employee) throws DAOException {
-        employeeDAO.create(employee);
+    public void create(Employee employee) throws ServiceException {
+        if (employee == null)
+            throw new IllegalArgumentException("Employee is null");
+
+        try {
+            employeeDAO.create(employee);
+        } catch (DAOException daoEx) {
+            throw new ServiceException(daoEx);
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Employee getById(long id) {
+    public Employee getById(long id) throws ServiceException {
+        if (id < 0)
+            throw new IllegalArgumentException("ID cannot be less than 0");
+
         return employeeDAO.getById(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public List<Employee> getAll() {
+    public List<Employee> getAll() throws ServiceException {
         return employeeDAO.getAll();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Employee getByUsername(String username) throws DAOException {
-        return employeeDAO.getByUsername(username);
+    public Employee getByUsername(String username) throws ServiceException {
+        if (username == null)
+            throw new IllegalArgumentException("username is null");
+
+        try {
+            return employeeDAO.getByUsername(username);
+        } catch (DAOException daoEx) {
+            throw new ServiceException(daoEx);
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update(Employee employee) throws DAOException {
-        employeeDAO.update(employee);
+    public void update(Employee employee) throws ServiceException {
+        if (employee == null)
+            throw new IllegalArgumentException("Employee is null");
+
+        try {
+            employeeDAO.update(employee);
+        } catch (DAOException daoEx) {
+            throw new ServiceException(daoEx);
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void delete(Employee employee) throws DAOException {
-        employeeDAO.delete(employee);
+    public void delete(Employee employee) throws ServiceException {
+        if (employee == null)
+            throw new IllegalArgumentException("Employee is null");
+
+        try {
+            employeeDAO.delete(employee);
+        } catch (DAOException daoEx) {
+            throw new ServiceException(daoEx);
+        }
     }
 }

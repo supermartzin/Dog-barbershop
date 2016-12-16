@@ -2,14 +2,13 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.CustomerDAO;
 import cz.muni.fi.pa165.dao.DogDAO;
-import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.exceptions.ServiceException;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Set;
 
 /**
  * {@inheritDoc}
@@ -23,39 +22,76 @@ public class DogServiceImpl implements DogService {
     private final CustomerDAO customerDAO;
 
     @Inject
-    public DogServiceImpl(DogDAO dogDAO, CustomerDAO customerDAO){
+    public DogServiceImpl(DogDAO dogDAO, CustomerDAO customerDAO) {
         this.dogDAO = dogDAO;
         this.customerDAO = customerDAO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void create(Dog dog) throws DAOException {
-        this.dogDAO.create(dog);
+    public void create(Dog dog) throws ServiceException {
+        if (dog == null)
+            throw new IllegalArgumentException("Dog is null");
+
+        try {
+            this.dogDAO.create(dog);
+        } catch (DAOException daoEx) {
+            throw new ServiceException(daoEx);
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Dog getById(long id) {
+    public Dog getById(long id) throws ServiceException {
+        if (id < 0)
+            throw new IllegalArgumentException("ID cannot be less than 0");
+
         return this.dogDAO.getById(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public List<Dog> getAll() throws DAOException {
-        return dogDAO.getAll();
+    public List<Dog> getAll() throws ServiceException {
+        try {
+            return dogDAO.getAll();
+        } catch (DAOException daoEx) {
+            throw new ServiceException(daoEx);
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Set<Dog> getByCustomer(Customer customer) {
-        Customer myCustomer = customerDAO.getById(customer.getId());
-        return myCustomer.getDogs();
+    public void update(Dog dog) throws ServiceException {
+        if (dog == null)
+            throw new IllegalArgumentException("Dog is null");
+
+        try {
+            dogDAO.update(dog);
+        } catch (DAOException daoEx) {
+            throw new ServiceException(daoEx);
+        }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update(Dog dog) throws DAOException {
-        dogDAO.update(dog);
-    }
+    public void delete(Dog dog) throws ServiceException {
+        if (dog == null)
+            throw new IllegalArgumentException("Dog is null");
 
-    @Override
-    public void delete(Dog dog) throws DAOException {
-        dogDAO.delete(dog);
+        try {
+            dogDAO.delete(dog);
+        } catch (DAOException daoEx) {
+            throw new ServiceException(daoEx);
+        }
     }
 }

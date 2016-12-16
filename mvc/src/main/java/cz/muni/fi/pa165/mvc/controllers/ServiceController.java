@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
 import cz.muni.fi.pa165.exceptions.DAOException;
+import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.facade.CustomerFacade;
 import cz.muni.fi.pa165.facade.ServiceFacade;
 import org.slf4j.Logger;
@@ -18,13 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/service")
 public class ServiceController {
 
-    final static Logger log = LoggerFactory.getLogger(ServiceController.class);
-
     @Autowired
     private ServiceFacade serviceFacade;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model) throws DAOException {
+    public String list(Model model) throws FacadeException {
         model.addAttribute("services", serviceFacade.getAll());
         return "service/list";
     }

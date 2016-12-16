@@ -47,16 +47,20 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Address address2 = address("Orci St.", 202, "Milano", 539, "Ghana");
         Address address3 = address("Enim. St.", 271, "Viersel", 960555, "Luxembourg");
         Address address4 = address("Lorem St.", 218, "Goslar", 99582, "Saint Vincent and The Grenadines");
+        Address address5 = address("Pellentesque, Avenue", 178, "Montemignaio", 44162, "Ukraine");
+        Address address6 = address("Orci St.", 202, "Milano", 539, "Ghana");
+        Address address7 = address("Enim. St.", 271, "Viersel", 960555, "Luxembourg");
+        Address address8 = address("Lorem St.", 218, "Goslar", 99582, "Saint Vincent and The Grenadines");
 
         Customer customer1 = customer("gravida", "VNX30UMV9XO", "Christian", "Bennett", address1, "gravida@example.com", "226-3333");
         Customer customer2 = customer("felis", "WFB17KJR9XI", "Kylie", "Kent", address2, "felis@example.com", "455-6193");
         Customer customer3 = customer("cubilia", "XVV78UIU6BS", "Judah", "Oneil", address3, "cubilia@example.com", "122-5172");
         Customer customer4 = customer("suscipit", "IID86NZH3YM", "Damian", "Walton", address4, "suscipit@example.com", "930-4139");
 
-        Employee employee1 = employee("admin", "admin", "Admin", "Admin", address1, "admin@example.com", "1111", new BigDecimal("50000"));
-        Employee employee2 = employee("augue", "UYB41PXD9KX", "Blaine", "Wall", address2, "augue@example.com", "1-319-862-1855", new BigDecimal("4200"));
-        Employee employee3 = employee("justo", "NBN94QKZ5RD", "Suki", "Nixon", address3, "justo@example.com", "1-746-355-4541", new BigDecimal("5100"));
-        Employee employee4 = employee("accumsan", "QDJ51JZG6VB", "Ahmed", "Morgan", address4, "accumsan@example.com", "908-4474", new BigDecimal("38300"));
+        Employee employee1 = employee("admin", "123456", "Admin", "Admin", address5, "admin@example.com", "1111", new BigDecimal("50000"));
+        Employee employee2 = employee("augue", "UYB41PXD9KX", "Blaine", "Wall", address6, "augue@example.com", "1-319-862-1855", new BigDecimal("4200"));
+        Employee employee3 = employee("justo", "NBN94QKZ5RD", "Suki", "Nixon", address7, "justo@example.com", "1-746-355-4541", new BigDecimal("5100"));
+        Employee employee4 = employee("accumsan", "QDJ51JZG6VB", "Ahmed", "Morgan", address8, "accumsan@example.com", "908-4474", new BigDecimal("38300"));
 
         Dog dog1 = dog("Barbarino", "Bracco Italiano", 5, customer4);
         Dog dog2 = dog("BigDipper", "Nova Scotia Duck Tolling Retriever", 15, customer3);
@@ -105,7 +109,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     }
 
     private Customer customer(String username, String password, String firstName,
-                             String lastName, Address address, String email, String phone) throws DAOException {
+                              String lastName, Address address, String email, String phone) throws DAOException {
         Customer customer = new Customer(username, password, firstName, lastName, address, email, phone);
         customerService.create(customer);
         return customer;
@@ -141,6 +145,6 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
     private static LocalDateTime timeInRange(LocalDateTime from, LocalDateTime to) {
         long d = to.toEpochSecond(ZoneOffset.UTC) - from.toEpochSecond(ZoneOffset.UTC);
-        return from.plusSeconds((int)Math.random() * d);
+        return from.plusSeconds((int) Math.random() * d);
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 
 /**
  * Takes ServiceConfiguration and adds the SampleDataLoadingFacade bean.
@@ -17,18 +16,25 @@ import java.io.IOException;
  * @author Dominik Gmiterko
  */
 @Configuration
-@ImportResource("classpath:service-config.xml")
+//@ImportResource("classpath:service-config.xml")
 @ComponentScan(basePackageClasses = {SampleDataLoadingFacadeImpl.class})
 public class DogBarbershopSampleDataConfiguration {
 
     final static Logger log = LoggerFactory.getLogger(DogBarbershopSampleDataConfiguration.class);
 
+    static boolean initialized = false;
+
     @Autowired
     SampleDataLoadingFacade sampleDataLoadingFacade;
 
     @PostConstruct
-    public void dataLoading() throws DAOException {
-        log.debug("Loading sample data..");
-        sampleDataLoadingFacade.loadData();
+    public void sampleData() throws DAOException {
+        if(!initialized) {
+            log.info("Loading sample data..");
+            sampleDataLoadingFacade.loadData();
+            initialized = true;
+        } else {
+            log.warn("Sample data already loaded!");
+        }
     }
 }

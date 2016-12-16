@@ -1,10 +1,8 @@
 package cz.muni.fi.pa165.rest.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import cz.muni.fi.pa165.dto.CustomerDTO;
 import cz.muni.fi.pa165.dto.EmployeeDTO;
-import cz.muni.fi.pa165.exceptions.DAOException;
-import cz.muni.fi.pa165.facade.CustomerFacade;
+import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.facade.EmployeeFacade;
 import cz.muni.fi.pa165.rest.ApiUris;
 import cz.muni.fi.pa165.rest.exceptions.ResourceNotFoundException;
@@ -40,7 +38,7 @@ public class EmployeeController {
      * @throws JsonProcessingException
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Collection<EmployeeDTO> getAll() throws JsonProcessingException, DAOException {
+    public final Collection<EmployeeDTO> getAll() throws JsonProcessingException, FacadeException {
         return employeeFacade.getAll();
     }
 

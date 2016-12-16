@@ -2,21 +2,24 @@ package cz.muni.fi.pa165.facade;
 
 import cz.muni.fi.pa165.dto.ServiceDTO;
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.exceptions.FacadeException;
+import cz.muni.fi.pa165.exceptions.ServiceException;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.ServiceService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -35,33 +38,34 @@ public class ServiceFacadeTest {
     @Mock
     private BeanMappingService mappingService;
 
-    @InjectMocks
     private ServiceFacadeImpl serviceFacade;
 
     private ServiceDTO testingServiceDTO;
     private Service testingService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         // init Mockito
         MockitoAnnotations.initMocks(this);
+
+        serviceFacade = new ServiceFacadeImpl(serviceService, mappingService);
 
         testingServiceDTO = new ServiceDTO("testingService", 45, BigDecimal.valueOf(150));
         testingService = new Service("testingService", 45, BigDecimal.valueOf(150));
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
 
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreate_null() throws Exception {
+    public void testCreate_null() throws FacadeException {
         serviceFacade.create(null);
     }
 
     @Test
-    public void testCreate_valid() throws Exception {
+    public void testCreate_valid() throws FacadeException, ServiceException {
         when(mappingService.mapTo(testingServiceDTO, Service.class)).thenReturn(testingService);
 
         serviceFacade.create(testingServiceDTO);
@@ -71,7 +75,7 @@ public class ServiceFacadeTest {
     }
 
     @Test
-    public void testGetById_noService() throws Exception {
+    public void testGetById_noService() throws FacadeException, ServiceException {
         when(serviceService.getById(anyInt())).thenReturn(null);
         when(mappingService.mapTo(null, ServiceDTO.class)).thenReturn(null);
 
@@ -81,8 +85,8 @@ public class ServiceFacadeTest {
     }
 
     @Test
-    public void testGetById_validService() throws Exception {
-        when(mappingService.mapTo(testingService, (ServiceDTO.class))).thenReturn(testingServiceDTO);
+    public void testGetById_valid() throws FacadeException, ServiceException {
+        when(mappingService.mapTo(testingService, ServiceDTO.class)).thenReturn(testingServiceDTO);
         when(serviceService.getById(anyLong())).thenReturn(testingService);
 
         ServiceDTO result = serviceFacade.getById(1);
@@ -90,63 +94,94 @@ public class ServiceFacadeTest {
         assertNotNull(result);
         assertEquals(testingServiceDTO, result);
 
-        verify(mappingService, times(1)).mapTo(any(), eq(ServiceDTO.class));
+        verify(mappingService, times(1)).mapTo(testingService, ServiceDTO.class);
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void testGetAll_empty() throws FacadeException, ServiceException {
+        when(serviceService.getAll()).thenReturn(Collections.emptyList());
+        when(mappingService.mapTo(anyCollectionOf(Service.class), eq(ServiceDTO.class))).thenReturn(Collections.emptyList());
+
         List<ServiceDTO> result = serviceFacade.getAll();
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
 
-        ServiceDTO testingService1 = new ServiceDTO("ServiceService", 18, new BigDecimal("8.21"));
-        ServiceDTO testingService2 = new ServiceDTO("ServiceService2", 21, new BigDecimal("4.00"));
-        serviceFacade.create(testingServiceDTO);
-        serviceFacade.create(testingService1);
-        serviceFacade.create(testingService2);
+        verify(serviceService, times(1)).getAll();
+        verify(mappingService, times(1)).mapTo(anyCollectionOf(Service.class), eq(ServiceDTO.class));
+    }
 
-        result = serviceFacade.getAll();
+    @Test
+    public void testGetAll_valid() throws FacadeException, ServiceException {
+        // create more services
+        Service testingService1 = new Service("ServiceService", 18, new BigDecimal("8.21"));
+        Service testingService2 = new Service("ServiceService2", 21, new BigDecimal("4.00"));
+        ServiceDTO testingServiceDTO1 = new ServiceDTO("ServiceService", 18, new BigDecimal("8.21"));
+        ServiceDTO testingServiceDTO2 = new ServiceDTO("ServiceService2", 21, new BigDecimal("4.00"));
+
+        when(serviceService.getAll()).thenReturn(Arrays.asList(testingService, testingService1, testingService2));
+        when(mappingService.mapTo(Arrays.asList(testingService, testingService1, testingService2), ServiceDTO.class))
+                           .thenReturn(Arrays.asList(testingServiceDTO, testingServiceDTO1, testingServiceDTO2));
+
+        List<ServiceDTO> result = serviceFacade.getAll();
 
         assertNotNull(result);
         assertEquals(3, result.size());
-        assertThat(result, hasItems(testingServiceDTO, testingService1, testingService2));
+        assertThat(result, hasItems(testingServiceDTO, testingServiceDTO1, testingServiceDTO2));
+
+        verify(serviceService, times(1)).getAll();
+        verify(mappingService, times(1)).mapTo(anyCollectionOf(Service.class), eq(ServiceDTO.class));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdate_null() throws FacadeException {
+        serviceFacade.update(null);
     }
 
     @Test
-    public void update() throws Exception {
-        serviceFacade.create(testingServiceDTO);
+    public void testUpdate_valid() throws FacadeException, ServiceException {
+        ServiceDTO serviceDTO = new ServiceDTO("Changed service name", 30, BigDecimal.valueOf(135));
+        Service updatedService = new Service("Changed service name", 30, BigDecimal.valueOf(135));
 
-//        System.out.println(serviceFacade.getAll());
+        when(mappingService.mapTo(serviceDTO, Service.class)).thenReturn(updatedService);
+        when(mappingService.mapTo(updatedService, ServiceDTO.class)).thenReturn(serviceDTO);
+        when(serviceService.getById(anyLong())).thenReturn(updatedService);
 
-        ServiceDTO result = serviceFacade.getById(1);
-        assertDeepEquals(testingServiceDTO, result);
 
-        ServiceDTO updateService = new ServiceDTO("Changed service name", 30, new BigDecimal("12.99"));
-        updateService.setId(1);
-        serviceFacade.update(updateService);
+        // update Service
+        serviceFacade.update(serviceDTO);
 
-        result = serviceFacade.getById(1);
-        assertDeepEquals(updateService, result);
+        // check if correctly updated
+        ServiceDTO updatedServiceDTO = serviceFacade.getById(1);
+
+        assertNotNull(updatedServiceDTO);
+        assertEquals(serviceDTO, updatedServiceDTO);
+
+        verify(mappingService, times(1)).mapTo(serviceDTO, Service.class);
+        verify(mappingService, times(1)).mapTo(updatedService, ServiceDTO.class);
+        verify(serviceService, times(1)).update(updatedService);
+        verify(serviceService, times(1)).getById(anyLong());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testDelete_null() throws FacadeException {
+        serviceFacade.delete(null);
     }
 
     @Test
-    public void delete() throws Exception {
-        serviceFacade.create(testingServiceDTO);
+    public void testDelete_valid() throws FacadeException, ServiceException {
+        when(mappingService.mapTo(testingServiceDTO, Service.class)).thenReturn(testingService);
+        when(mappingService.mapTo(anyCollectionOf(Service.class), eq(ServiceDTO.class))).thenReturn(Collections.emptyList());
+        when(serviceService.getAll()).thenReturn(Collections.emptyList());
 
-        ServiceDTO result = serviceFacade.getById(1);
-        assertDeepEquals(testingServiceDTO, result);
-
+        // delete Service
         serviceFacade.delete(testingServiceDTO);
 
-        result = serviceFacade.getById(1);
-        assertNull(result);
-    }
+        // check if correctly deleted
+        List<ServiceDTO> remainingServices = serviceFacade.getAll();
 
-    private void assertDeepEquals(ServiceDTO expected, ServiceDTO actual) {
-        assertEquals(expected.getId(), actual.getId());
-        assertEquals(expected.getTitle(), actual.getTitle());
-        assertEquals(expected.getLength(), actual.getLength());
-        assertEquals(0, expected.getPrice().compareTo(actual.getPrice()));
+        assertNotNull(remainingServices);
+        assertTrue(remainingServices.isEmpty());
+        assertThat(remainingServices, not(hasItem(testingServiceDTO)));
     }
 }
