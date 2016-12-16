@@ -110,6 +110,19 @@ public class OrderDAOImpl implements OrderDAO {
      * {@inheritDoc}
      */
     @Override
+    public List<Order> getByStatus(Boolean status) throws DAOException {
+        if (status == null)
+            throw new IllegalArgumentException("State is null");
+
+        return manager.createQuery("SELECT ord FROM Order ord WHERE ord.status = :status", Order.class)
+                .setParameter("status", status)
+                .getResultList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<Order> getByEmployee(Employee employee) throws DAOException {
         if (employee == null)
             throw new IllegalArgumentException("employee is null");

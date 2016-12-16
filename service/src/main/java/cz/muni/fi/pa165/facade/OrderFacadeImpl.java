@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
+import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 import cz.muni.fi.pa165.service.BeanMappingService;
@@ -154,6 +155,18 @@ public class OrderFacadeImpl implements OrderFacade {
             orderService.update(orderEntity);
         } catch (ServiceException sEx) {
             throw new FacadeException(sEx);
+        }
+    }
+
+    @Override
+    public List<OrderDTO> getByState(Boolean status) throws FacadeException {
+        if (status == null)
+            throw new IllegalArgumentException("status is null");
+
+        try {
+            return beanMappingService.mapTo(orderService.getByStatus(status), OrderDTO.class);
+        } catch (ServiceException e) {
+            throw new FacadeException(e);
         }
     }
 

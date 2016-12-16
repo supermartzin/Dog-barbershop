@@ -152,6 +152,21 @@ public class OrderServiceImpl implements OrderService {
      * {@inheritDoc}
      */
     @Override
+    public List<Order> getByStatus(Boolean status) throws ServiceException {
+        if (status == null)
+            throw new IllegalArgumentException("state is null");
+
+        try {
+            return orderDAO.getByStatus(status);
+        } catch (DAOException daoEx) {
+            throw new ServiceException(daoEx);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void update(Order order) throws ServiceException {
         if (order == null)
             throw new IllegalArgumentException("order is null");
