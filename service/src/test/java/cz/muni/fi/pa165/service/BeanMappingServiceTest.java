@@ -6,12 +6,9 @@ import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +18,17 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 /**
- * Tests for correct contract implementation defined by {@link CustomerService} interface
+ * Tests for correct implementation of {@link BeanMappingService} interface
  *
  * @author Dominik Gmiterko
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:api-config.xml"})
+@RunWith(MockitoJUnitRunner.class)
 public class BeanMappingServiceTest {
 
     @Mock
     private Mapper dozer;
 
-    @InjectMocks
-    private BeanMappingServiceImpl beanMappingService;
+    private BeanMappingService beanMappingService;
 
     private Address address;
     private AddressDTO addressDTO;
@@ -42,16 +37,15 @@ public class BeanMappingServiceTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
+        beanMappingService = new BeanMappingServiceImpl(dozer);
+
         address = new Address("Testing Avenue", 22, "Testero", 2356, "Testing Republic");
         addressDTO = new AddressDTO("Testing Avenue", 22, "Testero", 2356, "Testing Republic");
     }
 
     @Test
-    public void testMapToNull(){
-
-        Address empty = null;
-
-        AddressDTO result = beanMappingService.mapTo(empty, AddressDTO.class);
+    public void testMapToNull() {
+        AddressDTO result = beanMappingService.mapTo((Address) null, AddressDTO.class);
 
         verify(dozer, times(0)).map(any(), any());
         assertSame(null, result);
@@ -67,7 +61,6 @@ public class BeanMappingServiceTest {
         assertSame(addressDTO, result);
     }
 
-
     @Test
     public void testMapToAddressSingle(){
         when(dozer.map(addressDTO, Address.class)).thenReturn(address);
@@ -77,7 +70,6 @@ public class BeanMappingServiceTest {
         verify(dozer, times(1)).map(addressDTO, Address.class);
         assertSame(address, result);
     }
-
 
     @Test
     public void testMapToCollectionEmpty(){

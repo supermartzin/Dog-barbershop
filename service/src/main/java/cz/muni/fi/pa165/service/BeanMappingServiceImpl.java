@@ -1,9 +1,7 @@
 package cz.muni.fi.pa165.service;
 
 import org.dozer.Mapper;
-import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -13,12 +11,10 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
-@Service
 public class BeanMappingServiceImpl implements BeanMappingService {
 
     private final Mapper dozer;
 
-    @Inject
     public BeanMappingServiceImpl(Mapper dozer) {
         this.dozer = dozer;
     }

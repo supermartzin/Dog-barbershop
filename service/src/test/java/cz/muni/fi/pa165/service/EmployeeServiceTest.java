@@ -1,21 +1,18 @@
 package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.EmployeeDAO;
-import cz.muni.fi.pa165.entities.*;
+import cz.muni.fi.pa165.entities.Address;
+import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,28 +26,23 @@ import static org.mockito.Mockito.*;
  *
  * @author Dominik Gmiterko
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:api-config.xml"})
+@RunWith(MockitoJUnitRunner.class)
 public class EmployeeServiceTest {
 
     @Mock
     private EmployeeDAO employeeDAO;
 
-    @InjectMocks
-    private EmployeeServiceImpl employeeService;
+    private EmployeeService employeeService;
 
     private Employee testingEmployee;
-    private Address address;
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
-
         MockitoAnnotations.initMocks(this);
 
-        address = new Address("Testing Avenue", 25, "Testero", 2356, "Testing Republic");
+        employeeService = new EmployeeServiceImpl(employeeDAO);
+
+        Address address = new Address("Testing Avenue", 25, "Testero", 2356, "Testing Republic");
         testingEmployee = new Employee("testing", "password", "John", "Tester", address,
                 "testing.employee@mail.com", "755468236", new BigDecimal("4200"));
     }

@@ -8,7 +8,6 @@ import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.ServiceService;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -17,13 +16,11 @@ import java.util.List;
  * @author Dominik Gmiterko
  */
 @Transactional
-@org.springframework.stereotype.Service
 public class ServiceFacadeImpl implements ServiceFacade {
 
     private final ServiceService serviceService;
     private final BeanMappingService beanMappingService;
 
-    @Inject
     public ServiceFacadeImpl(ServiceService serviceService, BeanMappingService beanMappingService) {
         this.serviceService = serviceService;
         this.beanMappingService = beanMappingService;

@@ -6,7 +6,6 @@ import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.ServiceService;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +37,7 @@ public class ServiceFacadeTest {
     @Mock
     private BeanMappingService mappingService;
 
-    private ServiceFacadeImpl serviceFacade;
+    private ServiceFacade serviceFacade;
 
     private ServiceDTO testingServiceDTO;
     private Service testingService;
@@ -52,11 +51,6 @@ public class ServiceFacadeTest {
 
         testingServiceDTO = new ServiceDTO("testingService", 45, BigDecimal.valueOf(150));
         testingService = new Service("testingService", 45, BigDecimal.valueOf(150));
-    }
-
-    @After
-    public void tearDown() {
-
     }
 
     @Test(expected = IllegalArgumentException.class)

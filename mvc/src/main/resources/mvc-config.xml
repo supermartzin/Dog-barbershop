@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <import resource="classpath*:/service-config.xml" />
+    <import resource="classpath*:service-config.xml" />
+    <import resource="classpath*:sample-data-config.xml"/>
+
+    <!-- Allow Spring scan for annotations -->
+    <context:component-scan base-package="cz.muni.fi.pa165"/>
+
+    <mvc:annotation-driven validator="validator"/>
+
+    <!-- Maps the main page to a specific view -->
+    <mvc:view-controller path="/" view-name="home"/>
+
+    <!-- Provides mapping from view names to JSP pages in WEB-INF/jsp directory -->
+    <mvc:view-resolvers>
+        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+            <constructor-arg name="prefix" value="/WEB-INF/jsp"/>
+            <constructor-arg name="suffix" value=".jsp"/>
+        </bean>
+    </mvc:view-resolvers>
+
+    <!-- Enables default Tomcat servlet that serves static files -->
+    <mvc:default-servlet-handler />
+
+    <!-- Provides JSR-303 Validator -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
 </beans>

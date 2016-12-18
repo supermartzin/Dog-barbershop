@@ -1,20 +1,23 @@
 package cz.muni.fi.pa165.service;
 
+import cz.muni.fi.pa165.dao.CustomerDAO;
 import cz.muni.fi.pa165.dao.OrderDAO;
 import cz.muni.fi.pa165.entities.*;
-import org.junit.*;
-import org.junit.rules.ExpectedException;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.mockito.Mockito.*;
@@ -25,15 +28,16 @@ import static org.mockito.Mockito.*;
  * @author Denis Richtarik
  * @version 22.11.2016 13:36
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:api-config.xml"})
+@RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
 
     @Mock
     private OrderDAO orderDAO;
 
-    @InjectMocks
-    private OrderServiceImpl orderService;
+    @Mock
+    private CustomerDAO customerDAO;
+
+    private OrderService orderService;
 
     private Order testingOrder;
     private Order testingOrder2;
@@ -45,12 +49,11 @@ public class OrderServiceTest {
     private Employee testingEmployee1;
     private Employee testingEmployee2;
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+
+        orderService = new OrderServiceImpl(orderDAO, customerDAO);
         testingAddress = new Address("Boxing", 12, "Philadelphia", 55504, "Pennsylvania");
         testingCustomer = new Customer("micky", "12345", "Mr", "T", testingAddress, "rocky@balboa.com", "+4209658412");
         testingDog1 = new Dog("Rocky", "Balboa", 70, testingCustomer);

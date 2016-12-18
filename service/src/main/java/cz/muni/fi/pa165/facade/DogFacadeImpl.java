@@ -6,10 +6,8 @@ import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.DogService;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -17,14 +15,12 @@ import java.util.List;
  *
  * @author Martin Vrábel
  */
-@Service
 @Transactional
 public class DogFacadeImpl implements DogFacade {
 
     private final DogService dogService;
     private final BeanMappingService beanMappingService;
 
-    @Inject
     public DogFacadeImpl(DogService dogService, BeanMappingService beanMappingService) {
         this.dogService = dogService;
         this.beanMappingService = beanMappingService;

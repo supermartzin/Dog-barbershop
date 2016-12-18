@@ -4,10 +4,10 @@ import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.ValidationException;
 import cz.muni.fi.pa165.validation.EntityValidator;
-import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 /**
@@ -15,7 +15,6 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
-@Repository
 public class ServiceDAOImpl implements ServiceDAO {
 
     @PersistenceContext
@@ -23,7 +22,6 @@ public class ServiceDAOImpl implements ServiceDAO {
 
     private final EntityValidator validator;
 
-    @Inject
     public ServiceDAOImpl(EntityValidator entityValidator) {
         if (entityValidator == null)
             throw new IllegalArgumentException("Entity Validator is null");

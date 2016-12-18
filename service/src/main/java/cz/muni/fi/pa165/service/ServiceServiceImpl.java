@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -13,11 +12,13 @@ import java.util.List;
  *
  * @author Denis Richtarik
  */
-@org.springframework.stereotype.Service
 public class ServiceServiceImpl implements ServiceService {
 
-    @Inject
-    private ServiceDAO serviceDAO;
+    private final ServiceDAO serviceDAO;
+
+    public ServiceServiceImpl(ServiceDAO serviceDAO) {
+        this.serviceDAO = serviceDAO;
+    }
 
     /**
      * {@inheritDoc}

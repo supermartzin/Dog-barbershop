@@ -6,30 +6,58 @@
 
     <import resource="classpath:persistence-config.xml"/>
 
-    <bean id="beanMappingService" class="cz.muni.fi.pa165.service.BeanMappingServiceImpl" />
-
-    <bean id="beanMapper" class="org.dozer.DozerBeanMapper" />
-
     <!-- Services -->
-    <bean id="customerService" class="cz.muni.fi.pa165.service.CustomerServiceImpl" />
+    <bean id="customerService" class="cz.muni.fi.pa165.service.CustomerServiceImpl">
+        <constructor-arg name="customerDAO" ref="customerDAO"/>
+    </bean>
 
-    <bean id="serviceService" class="cz.muni.fi.pa165.service.ServiceServiceImpl" />
+    <bean id="serviceService" class="cz.muni.fi.pa165.service.ServiceServiceImpl">
+        <constructor-arg name="serviceDAO" ref="serviceDAO"/>
+    </bean>
 
-    <bean id="dogService" class="cz.muni.fi.pa165.service.DogServiceImpl" />
+    <bean id="dogService" class="cz.muni.fi.pa165.service.DogServiceImpl">
+        <constructor-arg name="dogDAO" ref="dogDAO"/>
+    </bean>
 
-    <bean id="employeeService" class="cz.muni.fi.pa165.service.EmployeeServiceImpl" />
+    <bean id="employeeService" class="cz.muni.fi.pa165.service.EmployeeServiceImpl">
+        <constructor-arg name="employeeDAO" ref="employeeDAO"/>
+    </bean>
 
-    <bean id="orderService" class="cz.muni.fi.pa165.service.OrderServiceImpl" />
+    <bean id="orderService" class="cz.muni.fi.pa165.service.OrderServiceImpl">
+        <constructor-arg name="customerDAO" ref="customerDAO"/>
+        <constructor-arg name="orderDAO" ref="orderDAO"/>
+    </bean>
+
+    <bean id="beanMappingService" class="cz.muni.fi.pa165.service.BeanMappingServiceImpl">
+        <constructor-arg name="dozer">
+            <bean class="org.dozer.DozerBeanMapper"/>
+        </constructor-arg>
+    </bean>
 
     <!-- Facades -->
-    <bean id="customerFacade" class="cz.muni.fi.pa165.facade.CustomerFacadeImpl" />
+    <bean id="customerFacade" class="cz.muni.fi.pa165.facade.CustomerFacadeImpl">
+        <constructor-arg name="customerService" ref="customerService"/>
+        <constructor-arg name="beanMappingService" ref="beanMappingService"/>
+    </bean>
 
-    <bean id="serviceFacade" class="cz.muni.fi.pa165.facade.ServiceFacadeImpl" />
+    <bean id="serviceFacade" class="cz.muni.fi.pa165.facade.ServiceFacadeImpl">
+        <constructor-arg name="serviceService" ref="serviceService"/>
+        <constructor-arg name="beanMappingService" ref="beanMappingService"/>
+    </bean>
 
-    <bean id="dogFacade" class="cz.muni.fi.pa165.facade.DogFacadeImpl" />
+    <bean id="dogFacade" class="cz.muni.fi.pa165.facade.DogFacadeImpl">
+        <constructor-arg name="dogService" ref="dogService"/>
+        <constructor-arg name="beanMappingService" ref="beanMappingService"/>
+    </bean>
 
-    <bean id="employeeFacade" class="cz.muni.fi.pa165.facade.EmployeeFacadeImpl" />
+    <bean id="employeeFacade" class="cz.muni.fi.pa165.facade.EmployeeFacadeImpl">
+        <constructor-arg name="employeeService" ref="employeeService"/>
+        <constructor-arg name="beanMappingService" ref="beanMappingService"/>
+    </bean>
 
-    <bean id="orderFacade" class="cz.muni.fi.pa165.facade.OrderFacadeImpl" />
+    <bean id="orderFacade" class="cz.muni.fi.pa165.facade.OrderFacadeImpl">
+        <constructor-arg name="orderService" ref="orderService"/>
+        <constructor-arg name="beanMappingService" ref="beanMappingService"/>
+    </bean>
 
 </beans>

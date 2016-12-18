@@ -1,13 +1,10 @@
 package cz.muni.fi.pa165.service;
 
-import cz.muni.fi.pa165.dao.CustomerDAO;
 import cz.muni.fi.pa165.dao.DogDAO;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
-import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -15,16 +12,12 @@ import java.util.List;
  *
  * @author Denis Richtarik
  */
-@Service
 public class DogServiceImpl implements DogService {
 
     private final DogDAO dogDAO;
-    private final CustomerDAO customerDAO;
 
-    @Inject
-    public DogServiceImpl(DogDAO dogDAO, CustomerDAO customerDAO) {
+    public DogServiceImpl(DogDAO dogDAO) {
         this.dogDAO = dogDAO;
-        this.customerDAO = customerDAO;
     }
 
     /**

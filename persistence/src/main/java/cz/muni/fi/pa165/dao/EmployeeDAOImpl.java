@@ -19,7 +19,6 @@ import java.util.List;
  * @author Denis Richtarik
  * @version 25.10.2016
  */
-@Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
 
     @PersistenceContext
@@ -27,7 +26,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     private final EntityValidator validator;
 
-    @Inject
     public EmployeeDAOImpl(EntityValidator entityValidator) {
         if (entityValidator == null)
             throw new IllegalArgumentException("Entity Validator is null");

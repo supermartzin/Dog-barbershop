@@ -19,7 +19,6 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
-@Repository
 public class CustomerDAOImpl implements CustomerDAO {
 
     @PersistenceContext
@@ -27,7 +26,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private final EntityValidator validator;
 
-    @Inject
     public CustomerDAOImpl(EntityValidator entityValidator) {
         if (entityValidator == null)
             throw new IllegalArgumentException("Entity Validator is null");

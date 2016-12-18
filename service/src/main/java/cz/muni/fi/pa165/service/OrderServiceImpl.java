@@ -6,7 +6,6 @@ import cz.muni.fi.pa165.entities.*;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 
-import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -21,14 +20,11 @@ import java.util.Map;
  * @author Martin Vrábel
  * @version 31.10.2016 0:18
  */
-@org.springframework.stereotype.Service
 public class OrderServiceImpl implements OrderService {
 
     private final OrderDAO orderDAO;
-
     private final CustomerDAO customerDAO;
 
-    @Inject
     public OrderServiceImpl(OrderDAO orderDAO, CustomerDAO customerDAO) {
         this.orderDAO = orderDAO;
         this.customerDAO = customerDAO;

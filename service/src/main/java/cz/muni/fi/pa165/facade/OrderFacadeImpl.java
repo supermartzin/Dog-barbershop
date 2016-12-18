@@ -15,7 +15,6 @@ import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.OrderService;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,14 +25,12 @@ import java.util.List;
  * @author Martin Vrábel
  * @version 31.10.2016 0:18
  */
-@org.springframework.stereotype.Service
 @Transactional
 public class OrderFacadeImpl implements OrderFacade {
 
     private final OrderService orderService;
     private final BeanMappingService beanMappingService;
 
-    @Inject
     public OrderFacadeImpl(OrderService orderService, BeanMappingService beanMappingService) {
         this.orderService = orderService;
         this.beanMappingService = beanMappingService;

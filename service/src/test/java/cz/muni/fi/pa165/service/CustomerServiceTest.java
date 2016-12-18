@@ -8,16 +8,12 @@ import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,39 +22,33 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.mockito.Mockito.*;
 
-
 /**
  * Tests for correct contract implementation defined by {@link CustomerService} interface
  *
  * @author Dominik Gmiterko
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:api-config.xml"})
+@RunWith(MockitoJUnitRunner.class)
 public class CustomerServiceTest {
 
     @Mock
     private CustomerDAO customerDAO;
 
-    @InjectMocks
-    private CustomerServiceImpl customerService;
+    private CustomerService customerService;
 
     private Customer testingCustomer;
-    private Address address;
     private Dog buddy;
-    private Dog charlie;
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        address = new Address("Testing Avenue", 25, "Testero", 2356, "Testing Republic");
+        customerService = new CustomerServiceImpl(customerDAO);
+
+        Address address = new Address("Testing Avenue", 25, "Testero", 2356, "Testing Republic");
         testingCustomer = new Customer("testing", "password", "John", "Tester", address,
                 "testing.customer@mail.com", "755468236");
         buddy = new Dog("Buddy", "American Foxhound", 5, testingCustomer);
-        charlie = new Dog("Charlie", "Neapolitan Mastiff", 9, testingCustomer);
+        Dog charlie = new Dog("Charlie", "Neapolitan Mastiff", 9, testingCustomer);
 
         // add dogs
         testingCustomer.addDog(buddy);

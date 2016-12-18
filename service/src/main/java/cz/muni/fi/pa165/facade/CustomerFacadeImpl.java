@@ -6,10 +6,8 @@ import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.CustomerService;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -17,14 +15,12 @@ import java.util.List;
  *
  * @author Dominik Gmiterko
  */
-@Service
 @Transactional
 public class CustomerFacadeImpl implements CustomerFacade {
 
     private final CustomerService customerService;
     private final BeanMappingService beanMappingService;
 
-    @Inject
     public CustomerFacadeImpl(CustomerService customerService, BeanMappingService beanMappingService) {
         this.customerService = customerService;
         this.beanMappingService = beanMappingService;

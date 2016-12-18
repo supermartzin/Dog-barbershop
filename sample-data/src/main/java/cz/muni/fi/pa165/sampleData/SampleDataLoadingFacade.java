@@ -1,9 +1,6 @@
 package cz.muni.fi.pa165.sampleData;
 
-import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.FacadeException;
-
-import java.io.IOException;
 
 /**
  * Populates database with sample data.
@@ -12,5 +9,10 @@ import java.io.IOException;
  */
 public interface SampleDataLoadingFacade {
 
+    /**
+     * Creates sample data and entities in the system.
+     *
+     * @throws FacadeException  if error occurs during sample data creation
+     */
     void loadData() throws FacadeException;
 }

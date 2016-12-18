@@ -23,7 +23,6 @@ import java.util.List;
  * @author Martin Vrábel
  * @version 31.10.2016 0:18
  */
-@Repository
 public class OrderDAOImpl implements OrderDAO {
 
     @PersistenceContext
@@ -31,7 +30,6 @@ public class OrderDAOImpl implements OrderDAO {
 
     private final EntityValidator validator;
 
-    @Inject
     public OrderDAOImpl(EntityValidator entityValidator) {
         if (entityValidator == null)
             throw new IllegalArgumentException("Entity Validator is null");

@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -34,8 +33,7 @@ public class ServiceServiceTest {
     @Mock
     private ServiceDAO serviceDAO;
 
-    @InjectMocks
-    private ServiceServiceImpl serviceService;
+    private ServiceService serviceService;
 
     private Service testingService;
     private Service testingService2;
@@ -43,6 +41,8 @@ public class ServiceServiceTest {
     @Before
     public void setUp() throws ServiceException {
         MockitoAnnotations.initMocks(this);
+
+        serviceService = new ServiceServiceImpl(serviceDAO);
 
         testingService = new Service("Shortcut", 20, new BigDecimal("1000"));
         testingService2 = new Service("LongCut", 50, new BigDecimal("5000"));
@@ -63,7 +63,7 @@ public class ServiceServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetById_IdInvalid() throws ServiceException {
+    public void testGetById_idInvalid() throws ServiceException {
         serviceService.getById(-1);
     }
 
@@ -109,7 +109,7 @@ public class ServiceServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUpdate_ServiceNull() throws DAOException, ServiceException {
+    public void testUpdate_serviceNull() throws DAOException, ServiceException {
         doThrow(new IllegalArgumentException()).when(serviceDAO).update(null);
         serviceService.update(null);
     }
