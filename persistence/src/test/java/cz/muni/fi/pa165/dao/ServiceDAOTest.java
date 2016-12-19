@@ -25,7 +25,7 @@ import static org.hamcrest.CoreMatchers.*;
  */
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:persistence-config.xml"})
+@ContextConfiguration(locations = "classpath:persistence-test-config.xml")
 public class ServiceDAOTest {
 
     @PersistenceContext

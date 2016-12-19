@@ -6,7 +6,6 @@ import cz.muni.fi.pa165.exceptions.ServiceException;
 import cz.muni.fi.pa165.service.*;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -34,7 +33,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         this.orderService = orderService;
     }
 
-    @PostConstruct
+    //@PostConstruct
     @Override
     public void loadData() throws FacadeException {
         Address address1 = createAddress("Pellentesque, Avenue", 178, "Montemignaio", 44162, "Ukraine");

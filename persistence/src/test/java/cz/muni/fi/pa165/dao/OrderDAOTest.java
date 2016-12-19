@@ -29,7 +29,7 @@ import static org.hamcrest.CoreMatchers.not;
  */
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:persistence-config.xml"})
+@ContextConfiguration(locations = "classpath:persistence-test-config.xml")
 public class OrderDAOTest {
 
     @PersistenceContext
