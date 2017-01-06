@@ -16,131 +16,77 @@
     <name>Dog Barbershop - Spring MVC</name>
 
     <properties>
-        <tomcat.version>8.5.5</tomcat.version>
-
-        <taglibs-standard.version>1.2.5</taglibs-standard.version>
-
-        <spring.webmvc.version>4.3.4.RELEASE</spring.webmvc.version>
-        <spring.hateoas.version>0.21.0.RELEASE</spring.hateoas.version>
-        <spring.plugin.version>1.2.0.RELEASE</spring.plugin.version>
-
-        <jackson.version>2.8.5</jackson.version>
-        <json-path.version>2.2.0</json-path.version>
-
-        <javax.validation.version>1.1.0.Final</javax.validation.version>
-        <hibernate.validator.version>5.3.3.Final</hibernate.validator.version>
-        <javax-el.version>3.0.0</javax-el.version>
-        <javax-el-implementation.version>2.2.6</javax-el-implementation.version>
-
         <maven-war-plugin.version>3.0.0</maven-war-plugin.version>
         <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
         <maven-javadoc.plugin>2.10.4</maven-javadoc.plugin>
     </properties>
 
     <dependencies>
-
-        <!-- Project modules -->
-        <dependency>
-            <groupId>cz.muni.fi.pa165</groupId>
-            <artifactId>dog-barbershop-service</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
+        <!-- dependency on eshop sample data, other eshop parts are imported by transitive dependencies of this one-->
         <dependency>
             <groupId>cz.muni.fi.pa165</groupId>
             <artifactId>dog-barbershop-sample-data</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
-
-        <!-- Apache Tomcat API-->
+        <!-- servlet, JSP, JSTL -->
+        <!-- must be this instead of javaee-web for the springmvc-tests to succeed -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-api</artifactId>
             <version>${tomcat.version}</version>
             <scope>provided</scope>
         </dependency>
-
-
-        <!-- Tag libraries -->
         <dependency>
             <groupId>org.apache.taglibs</groupId>
             <artifactId>taglibs-standard-spec</artifactId>
             <version>${taglibs-standard.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.taglibs</groupId>
             <artifactId>taglibs-standard-impl</artifactId>
             <version>${taglibs-standard.version}</version>
         </dependency>
 
-
-        <!-- Spring -->
+        <!-- Spring MVC -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>${spring.webmvc.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.hateoas</groupId>
-            <artifactId>spring-hateoas</artifactId>
-            <version>${spring.hateoas.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.plugin</groupId>
-            <artifactId>spring-plugin-core</artifactId>
-            <version>${spring.plugin.version}</version>
-        </dependency>
-
-
-        <!-- Jackson JSON support -->
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>${json-path.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
-
-        <!-- Bean validation -->
+        <!-- validator for bean properties -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>${javax.validation.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
         </dependency>
 
+        <!-- must provide logging implementation, this is a runnable project -->
+        <!-- see viz http://docs.spring.io/platform/docs/1.1.4.RELEASE/reference/htmlsingle/#getting-started-logging -->
         <dependency>
-            <groupId>javax.el</groupId>
-            <artifactId>javax.el-api</artifactId>
-            <version>${javax-el.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
 
+        <!-- libraries needed for unit tests -->
         <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>${javax-el-implementation.version}</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

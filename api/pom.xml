@@ -16,19 +16,10 @@
     <name>Dog Barbershop - API</name>
 
     <dependencies>
-
-        <!-- Modules -->
+        <!-- validator for bean properties -->
         <dependency>
-            <groupId>cz.muni.fi.pa165</groupId>
-            <artifactId>dog-barbershop-persistence</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <!-- JUnit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
         </dependency>
 
     </dependencies>

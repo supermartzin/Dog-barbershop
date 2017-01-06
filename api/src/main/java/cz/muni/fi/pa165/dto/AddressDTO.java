@@ -1,7 +1,5 @@
 package cz.muni.fi.pa165.dto;
 
-import javax.persistence.*;
-
 /**
  * Address entity
  *
@@ -22,6 +20,7 @@ public class AddressDTO {
     private String country;
 
     public AddressDTO() {
+
     }
 
     public AddressDTO(String street, int number, String city, int postalCode, String country) {
