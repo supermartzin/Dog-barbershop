@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.entities.*;
 import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 import cz.muni.fi.pa165.service.*;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.time.ZoneOffset;
  *
  * @author Dominik Gmiterko
  */
+@Component
 @Transactional
 public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
@@ -33,7 +35,6 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         this.orderService = orderService;
     }
 
-    //@PostConstruct
     @Override
     public void loadData() throws FacadeException {
         Address address1 = createAddress("Pellentesque, Avenue", 178, "Montemignaio", 44162, "Ukraine");
@@ -46,7 +47,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Customer customer3 = createCustomer("cubilia", "XVV78UIU6BS", "Judah", "Oneil", address3, "cubilia@example.com", "122-5172");
         Customer customer4 = createCustomer("suscipit", "IID86NZH3YM", "Damian", "Walton", address4, "suscipit@example.com", "930-4139");
 
-        Employee employee1 = createEmployee("admin", "admin", "Admin", "Admin", address1, "admin@example.com", "1111", new BigDecimal("50000"));
+        Employee employee1 = createEmployee("admin", "123456", "Admin", "Admin", address1, "admin@example.com", "1111", new BigDecimal("50000"));
         Employee employee2 = createEmployee("augue", "UYB41PXD9KX", "Blaine", "Wall", address2, "augue@example.com", "1-319-862-1855", new BigDecimal("4200"));
         Employee employee3 = createEmployee("justo", "NBN94QKZ5RD", "Suki", "Nixon", address3, "justo@example.com", "1-746-355-4541", new BigDecimal("5100"));
         Employee employee4 = createEmployee("accumsan", "QDJ51JZG6VB", "Ahmed", "Morgan", address4, "accumsan@example.com", "908-4474", new BigDecimal("38300"));
@@ -92,11 +93,12 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         createOrder(dog1, service4, employee2);
     }
 
-
+    @Transactional
     private Address createAddress(String street, int number, String city, int postalCode, String country) {
         return new Address(street, number, city, postalCode, country);
     }
 
+    @Transactional
     private Customer createCustomer(String username, String password, String firstName,
                                     String lastName, Address address, String email, String phone) throws FacadeException {
         try {
@@ -110,6 +112,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         }
     }
 
+    @Transactional
     private Employee createEmployee(String username, String password, String firstName,
                                     String lastName, Address address, String email, String phone, BigDecimal salary) throws FacadeException {
         try {
@@ -123,6 +126,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         }
     }
 
+    @Transactional
     private Dog createDog(String name, String breed, int age, Customer customer) throws FacadeException {
         try {
             Dog dog = new Dog(name, breed, age, customer);
@@ -136,6 +140,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         }
     }
 
+    @Transactional
     private Service createService(String title, int length, BigDecimal price) throws FacadeException {
         try {
             Service service = new Service(title, length, price);
@@ -148,6 +153,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         }
     }
 
+    @Transactional
     private Order createOrder(Dog dog, Service service, Employee employee) throws FacadeException {
         LocalDateTime time = getTimeInRange(LocalDateTime.now().minusDays(50), LocalDateTime.now());
 

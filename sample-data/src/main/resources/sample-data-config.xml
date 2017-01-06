@@ -4,13 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <import resource="classpath*:service-config.xml"/>
+    <import resource="classpath:service-config.xml"/>
 
-    <bean id="sampleDataLoadingFacade" class="cz.muni.fi.pa165.sampleData.SampleDataLoadingFacadeImpl">
-        <constructor-arg name="customerService" ref="customerService"/>
-        <constructor-arg name="dogService" ref="dogService"/>
-        <constructor-arg name="employeeService" ref="employeeService"/>
-        <constructor-arg name="orderService" ref="orderService"/>
-        <constructor-arg name="serviceService" ref="serviceService"/>
-    </bean>
 </beans>
