@@ -7,13 +7,10 @@ import cz.muni.fi.pa165.entities.Service;
 import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.ValidationException;
 import cz.muni.fi.pa165.validation.EntityValidator;
-import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

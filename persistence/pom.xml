@@ -30,8 +30,12 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -93,7 +97,6 @@
             <artifactId>logback-classic</artifactId>
             <scope>test</scope><!-- logging implementation should not be part of a library, but is needed for tests -->
         </dependency>
-
 
         <!-- For embedded usage -->
         <dependency>

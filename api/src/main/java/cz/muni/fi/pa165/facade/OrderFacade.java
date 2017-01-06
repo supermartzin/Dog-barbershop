@@ -5,7 +5,6 @@ import cz.muni.fi.pa165.dto.DogDTO;
 import cz.muni.fi.pa165.dto.OrderDTO;
 import cz.muni.fi.pa165.dto.ServiceDTO;
 import cz.muni.fi.pa165.exceptions.FacadeException;
-import org.hibernate.service.spi.ServiceException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

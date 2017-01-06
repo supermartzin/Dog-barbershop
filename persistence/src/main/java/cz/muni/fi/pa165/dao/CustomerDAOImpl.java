@@ -5,9 +5,7 @@ import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.ValidationException;
 import cz.muni.fi.pa165.validation.EntityValidator;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
