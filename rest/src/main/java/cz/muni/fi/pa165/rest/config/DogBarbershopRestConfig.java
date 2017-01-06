@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.dto.CustomerDTO;
 import cz.muni.fi.pa165.dto.EmployeeDTO;
 import cz.muni.fi.pa165.rest.mixin.CustomerDTOMixin;
 import cz.muni.fi.pa165.rest.mixin.EmployeeDTOMixin;
+import cz.muni.fi.pa165.sampleData.SampleDataConfiguration;
 import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -23,6 +24,7 @@ import java.util.Locale;
 @EnableWebMvc
 @Configuration
 @ImportResource("classpath:rest-config.xml")
+@Import(SampleDataConfiguration.class)
 @ComponentScan(basePackages = {"cz.muni.fi.pa165.rest.controllers"})
 public class DogBarbershopRestConfig extends WebMvcConfigurerAdapter {
 
@@ -35,7 +37,7 @@ public class DogBarbershopRestConfig extends WebMvcConfigurerAdapter {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
-    
+
     @Bean
     @Primary
     public MappingJackson2HttpMessageConverter customJackson2HttpMessageConverter() {
