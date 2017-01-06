@@ -9,7 +9,7 @@
 <jsp:attribute name="body">
 
     <table class="table">
-        <caption>Users</caption>
+        <caption>Customers</caption>
         <thead>
         <tr>
             <th>First name</th>
@@ -21,16 +21,15 @@
         <tbody>
         <c:forEach items="${customers}" var="user">
             <tr>
-                <td>${user.id}</td>
                 <td>
-                    <my:a href="${pageContext.request.contextPath}/customer/detail/${product.id}">
+                    <my:a href="/customer/detail/${user.id}">
                         <c:out value="${user.firstName}"/>
                     </my:a>
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/customer/detail/${product.id}">
+                    <my:a href="/customer/detail/${user.id}">
                         <c:out value="${user.lastName}"/>
-                    </a>
+                    </my:a>
                 </td>
                 <td><c:out value="${user.email}"/></td>
                 <td><c:out value="${user.phone}"/></td>

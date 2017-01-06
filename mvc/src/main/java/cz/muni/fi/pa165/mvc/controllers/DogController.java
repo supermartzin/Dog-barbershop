@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.mvc.controllers;
 import cz.muni.fi.pa165.dto.DogDTO;
 import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.facade.DogFacade;
+import cz.muni.fi.pa165.mvc.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,15 +43,27 @@ public class DogController {
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) throws FacadeException {
-        model.addAttribute("dog", dogFacade.getById(id));
+
+        DogDTO dog = dogFacade.getById(id);
+
+        if(dog == null) {
+            throw new ResourceNotFoundException("Dog not found!");
+        }
+
+        model.addAttribute("dog", dog);
         return "dog/detail";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
-        DogDTO dogDTO = dogFacade.getById(id);
-        dogFacade.delete(dogDTO);
-        redirectAttributes.addFlashAttribute("alert_success", "Dog \"" + dogDTO.getName() + "\" was deleted.");
+        DogDTO dog = dogFacade.getById(id);
+
+        if(dog == null) {
+            throw new ResourceNotFoundException("Dog not found!");
+        }
+
+        dogFacade.delete(dog);
+        redirectAttributes.addFlashAttribute("alert_success", "Dog \"" + dog.getName() + "\" was deleted.");
         return "redirect:" + uriBuilder.path("/dog/list").toUriString();
     }
 

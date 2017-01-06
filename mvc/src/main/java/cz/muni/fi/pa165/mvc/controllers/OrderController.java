@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.mvc.controllers;
 import cz.muni.fi.pa165.dto.OrderDTO;
 import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.facade.OrderFacade;
+import cz.muni.fi.pa165.mvc.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,7 +54,14 @@ public class OrderController {
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) throws FacadeException {
-        model.addAttribute("order", orderFacade.getById(id));
+
+        OrderDTO order = orderFacade.getById(id);
+
+        if(order == null) {
+            throw new ResourceNotFoundException("Order not found!");
+        }
+
+        model.addAttribute("order", order);
         return "order/detail";
     }
 
@@ -65,9 +73,14 @@ public class OrderController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
-        OrderDTO orderDTO = orderFacade.getById(id);
-        orderFacade.delete(orderDTO);
-        redirectAttributes.addFlashAttribute("alert_success", "Order \"" + orderDTO.getId() + "\" was deleted.");
+        OrderDTO order = orderFacade.getById(id);
+
+        if(order == null) {
+            throw new ResourceNotFoundException("Order not found!");
+        }
+
+        orderFacade.delete(order);
+        redirectAttributes.addFlashAttribute("alert_success", "Order \"" + order.getId() + "\" was deleted.");
         return "redirect:" + uriBuilder.path("/order/list").toUriString();
     }
 

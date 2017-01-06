@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.mvc.controllers;
 import cz.muni.fi.pa165.dto.EmployeeDTO;
 import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.facade.EmployeeFacade;
+import cz.muni.fi.pa165.mvc.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,7 +37,14 @@ public class EmployeeController {
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) throws FacadeException {
-        model.addAttribute("employee", employeeFacade.getById(id));
+
+        EmployeeDTO employee = employeeFacade.getById(id);
+
+        if(employee == null) {
+            throw new ResourceNotFoundException("Eemployee not found!");
+        }
+
+        model.addAttribute("employee", employee);
         return "employee/detail";
     }
 
@@ -48,9 +56,14 @@ public class EmployeeController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
-        EmployeeDTO orderDTO = employeeFacade.getById(id);
-        employeeFacade.delete(orderDTO);
-        redirectAttributes.addFlashAttribute("alert_success", "Employee \"" + orderDTO.getId() + "\" was deleted.");
+        EmployeeDTO employee = employeeFacade.getById(id);
+
+        if(employee == null) {
+            throw new ResourceNotFoundException("Eemployee not found!");
+        }
+
+        employeeFacade.delete(employee);
+        redirectAttributes.addFlashAttribute("alert_success", "Employee \"" + employee.getId() + "\" was deleted.");
         return "redirect:" + uriBuilder.path("/employee/list").toUriString();
     }
 

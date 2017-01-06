@@ -16,12 +16,40 @@
     <!-- bootstrap loaded from content delivery network -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">
+    <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">--%>
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet" integrity="sha384-Li5uVfY2bSkD3WQyiHX8tJd0aMF91rMrQP5aAewFkHkVSTT2TmD2PehZeMmm7aiL" crossorigin="anonymous">
     <jsp:invoke fragment="head"/>
 </head>
 <body>
 <!-- navigation bar -->
-<!-- //TODO no navigation bar -->
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}">Dog Barbershop</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><my:a href="/services">Services</my:a></li>
+                <li><my:a href="/login">Login</my:a></li>
+                <%--<li class="dropdown">--%>
+                    <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>--%>
+                    <%--<ul class="dropdown-menu">--%>
+                        <%--<li><my:a href="/order/list/all"><f:message key="navigation.admin.orders"/></my:a></li>--%>
+                        <%--<li><my:a href="/user/list"><f:message key="navigation.admin.customers"/></my:a></li>--%>
+                        <%--<li><my:a href="/product/list"><f:message key="navigation.admin.products"/></my:a></li>--%>
+                        <%--<li><my:a href="/category/list"><f:message key="navigation.admin.categories"/></my:a></li>--%>
+                    <%--</ul>--%>
+                <%--</li>--%>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
 
 <div class="container">
 

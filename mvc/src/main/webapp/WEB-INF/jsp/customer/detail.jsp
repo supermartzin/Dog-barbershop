@@ -5,19 +5,17 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<fmt:message var="title"><fmt:param value="${customer.firstName}"/> <fmt:param value="${customer.lastName}"/></fmt:message>
+<c:set var="title" value="${customer.firstName} ${customer.lastName}"/>
 <my:pagetemplate title="${title}">
 <jsp:attribute name="body">
-
     <div class="row">
         <div class="col-xs-6">
-            <h2><c:out value="${title}"/></h2>
             <ul>
                 <li>Username: <c:out value="${customer.username}"/></li>
                 <li>Email: <c:out value="${customer.username}"/></li>
                 <li>Phone: <c:out value="${customer.phone}"/></li>
                 <li>Address:
-                    <my:address address="${customer.address}">
+                    <my:address address="${customer.address}"/>
                 </li>
             </ul>
         </div>

@@ -10,20 +10,11 @@
 
     <div class="jumbotron">
         <h1>Dog barbershop!</h1>
-        <p class="lead">In this seminar, the mysteries of Spring MVC will be revealed to you. </p>
-        <p><a class="btn btn-lg btn-success" href="${pageContext.request.contextPath}/example/foo/1/platypus55?b=42"
-              role="button">Call ExampleController</a></p>
-        <p><a class="btn btn-lg btn-success" href="${pageContext.request.contextPath}/shopping/show"
-              role="button">Go shopping</a></p>
-    </div>
-
-
-    <div class="row">
-        <c:forEach begin="1" end="12" var="i">
-        <div class="col-xs-12 col-sm-6 col-md-2 col-lg-1">
-            <p><button class="btn btn-default">Button ${i}</button></p>
-        </div>
-        </c:forEach>
+        <p class="lead">Welcome to our Dog barbershop website.</p>
+        <%--<p><a class="btn btn-lg btn-success" href="${pageContext.request.contextPath}/services"--%>
+              <%--role="button">Custmer</a></p>--%>
+        <%--<p><a class="btn btn-lg btn-success" href="${pageContext.request.contextPath}/shopping/show"--%>
+              <%--role="button">Employee</a></p>--%>
     </div>
 
 </jsp:attribute>

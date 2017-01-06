@@ -8,7 +8,6 @@
 <my:pagetemplate title="Order ${order.id} detail">
 <jsp:attribute name="body">
 
-
         <table class="table">
             <caption>Order</caption>
             <thead>
