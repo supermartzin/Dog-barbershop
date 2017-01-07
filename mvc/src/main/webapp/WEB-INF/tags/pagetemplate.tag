@@ -5,6 +5,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html lang="${pageContext.request.locale}">
@@ -13,9 +14,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><c:out value="${title}"/></title>
-    <!-- bootstrap loaded from content delivery network -->
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
+    <!-- bootstrap loaded from content delivery network -->
+    <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">--%>
     <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">--%>
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet" integrity="sha384-Li5uVfY2bSkD3WQyiHX8tJd0aMF91rMrQP5aAewFkHkVSTT2TmD2PehZeMmm7aiL" crossorigin="anonymous">
     <jsp:invoke fragment="head"/>
@@ -31,21 +32,43 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${pageContext.request.contextPath}">Dog Barbershop</a>
+            <my:a class="navbar-brand" href="/">Dog Barbershop</my:a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><my:a href="/services">Services</my:a></li>
-                <li><my:a href="/login">Login</my:a></li>
-                <%--<li class="dropdown">--%>
-                    <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>--%>
-                    <%--<ul class="dropdown-menu">--%>
-                        <%--<li><my:a href="/order/list/all"><f:message key="navigation.admin.orders"/></my:a></li>--%>
-                        <%--<li><my:a href="/user/list"><f:message key="navigation.admin.customers"/></my:a></li>--%>
-                        <%--<li><my:a href="/product/list"><f:message key="navigation.admin.products"/></my:a></li>--%>
-                        <%--<li><my:a href="/category/list"><f:message key="navigation.admin.categories"/></my:a></li>--%>
-                    <%--</ul>--%>
-                <%--</li>--%>
+                <sec:authorize access="hasRole('ROLE_ANONYMOUS')">
+                    <li><my:a href="/service/list">Services</my:a></li>
+                    <li><my:a href="/login">Login</my:a></li>
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_USER')">
+                    <li><my:a href="/service/list">Services</my:a></li>
+                    <li><my:a href="/customer/detail/{$currentUser.id}">My profile</my:a></li>
+                    <li><my:a href="/dog/list">My dogs</my:a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret">My orders</b></a>
+                        <ul class="dropdown-menu">
+                            <li><my:a href="/order/list/all">All</my:a></li>
+                            <li><my:a href="/order/list/waiting">Ordered</my:a></li>
+                            <li><my:a href="/order/list/done">Done</my:a></li>
+                        </ul>
+                    </li>
+                    <li><my:a href="/logout">Logout</my:a></li>
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
+                    <li><my:a href="/service/list">Services</my:a></li>
+                    <li><my:a href="/customer/list">Customers</my:a></li>
+                    <li><my:a href="/dog/list">Dogs</my:a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret">Orders</b></a>
+                        <ul class="dropdown-menu">
+                            <li><my:a href="/order/list/all">All</my:a></li>
+                            <li><my:a href="/order/list/waiting">Ordered</my:a></li>
+                            <li><my:a href="/order/list/done">Done</my:a></li>
+                        </ul>
+                    </li>
+                    <li><my:a href="/employee/list">Employee</my:a></li>
+                    <li><my:a href="/logout">Logout</my:a></li>
+                </sec:authorize>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

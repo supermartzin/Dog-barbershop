@@ -9,12 +9,25 @@
 <jsp:attribute name="body">
 
     <div class="jumbotron">
-        <h1>Dog barbershop!</h1>
-        <p class="lead">Welcome to our Dog barbershop website.</p>
-        <%--<p><a class="btn btn-lg btn-success" href="${pageContext.request.contextPath}/services"--%>
-              <%--role="button">Custmer</a></p>--%>
-        <%--<p><a class="btn btn-lg btn-success" href="${pageContext.request.contextPath}/shopping/show"--%>
-              <%--role="button">Employee</a></p>--%>
+        <p class="lead">Welcome to our Dog barbershop.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 business-hours">
+            <h2 class="title">Opening Hours</h2>
+            <ul class="list-unstyled opening-hours">
+                <li>Sunday <span class="pull-right">Closed</span></li>
+                <li>Monday <span class="pull-right">9:00-22:00</span></li>
+                <li>Tuesday <span class="pull-right">9:00-22:00</span></li>
+                <li>Wednesday <span class="pull-right">9:00-22:00</span></li>
+                <li>Thursday <span class="pull-right">9:00-22:00</span></li>
+                <li>Friday <span class="pull-right">9:00-23:30</span></li>
+                <li>Saturday <span class="pull-right">14:00-23:30</span></li>
+            </ul>
+        </div>
+        <div class="col-sm-6 business-hours">
+            <img class="img-responsive" src="${pageContext.request.contextPath}/images/dogs.jpg" />
+        </div>
     </div>
 
 </jsp:attribute>
