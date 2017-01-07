@@ -42,6 +42,10 @@ public class OrderDTO {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public LocalDateTime getTime() {
         return time;
     }

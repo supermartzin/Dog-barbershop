@@ -37,7 +37,7 @@ Creates new customer
 - Request body should contain all required information to create customer
 #### Example usage
 ```bash
-curl -H "Content-Type: application/json" -X POST http://localhost:8080/pa165/rest/customer -d '{"username":"ienze","firstName":"Dominik","lastName":"Gmiterko","address":{"id":0,"street":"Pellentesque, Avenue","number":178,"city":"Montemignaio","postalCode":44162,"country":"Ukraine"},"email":"example@example.com","phone":"206-3333","dogs":[]}'
+curl -H "Content-Type: application/json" -X POST http://localhost:8080/pa165/rest/customer -d '{"username":"ienze","firstName":"Dominik","lastName":"Gmiterko","address":{"street":"Pellentesque, Avenue","number":178,"city":"Montemignaio","postalCode":44162,"country":"Ukraine"},"email":"example@example.com","phone":"206-3333","dogs":[]}'
 ```
 #### Response codes
 - 200 - if an entity was successfully created (returns created resource)
@@ -210,7 +210,7 @@ Creates new employee
 - Request body should contain all required information to create employee
 #### Example usage
 ```bash
-curl -H "Content-Type: application/json" -X POST http://localhost:8080/pa165/rest/employee -d '{"username":"ienze","firstName":"Dominik","lastName":"Gmiterko","address":{"id":0,"street":"Pellentesque, Avenue","number":178,"city":"Montemignaio","postalCode":44162,"country":"Ukraine"},"email":"example@example.com","phone":"206-3333","salary":50000.00}'
+curl -H "Content-Type: application/json" -X POST http://localhost:8080/pa165/rest/employee -d '{"username":"ienze","firstName":"Dominik","lastName":"Gmiterko","address":{"street":"Pellentesque, Avenue","number":178,"city":"Montemignaio","postalCode":44162,"country":"Ukraine"},"email":"example@example.com","phone":"206-3333","salary":50000.00}'
 ```
 #### Response codes
 - 200 - if an entity was successfully created (returns created resource)
@@ -322,7 +322,7 @@ Creates new employee
 - Request body should contain all required information to create employee
 #### Example usage
 ```bash
-curl -H "Content-Type: application/json" -X POST http://localhost:8080/pa165/rest/employee -d '{"username":"ienze","firstName":"Dominik","lastName":"Gmiterko","address":{"id":0,"street":"Pellentesque, Avenue","number":178,"city":"Montemignaio","postalCode":44162,"country":"Ukraine"},"email":"example@example.com","phone":"206-3333","salary":50000.00}'
+curl -H "Content-Type: application/json" -X POST http://localhost:8080/pa165/rest/employee -d '{"username":"ienze","firstName":"Dominik","lastName":"Gmiterko","address":{street":"Pellentesque, Avenue","number":178,"city":"Montemignaio","postalCode":44162,"country":"Ukraine"},"email":"example@example.com","phone":"206-3333","salary":50000.00}'
 ```
 #### Response codes
 - 200 - if an entity was successfully created (returns created resource)

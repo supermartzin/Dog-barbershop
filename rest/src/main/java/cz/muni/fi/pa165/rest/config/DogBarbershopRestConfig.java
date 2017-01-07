@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import cz.muni.fi.pa165.dto.CustomerDTO;
+import cz.muni.fi.pa165.dto.DogDTO;
 import cz.muni.fi.pa165.dto.EmployeeDTO;
 import cz.muni.fi.pa165.rest.mixin.CustomerDTOMixin;
+import cz.muni.fi.pa165.rest.mixin.DogDTOMixin;
 import cz.muni.fi.pa165.rest.mixin.EmployeeDTOMixin;
 import cz.muni.fi.pa165.sampleData.SampleDataConfiguration;
 import org.springframework.context.annotation.*;
@@ -48,6 +50,7 @@ public class DogBarbershopRestConfig extends WebMvcConfigurerAdapter {
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH));
 
         objectMapper.addMixIn(CustomerDTO.class, CustomerDTOMixin.class);
+        objectMapper.addMixIn(DogDTO.class, DogDTOMixin.class);
         objectMapper.addMixIn(EmployeeDTO.class, EmployeeDTOMixin.class);
 
         objectMapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
