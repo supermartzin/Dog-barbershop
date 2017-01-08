@@ -13,7 +13,7 @@
     <artifactId>dog-barbershop-api</artifactId>
     <packaging>jar</packaging>
 
-    <name>Dog Barbershop - API</name>
+    <name>Dog Barbershop - API layer</name>
 
     <dependencies>
 

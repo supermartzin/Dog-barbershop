@@ -20,6 +20,15 @@
         <module>sample-data</module>
     </modules>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <mockito.version>2.0.2-beta</mockito.version>
+        <dozer.version>5.5.1</dozer.version>
+        <slf4j.version>1.7.22</slf4j.version>
+    </properties>
+
     <!-- defines compatible versions of many libraries -->
     <parent>
         <groupId>io.spring.platform</groupId>
@@ -28,24 +37,24 @@
         <relativePath/>
     </parent>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <!-- specifies versions not defined by the Spring platform-bom -->
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
-                <version>2.0.2-beta</version>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer</artifactId>
-                <version>5.5.1</version>
+                <version>${dozer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
