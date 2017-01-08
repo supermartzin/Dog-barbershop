@@ -41,10 +41,8 @@ public class OrderServiceTest {
 
     private Order testingOrder;
     private Order testingOrder2;
-    private Dog testingDog1;
-    private Dog testingDog2;
-    private Customer testingCustomer;
-    private Address testingAddress;
+
+    private Dog testingDog;
     private Service testingService;
     private Employee testingEmployee1;
     private Employee testingEmployee2;
@@ -54,15 +52,14 @@ public class OrderServiceTest {
         MockitoAnnotations.initMocks(this);
 
         orderService = new OrderServiceImpl(orderDAO, customerDAO);
-        testingAddress = new Address("Boxing", 12, "Philadelphia", 55504, "Pennsylvania");
-        testingCustomer = new Customer("micky", "12345", "Mr", "T", testingAddress, "rocky@balboa.com", "+4209658412");
-        testingDog1 = new Dog("Rocky", "Balboa", 70, testingCustomer);
-        testingDog2 = new Dog("Johny", "Rambo", 20, testingCustomer);
+
+        Customer testingCustomer = new Customer("micky", "12345", "Mr", "T", new Address("Boxing", 12, "Philadelphia", 55504, "Pennsylvania"), "rocky@balboa.com", "+4209658412");
+        testingDog = new Dog("Rocky", "Balboa", 70, testingCustomer);
         testingService = new Service("Longcut", 50, new BigDecimal("5000"));
-        testingOrder = new Order((LocalDateTime.of(2016, 11, 20, 15, 40, 23)), testingDog1, testingService);
-        testingOrder2 = new Order((LocalDateTime.of(2016, 12, 13, 12, 00, 00)), testingDog2, testingService);
-        testingEmployee1 = new Employee("Joey", "123456", "Joe", "Mutt", testingAddress, "joe@mail.cz", "+4209658412", new BigDecimal("20000"));
-        testingEmployee2 = new Employee("Janish", "123456", "Jane", "Mutt", testingAddress, "jane@mail.cz", "+4209658413", new BigDecimal("25000"));
+        testingOrder = new Order(LocalDateTime.of(2016, 11, 20, 15, 40, 23), testingDog, testingService);
+        testingOrder2 = new Order(LocalDateTime.of(2016, 12, 13, 12, 0, 0), new Dog("Johny", "Rambo", 20, testingCustomer), testingService);
+        testingEmployee1 = new Employee("Joey", "123456", "Joe", "Mutt", new Address("Boxing", 12, "Philadelphia", 55504, "Pennsylvania"), "joe@mail.cz", "+4209658412", new BigDecimal("20000"));
+        testingEmployee2 = new Employee("Janish", "123456", "Jane", "Mutt", new Address("Boxing", 12, "Philadelphia", 55504, "Pennsylvania"), "jane@mail.cz", "+4209658413", new BigDecimal("25000"));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -151,8 +148,8 @@ public class OrderServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGetByDog_dogDoesNotExist() throws Exception {
-        doThrow(new IllegalArgumentException()).when(orderDAO).getByDog(testingDog1);
-        orderService.getByDog(testingDog1);
+        doThrow(new IllegalArgumentException()).when(orderDAO).getByDog(testingDog);
+        orderService.getByDog(testingDog);
     }
 
     @Test

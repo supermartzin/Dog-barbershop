@@ -127,7 +127,7 @@ public class EmployeeServiceTest {
     @Test
     public void testGetAll_noEmployees() throws Exception {
 
-        when(employeeDAO.getAll()).thenReturn(new ArrayList<Employee>());
+        when(employeeDAO.getAll()).thenReturn(new ArrayList<>());
 
         List<Employee> allEmployees = employeeService.getAll();
 
@@ -137,7 +137,7 @@ public class EmployeeServiceTest {
 
     @Test
     public void testGetAll_employeesExist() throws Exception {
-        ArrayList<Employee> mockedEmployees = new ArrayList<Employee>();
+        ArrayList<Employee> mockedEmployees = new ArrayList<>();
         mockedEmployees.add(testingEmployee);
         Employee employee = new Employee("testmaster", "masterpassword", "Albert", "Master",
                 new Address("Botanicka", 68, "Brno", 62000, "Czech Republic"),

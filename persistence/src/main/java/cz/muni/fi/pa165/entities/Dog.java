@@ -37,10 +37,6 @@ public class Dog {
     public Dog() {
     }
 
-    public Dog(long id) {
-        this.id = id;
-    }
-
     public Dog(String name, String breed, int age, Customer customer) {
         this.name = name;
         this.breed = breed;

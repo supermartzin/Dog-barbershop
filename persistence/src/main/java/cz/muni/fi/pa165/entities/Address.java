@@ -28,10 +28,6 @@ public class Address {
     public Address() {
     }
 
-    public Address(long id) {
-        this.id = id;
-    }
-
     public Address(String street, int number, String city, int postalCode, String country) {
         this.street = street;
         this.number = number;
