@@ -60,12 +60,12 @@ public class EmployeeFacadeTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreate_null() throws Exception {
+    public void testCreate_employeeNull() throws Exception {
         employeeFacade.create(null);
     }
 
     @Test
-    public void testCreate() throws Exception {
+    public void testCreate_employeeValid() throws Exception {
         when(mappingService.mapTo(employeeDTO, Employee.class)).thenReturn(testingEmployee);
 
         employeeFacade.create(employeeDTO);
@@ -109,12 +109,12 @@ public class EmployeeFacadeTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetByUsername_null() throws FacadeException {
+    public void testGetByUsername_usernameNull() throws FacadeException {
         employeeFacade.getByUsername(null);
     }
     
     @Test
-    public void testGetByUsername() throws Exception {
+    public void testGetByUsername_usernameValid() throws Exception {
         when(mappingService.mapTo(testingEmployee, EmployeeDTO.class)).thenReturn(employeeDTO);
         when(employeeService.getByUsername(any())).thenReturn(testingEmployee);
 
@@ -127,12 +127,12 @@ public class EmployeeFacadeTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUpdate_null() throws FacadeException {
+    public void testUpdate_employeeNull() throws FacadeException {
         employeeFacade.update(null);
     }
     
     @Test
-    public void testUpdate() throws Exception {
+    public void testUpdate_employeeValid() throws Exception {
         EmployeeDTO updatedServiceDTO = new EmployeeDTO("tetete", "tititi", "tatata", "tututu", addressDTO,
                 "tute@toto.com", "755468236", new BigDecimal("2313"));
         Employee updatedEmployee = new Employee("tetete", "tititi", "tatata", "tututu", address,
@@ -156,12 +156,12 @@ public class EmployeeFacadeTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testDelete_null() throws FacadeException {
+    public void testDelete_employeeNull() throws FacadeException {
         employeeFacade.delete(null);
     }
     
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete_employeeValid() throws Exception {
         when(mappingService.mapTo(employeeDTO, Employee.class)).thenReturn(testingEmployee);
         when(mappingService.mapTo(anyCollectionOf(Employee.class), eq(EmployeeDTO.class))).thenReturn(Collections.emptyList());
         when(employeeService.getAll()).thenReturn(Collections.emptyList());

@@ -54,12 +54,12 @@ public class ServiceFacadeTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreate_null() throws FacadeException {
+    public void testCreate_serviceNull() throws FacadeException {
         serviceFacade.create(null);
     }
 
     @Test
-    public void testCreate_valid() throws FacadeException, ServiceException {
+    public void testCreate_serviceValid() throws FacadeException, ServiceException {
         when(mappingService.mapTo(testingServiceDTO, Service.class)).thenReturn(testingService);
 
         serviceFacade.create(testingServiceDTO);
@@ -69,7 +69,7 @@ public class ServiceFacadeTest {
     }
 
     @Test
-    public void testGetById_noService() throws FacadeException, ServiceException {
+    public void testGetById_serviceDoesNotExist() throws FacadeException, ServiceException {
         when(serviceService.getById(anyInt())).thenReturn(null);
         when(mappingService.mapTo(null, ServiceDTO.class)).thenReturn(null);
 
@@ -79,7 +79,7 @@ public class ServiceFacadeTest {
     }
 
     @Test
-    public void testGetById_valid() throws FacadeException, ServiceException {
+    public void testGetById_serviceValid() throws FacadeException, ServiceException {
         when(mappingService.mapTo(testingService, ServiceDTO.class)).thenReturn(testingServiceDTO);
         when(serviceService.getById(anyLong())).thenReturn(testingService);
 
@@ -92,7 +92,7 @@ public class ServiceFacadeTest {
     }
 
     @Test
-    public void testGetAll_empty() throws FacadeException, ServiceException {
+    public void testGetAll_noServices() throws FacadeException, ServiceException {
         when(serviceService.getAll()).thenReturn(Collections.emptyList());
         when(mappingService.mapTo(anyCollectionOf(Service.class), eq(ServiceDTO.class))).thenReturn(Collections.emptyList());
 
@@ -106,7 +106,7 @@ public class ServiceFacadeTest {
     }
 
     @Test
-    public void testGetAll_valid() throws FacadeException, ServiceException {
+    public void testGetAll_servicesValid() throws FacadeException, ServiceException {
         // create more services
         Service testingService1 = new Service("ServiceService", 18, new BigDecimal("8.21"));
         Service testingService2 = new Service("ServiceService2", 21, new BigDecimal("4.00"));
@@ -128,12 +128,12 @@ public class ServiceFacadeTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUpdate_null() throws FacadeException {
+    public void testUpdate_serviceNull() throws FacadeException {
         serviceFacade.update(null);
     }
 
     @Test
-    public void testUpdate_valid() throws FacadeException, ServiceException {
+    public void testUpdate_serviceValid() throws FacadeException, ServiceException {
         ServiceDTO serviceDTO = new ServiceDTO("Changed service name", 30, BigDecimal.valueOf(135));
         Service updatedService = new Service("Changed service name", 30, BigDecimal.valueOf(135));
 
@@ -158,12 +158,12 @@ public class ServiceFacadeTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testDelete_null() throws FacadeException {
+    public void testDelete_serviceNull() throws FacadeException {
         serviceFacade.delete(null);
     }
 
     @Test
-    public void testDelete_valid() throws FacadeException, ServiceException {
+    public void testDelete_serviceValid() throws FacadeException, ServiceException {
         when(mappingService.mapTo(testingServiceDTO, Service.class)).thenReturn(testingService);
         when(mappingService.mapTo(anyCollectionOf(Service.class), eq(ServiceDTO.class))).thenReturn(Collections.emptyList());
         when(serviceService.getAll()).thenReturn(Collections.emptyList());
