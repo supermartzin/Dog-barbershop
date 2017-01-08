@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.entities.*;
 import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 import cz.muni.fi.pa165.service.*;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -16,7 +15,6 @@ import java.time.ZoneOffset;
  *
  * @author Dominik Gmiterko
  */
-@Component
 @Transactional
 public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 

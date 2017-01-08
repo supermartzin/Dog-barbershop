@@ -7,7 +7,7 @@
     <parent>
         <groupId>cz.muni.fi.pa165</groupId>
         <artifactId>dog-barbershop-parent</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
     
     <artifactId>dog-barbershop-mvc</artifactId>
@@ -16,91 +16,86 @@
     <name>Dog Barbershop - Spring MVC</name>
 
     <properties>
-        <maven-war-plugin.version>3.0.0</maven-war-plugin.version>
         <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
-        <maven-javadoc.plugin>2.10.4</maven-javadoc.plugin>
+
+        <spring.taglibs.version>4.2.1.RELEASE</spring.taglibs.version>
+
+        <jstl.version>1.2</jstl.version>
     </properties>
 
     <dependencies>
-        <!-- dependency on eshop sample data, other eshop parts are imported by transitive dependencies of this one-->
+
+        <!-- Project modules -->
         <dependency>
             <groupId>cz.muni.fi.pa165</groupId>
             <artifactId>dog-barbershop-sample-data</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
-        <!-- servlet, JSP, JSTL -->
-        <!-- must be this instead of javaee-web for the springmvc-tests to succeed -->
+        <dependency>
+            <groupId>cz.muni.fi.pa165</groupId>
+            <artifactId>dog-barbershop-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+
+        <!-- Tomcat API -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-api</artifactId>
             <version>${tomcat.version}</version>
             <scope>provided</scope>
         </dependency>
+
+
+        <!-- JSTL support -->
         <dependency>
-            <groupId>org.apache.taglibs</groupId>
-            <artifactId>taglibs-standard-spec</artifactId>
-            <version>${taglibs-standard.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.taglibs</groupId>
-            <artifactId>taglibs-standard-impl</artifactId>
-            <version>${taglibs-standard.version}</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
         </dependency>
 
-        <!-- Spring MVC -->
+
+        <!-- Spring libraries -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
 
-        <!-- validator for bean properties -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring.taglibs.version}</version>
+        </dependency>
+
+
+        <!-- Bean properties validator -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
         </dependency>
 
-        <!-- must provide logging implementation, this is a runnable project -->
-        <!-- see viz http://docs.spring.io/platform/docs/1.1.4.RELEASE/reference/htmlsingle/#getting-started-logging -->
+
+        <!-- Logging -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
 
-        <!-- libraries needed for unit tests -->
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
-        <!-- what to do when only "mvn" is run -->
         <defaultGoal>tomcat7:run</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${maven-war-plugin.version}</version>
                 <configuration>
-                    <failOnMissingWebXml>true</failOnMissingWebXml>
-                    <packagingExcludes>WEB-INF/lib/javax.el-api-*.jar, WEB-INF/lib/javax.el-*.jar, WEB-INF/lib/el-api-*.jar</packagingExcludes>
-                </configuration>
+                    <failOnMissingWebXml>true</failOnMissingWebXml></configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>

@@ -7,7 +7,7 @@
     <parent>
         <artifactId>dog-barbershop-parent</artifactId>
         <groupId>cz.muni.fi.pa165</groupId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>dog-barbershop-rest</artifactId>
@@ -18,21 +18,23 @@
 
     <properties>
         <tomcat-maven-plugin.version>2.2</tomcat-maven-plugin.version>
-        <maven-war-plugin.version>3.0.0</maven-war-plugin.version>
-        <maven-javadoc.plugin>2.10.4</maven-javadoc.plugin>
     </properties>
 
     <dependencies>
+
+        <!-- Project modules -->
         <dependency>
             <groupId>cz.muni.fi.pa165</groupId>
             <artifactId>dog-barbershop-sample-data</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
         <dependency>
             <groupId>cz.muni.fi.pa165</groupId>
-            <artifactId>dog-barbershop-service</artifactId>
+            <artifactId>dog-barbershop-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-api</artifactId>
@@ -107,7 +109,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${maven-war-plugin.version}</version>
                 <configuration>
                     <failOnMissingWebXml>true</failOnMissingWebXml>
                 </configuration>
@@ -124,7 +125,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc.plugin}</version>
                 <configuration>
                     <additionalparam>-Xdoclint:none</additionalparam>
                     <detectLinks>false</detectLinks>

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>dog-barbershop-parent</artifactId>
         <groupId>cz.muni.fi.pa165</groupId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.3-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,11 +14,13 @@
     <name>Dog Barbershop - Sample data</name>
 
     <dependencies>
+
         <dependency>
             <groupId>cz.muni.fi.pa165</groupId>
             <artifactId>dog-barbershop-service</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
