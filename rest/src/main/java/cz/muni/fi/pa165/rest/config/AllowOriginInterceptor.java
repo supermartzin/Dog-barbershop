@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
  * PUT or POST Here we are allowing all origins "Access-Control-Allow-Origin",
  * "*" and all operations "Access-Control-Allow-Methods", "GET, POST, PUT,
  * DELETE, OPTIONS"
- *
- * @author brossi
  */
 public class AllowOriginInterceptor extends HandlerInterceptorAdapter {
 
@@ -22,8 +20,7 @@ public class AllowOriginInterceptor extends HandlerInterceptorAdapter {
             HttpServletResponse response, Object handler)
             throws Exception {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods",
-                "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         return true;
     }
 

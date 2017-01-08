@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.dao;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Employee;
 import cz.muni.fi.pa165.entities.Order;
