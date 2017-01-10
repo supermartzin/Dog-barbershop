@@ -6,6 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author Dominik Gmiterko
  */
 @JsonIgnoreProperties({ "password"})
-public class EmployeeDTOMixin {
+public abstract class EmployeeDTOMixin {
     
 }

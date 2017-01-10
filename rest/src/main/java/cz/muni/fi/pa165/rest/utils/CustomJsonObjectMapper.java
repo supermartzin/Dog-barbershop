@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.dto.DogDTO;
 import cz.muni.fi.pa165.dto.EmployeeDTO;
 import cz.muni.fi.pa165.rest.mixin.CustomerDTOMixin;
 import cz.muni.fi.pa165.rest.mixin.DogDTOMixin;
+import cz.muni.fi.pa165.rest.mixin.EmployeeDTOMixin;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -32,6 +33,6 @@ public class CustomJsonObjectMapper extends ObjectMapper {
         // add custom mixins
         addMixIn(CustomerDTO.class, CustomerDTOMixin.class);
         addMixIn(DogDTO.class, DogDTOMixin.class);
-        addMixIn(EmployeeDTO.class, EmployeeDTO.class);
+        addMixIn(EmployeeDTO.class, EmployeeDTOMixin.class);
     }
 }

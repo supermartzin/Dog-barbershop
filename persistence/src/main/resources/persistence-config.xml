@@ -8,26 +8,35 @@
         <property name="persistenceUnitName" value="testing"/>
     </bean>
 
+    <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
     <bean id="entityValidator" class="cz.muni.fi.pa165.validation.DefaultEntityValidator"/>
 
     <!-- Data Access Objects -->
     <bean id="customerDAO" class="cz.muni.fi.pa165.dao.CustomerDAOImpl">
+        <constructor-arg name="entityManager" ref="entityManager"/>
         <constructor-arg name="entityValidator" ref="entityValidator"/>
     </bean>
 
     <bean id="serviceDAO" class="cz.muni.fi.pa165.dao.ServiceDAOImpl">
+        <constructor-arg name="entityManager" ref="entityManager"/>
         <constructor-arg name="entityValidator" ref="entityValidator"/>
     </bean>
 
     <bean id="dogDAO" class="cz.muni.fi.pa165.dao.DogDAOImpl">
+        <constructor-arg name="entityManager" ref="entityManager"/>
         <constructor-arg name="entityValidator" ref="entityValidator"/>
     </bean>
 
     <bean id="employeeDAO" class="cz.muni.fi.pa165.dao.EmployeeDAOImpl">
+        <constructor-arg name="entityManager" ref="entityManager"/>
         <constructor-arg name="entityValidator" ref="entityValidator"/>
     </bean>
 
     <bean id="orderDAO" class="cz.muni.fi.pa165.dao.OrderDAOImpl">
+        <constructor-arg name="entityManager" ref="entityManager"/>
         <constructor-arg name="entityValidator" ref="entityValidator"/>
     </bean>
 

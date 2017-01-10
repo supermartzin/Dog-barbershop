@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <import resource="sample-data-config.xml" />
+
+    <mvc:annotation-driven/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
@@ -17,27 +17,41 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <!-- Allow Spring scan for annotations -->
-    <context:component-scan base-package="cz.muni.fi.pa165"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters" ref="jsonMessageConverter"/>
+    </bean>
 
-    <mvc:annotation-driven>
-        <mvc:message-converters>
-            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="objectMapper" ref="jsonObjectMapper"/>
-            </bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
+    <!-- JSON HTTP message converter -->
+    <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="objectMapper" ref="jsonObjectMapper"/>
+    </bean>
 
     <!-- global CORS support -->
     <mvc:cors>
         <mvc:mapping path="/**"
-                     allowed-origins="*" allowed-methods="GET, POST, PUT, DELETE"/>
+                     allowed-origins="*"
+                     allowed-methods="GET, POST, PUT, DELETE"/>
     </mvc:cors>
 
     <!-- Provides JSR-303 Validator -->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
     <!-- custom JSON mapper -->
-    <bean name="jsonObjectMapper" class="cz.muni.fi.pa165.rest.utils.CustomJsonObjectMapper"/>
+    <bean id="jsonObjectMapper" class="cz.muni.fi.pa165.rest.utils.CustomJsonObjectMapper"/>
+
+    <!-- Controllers -->
+    <bean class="cz.muni.fi.pa165.rest.controllers.CustomerController">
+        <constructor-arg name="customerFacade" ref="customerFacade"/>
+    </bean>
+
+    <bean class="cz.muni.fi.pa165.rest.controllers.EmployeeController">
+        <constructor-arg name="employeeFacade" ref="employeeFacade"/>
+    </bean>
+
+    <bean class="cz.muni.fi.pa165.rest.controllers.DogController">
+        <constructor-arg name="dogFacade" ref="dogFacade"/>
+    </bean>
+
+    <bean class="cz.muni.fi.pa165.rest.controllers.ExceptionHandlingController"/>
 
 </beans>

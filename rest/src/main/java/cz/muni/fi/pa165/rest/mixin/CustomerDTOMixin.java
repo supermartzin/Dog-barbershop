@@ -5,6 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 /**
  * @author Dominik Gmiterko
  */
-@JsonIgnoreProperties({ "password"})
+@JsonIgnoreProperties({"password"})
 public abstract class CustomerDTOMixin {
 }

@@ -19,15 +19,16 @@ import java.util.List;
  */
 public class CustomerDAOImpl implements CustomerDAO {
 
-    @PersistenceContext
-    private EntityManager manager;
-
+    private final EntityManager manager;
     private final EntityValidator validator;
 
-    public CustomerDAOImpl(EntityValidator entityValidator) {
+    public CustomerDAOImpl(EntityManager entityManager, EntityValidator entityValidator) {
+        if (entityManager == null)
+            throw new IllegalArgumentException("Entity Manager is null");
         if (entityValidator == null)
             throw new IllegalArgumentException("Entity Validator is null");
 
+        this.manager = entityManager;
         this.validator = entityValidator;
     }
 

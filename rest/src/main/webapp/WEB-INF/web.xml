@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <display-name>Rest interface of Dog barbershop</display-name>
+    <display-name>REST interface of Dog barbershop</display-name>
 
     <servlet>
         <servlet-name>rest-dispatcher</servlet-name>
@@ -12,6 +12,10 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:rest-config.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>throwExceptionIfNoHandlerFound</param-name>
+            <param-value>true</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -34,7 +38,5 @@
         <filter-name>CharacterEncodingFilter</filter-name>
         <servlet-name>rest-dispatcher</servlet-name>
     </filter-mapping>
-
-
 
 </web-app>

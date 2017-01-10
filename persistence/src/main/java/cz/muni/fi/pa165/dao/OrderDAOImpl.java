@@ -22,15 +22,16 @@ import java.util.List;
  */
 public class OrderDAOImpl implements OrderDAO {
 
-    @PersistenceContext
-    private EntityManager manager;
-
+    private final EntityManager manager;
     private final EntityValidator validator;
 
-    public OrderDAOImpl(EntityValidator entityValidator) {
+    public OrderDAOImpl(EntityManager entityManager, EntityValidator entityValidator) {
+        if (entityManager == null)
+            throw new IllegalArgumentException("Entity Manager is null");
         if (entityValidator == null)
             throw new IllegalArgumentException("Entity Validator is null");
 
+        this.manager = entityManager;
         this.validator = entityValidator;
     }
 

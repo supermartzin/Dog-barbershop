@@ -1,40 +1,47 @@
 package cz.muni.fi.pa165.rest.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.muni.fi.pa165.dto.EmployeeDTO;
 import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.facade.EmployeeFacade;
-import cz.muni.fi.pa165.rest.exceptions.ResourceAlreadyExistingException;
-import cz.muni.fi.pa165.rest.exceptions.ResourceNotFoundException;
+import cz.muni.fi.pa165.rest.exceptions.EntityAlreadyExistsException;
+import cz.muni.fi.pa165.rest.exceptions.EntityNotFoundException;
+import cz.muni.fi.pa165.rest.models.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import java.util.Collection;
 
 /**
  * @author Dominik Gmiterko
  */
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/employees")
 public class EmployeeController {
     
-    final static Logger logger = LoggerFactory.getLogger(EmployeeController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
 
-    @Inject
-    private EmployeeFacade employeeFacade;
+    private final EmployeeFacade employeeFacade;
+
+    public EmployeeController(EmployeeFacade employeeFacade) {
+        if (employeeFacade == null)
+            throw new IllegalArgumentException("EmployeeFacade is null");
+
+        this.employeeFacade = employeeFacade;
+    }
 
     /**
      * Get all employees
      *
      * @return list of UserDTOs
-     * @throws JsonProcessingException
      */
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Collection<EmployeeDTO> getAll() throws JsonProcessingException, FacadeException {
-        return employeeFacade.getAll();
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final Response<Collection<EmployeeDTO>> getAll() throws FacadeException {
+        LOGGER.debug("Get all Employees");
+
+        return new Response<>(employeeFacade.getAll(), "success", HttpStatus.OK);
     }
 
     /**
@@ -42,37 +49,59 @@ public class EmployeeController {
      * 
      * @param id user identifier
      * @return EmployeeDTO
-     * @throws ResourceNotFoundException
+     * @throws EntityNotFoundException
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final EmployeeDTO getById(@PathVariable("id") long id) throws Exception {
-         EmployeeDTO employee = employeeFacade.getById(id);
-         if (employee == null){
-            throw new ResourceNotFoundException();
-         }
-         return employee;
+    public final Response<EmployeeDTO> getById(@PathVariable("id") long id) throws FacadeException {
+        LOGGER.debug("Get Employee by ID {}", id);
+
+        EmployeeDTO employeeDTO = employeeFacade.getById(id);
+
+        if (employeeDTO == null)
+            throw new EntityNotFoundException("Employee");
+
+        return new Response<>(employeeDTO, "success", HttpStatus.OK);
     }
 
     /**
-     * Create new employee for given data
+     * Create new employeeDTO for given data
      *
-     * @param employee Employee data
+     * @param employeeDTO Employee data
      * @return EmployeeDTO
-     * @throws ResourceNotFoundException
+     * @throws EntityNotFoundException
      */
-    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final EmployeeDTO create(@RequestBody EmployeeDTO employee) throws FacadeException {
-
-        logger.debug("REST Employee create");
+    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final Response<EmployeeDTO> create(@RequestBody EmployeeDTO employeeDTO) {
+        LOGGER.debug("Create new Employee");
 
         try {
-            employeeFacade.create(employee);
-        } catch (FacadeException e) {
-            throw new ResourceAlreadyExistingException();
-        }
+            employeeFacade.create(employeeDTO);
 
-        return employeeFacade.getById(employee.getId());
+            return new Response<>(employeeFacade.getById(employeeDTO.getId()), "success", HttpStatus.OK);
+        } catch (FacadeException fEx) {
+            throw new EntityAlreadyExistsException("Employee", fEx);
+        }
+    }
+
+    /**
+     * Update information about employeeDTO
+     *
+     * @param id Id of employeeDTO
+     * @param employeeDTO Employee
+     * @throws Exception
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public final Response<EmployeeDTO> update(@PathVariable("id") long id, @RequestBody EmployeeDTO employeeDTO) {
+        LOGGER.debug("Update Employee with ID {}", id);
+
+        try {
+            employeeDTO.setId(id);
+            employeeFacade.update(employeeDTO);
+
+            return new Response<>(employeeFacade.getById(id), "success", HttpStatus.OK);
+        } catch (FacadeException fEx) {
+            throw new EntityNotFoundException("Employee", fEx);
+        }
     }
 
     /**
@@ -82,35 +111,16 @@ public class EmployeeController {
      * @throws FacadeException
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final void delete(@PathVariable("id") long id) throws FacadeException {
+    public final Response<Boolean> delete(@PathVariable("id") long id) throws FacadeException {
+        LOGGER.debug("Delete Employee with ID {}", id);
 
-        logger.debug("REST Employee delete {}", id);
+        EmployeeDTO employeeDTO = employeeFacade.getById(id);
 
-        EmployeeDTO employee = employeeFacade.getById(id);
+        if (employeeDTO == null)
+            return new Response<>(false, "employee " + id + " not found", HttpStatus.BAD_REQUEST);
 
-        if(employee == null) {
-            throw new ResourceNotFoundException();
-        }
+        employeeFacade.delete(employeeDTO);
 
-        employeeFacade.delete(employee);
-    }
-
-    /**
-     * Update information about employee
-     *
-     * @param id Id of employee
-     * @param employee Employee
-     * @throws Exception
-     */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final EmployeeDTO update(@PathVariable("id") long id, @RequestBody EmployeeDTO employee) throws Exception {
-
-        logger.debug("REST Employee update {}", id);
-
-        employee.setId(id);
-        employeeFacade.update(employee);
-
-        return employeeFacade.getById(id);
+        return new Response<>(true, "success", HttpStatus.OK);
     }
 }

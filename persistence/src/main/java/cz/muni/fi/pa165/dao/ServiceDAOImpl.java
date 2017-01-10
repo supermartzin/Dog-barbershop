@@ -6,7 +6,6 @@ import cz.muni.fi.pa165.exceptions.ValidationException;
 import cz.muni.fi.pa165.validation.EntityValidator;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import java.util.List;
 
@@ -17,15 +16,16 @@ import java.util.List;
  */
 public class ServiceDAOImpl implements ServiceDAO {
 
-    @PersistenceContext
-    private EntityManager manager;
-
+    private final EntityManager manager;
     private final EntityValidator validator;
 
-    public ServiceDAOImpl(EntityValidator entityValidator) {
+    public ServiceDAOImpl(EntityManager entityManager, EntityValidator entityValidator) {
+        if (entityManager == null)
+            throw new IllegalArgumentException("Entity Manager is null");
         if (entityValidator == null)
             throw new IllegalArgumentException("Entity Validator is null");
 
+        this.manager = entityManager;
         this.validator = entityValidator;
     }
 
