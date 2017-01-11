@@ -37,7 +37,7 @@ public class EmployeeController {
      *
      * @return list of UserDTOs
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final Response<Collection<EmployeeDTO>> getAll() throws FacadeException {
         LOGGER.debug("Get all Employees");
 
@@ -70,7 +70,7 @@ public class EmployeeController {
      * @return EmployeeDTO
      * @throws EntityNotFoundException
      */
-    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final Response<EmployeeDTO> create(@RequestBody EmployeeDTO employeeDTO) {
         LOGGER.debug("Create new Employee");
 

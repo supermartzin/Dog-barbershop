@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
 /**
@@ -23,11 +22,17 @@ import javax.validation.Valid;
  * @version 16.12.2016 19:40
  */
 @Controller
-@RequestMapping("/employee")
+@RequestMapping("/employees")
 public class EmployeeController {
 
-    @Inject
-    private EmployeeFacade employeeFacade;
+    private final EmployeeFacade employeeFacade;
+
+    public EmployeeController(EmployeeFacade employeeFacade) {
+        if (employeeFacade == null)
+            throw new IllegalArgumentException("EmployeeFacade is null");
+
+        this.employeeFacade = employeeFacade;
+    }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) throws FacadeException {
@@ -49,9 +54,29 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newEmployee(Model model) throws FacadeException{
+    public String newEmployee(Model model) throws FacadeException {
         model.addAttribute("employeeCreate", new EmployeeDTO());
         return "employee/new";
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String create(@Valid @ModelAttribute("employeeCreate") EmployeeDTO formBean, BindingResult bindingResult,
+                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) throws FacadeException {
+        // in case of validation error forward back to the the form
+        if (bindingResult.hasErrors()) {
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+            }
+
+            return "employee/new";
+        }
+
+        // create employee
+        employeeFacade.create(formBean);
+
+        // report success
+        redirectAttributes.addFlashAttribute("alert_success", "Employee " + formBean.getId() + " was created");
+        return "redirect:" + uriBuilder.path("/employee/list").toUriString();
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
@@ -66,23 +91,4 @@ public class EmployeeController {
         redirectAttributes.addFlashAttribute("alert_success", "Employee \"" + employee.getId() + "\" was deleted.");
         return "redirect:" + uriBuilder.path("/employee/list").toUriString();
     }
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@Valid @ModelAttribute("employeeCreate") EmployeeDTO formBean, BindingResult bindingResult,
-                         Model model, RedirectAttributes redirectAttributes, UriComponentsBuilder uriBuilder) throws FacadeException {
-        //in case of validation error forward back to the the form
-        if (bindingResult.hasErrors()) {
-            for (FieldError fe : bindingResult.getFieldErrors()) {
-                model.addAttribute(fe.getField() + "_error", true);
-            }
-            return "employee/new";
-        }
-        //create product
-        employeeFacade.create(formBean);
-        //report success
-        redirectAttributes.addFlashAttribute("alert_success", "Employee " + formBean.getId() + " was created");
-        return "redirect:" + uriBuilder.path("/employee/list").toUriString();
-    }
-
-
 }

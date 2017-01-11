@@ -37,7 +37,7 @@ public class DogController {
      *
      * @return list of UserDTOs
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final Response<Collection<DogDTO>> getAll() throws FacadeException {
         LOGGER.debug("Get all Dogs");
 
@@ -70,7 +70,7 @@ public class DogController {
      * @return
      * @throws FacadeException
      */
-    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final Response<DogDTO> create(@RequestBody DogDTO dog) {
         LOGGER.debug("Create new Dog");
 

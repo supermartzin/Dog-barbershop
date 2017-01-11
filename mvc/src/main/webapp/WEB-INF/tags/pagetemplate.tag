@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><c:out value="${title}"/></title>
-    <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/favicon.ico" type="image/x-icon">
     <!-- bootstrap loaded from content delivery network -->
     <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">--%>
     <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">--%>
@@ -35,41 +35,60 @@
             <my:a class="navbar-brand" href="/">Dog Barbershop</my:a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <sec:authorize access="hasRole('ROLE_ANONYMOUS')">
-                    <li><my:a href="/service/list">Services</my:a></li>
+            <sec:authorize access="hasRole('ROLE_ANONYMOUS')">
+                <ul class="nav navbar-nav">
+                    <li><my:a href="/services/list">Services</my:a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     <li><my:a href="/login">Login</my:a></li>
-                </sec:authorize>
-                <sec:authorize access="hasRole('ROLE_USER')">
-                    <li><my:a href="/service/list">Services</my:a></li>
-                    <li><my:a href="/customer/detail/{$currentUser.id}">My profile</my:a></li>
-                    <li><my:a href="/dog/list">My dogs</my:a></li>
+                    <li><my:a href="/customers/new">Register</my:a></li>
+                </ul>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_CUSTOMER')">
+                <ul class="nav navbar-nav">
+                    <li><my:a href="/services/list">Services</my:a></li>
+                    <li><my:a href="/customers/detail/{$currentUser.id}">My profile</my:a></li>
+                    <li><my:a href="/dogs/list">My dogs</my:a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret">My orders</b></a>
                         <ul class="dropdown-menu">
-                            <li><my:a href="/order/list/all">All</my:a></li>
-                            <li><my:a href="/order/list/waiting">Ordered</my:a></li>
-                            <li><my:a href="/order/list/done">Done</my:a></li>
+                            <li><my:a href="/orders/list/all">All</my:a></li>
+                            <li><my:a href="/orders/list/waiting">Ordered</my:a></li>
+                            <li><my:a href="/orders/list/done">Done</my:a></li>
                         </ul>
                     </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     <li><my:a href="/logout">Logout</my:a></li>
-                </sec:authorize>
-                <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
-                    <li><my:a href="/service/list">Services</my:a></li>
-                    <li><my:a href="/customer/list">Customers</my:a></li>
-                    <li><my:a href="/dog/list">Dogs</my:a></li>
+                </ul>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
+                <ul class="nav navbar-nav">
+                    <li><my:a href="/services/list">Services</my:a></li>
+                    <li><my:a href="/customers/list">Customers</my:a></li>
+                    <li><my:a href="/dogs/list">Dogs</my:a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret">Orders</b></a>
                         <ul class="dropdown-menu">
-                            <li><my:a href="/order/list/all">All</my:a></li>
-                            <li><my:a href="/order/list/waiting">Ordered</my:a></li>
-                            <li><my:a href="/order/list/done">Done</my:a></li>
+                            <li><my:a href="/orders/list/all">All</my:a></li>
+                            <li><my:a href="/orders/list/waiting">Ordered</my:a></li>
+                            <li><my:a href="/orders/list/done">Done</my:a></li>
                         </ul>
                     </li>
-                    <li><my:a href="/employee/list">Employee</my:a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     <li><my:a href="/logout">Logout</my:a></li>
-                </sec:authorize>
-            </ul>
+                </ul>
+            </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <!-- TODO -->
+                <ul class="nav navbar-nav">
+                    <li><my:a href="/employees/list">Employees</my:a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><my:a href="/logout">Logout</my:a></li>
+                </ul>
+            </sec:authorize>
         </div><!--/.nav-collapse -->
     </div>
 </nav>

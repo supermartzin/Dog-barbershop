@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.inject.Inject;
-
 /**
  * @author Dominik Gmiterko
  */
@@ -19,8 +17,14 @@ import javax.inject.Inject;
 @RequestMapping("/customers")
 public class CustomerController {
 
-    @Inject
-    private CustomerFacade customerFacade;
+    private final CustomerFacade customerFacade;
+
+    public CustomerController(CustomerFacade customerFacade) {
+        if (customerFacade == null)
+            throw new IllegalArgumentException("CustomerFacade is null");
+
+        this.customerFacade = customerFacade;
+    }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) throws FacadeException {

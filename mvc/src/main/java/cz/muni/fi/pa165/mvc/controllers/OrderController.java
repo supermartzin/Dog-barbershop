@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +24,20 @@ import java.util.List;
  * @version 16.12.2016 19:40
  */
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
 
-    @Inject
-    private OrderFacade orderFacade;
+    private final OrderFacade orderFacade;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Model model, @PathVariable String filter) throws FacadeException {
+    public OrderController(OrderFacade orderFacade) {
+        if (orderFacade == null)
+            throw new IllegalArgumentException("OrderFacade is null");
+
+        this.orderFacade = orderFacade;
+    }
+
+    @RequestMapping(value = "/list/{filter}", method = RequestMethod.GET)
+    public String list(Model model, @PathVariable("filter") String filter) throws FacadeException {
         List<OrderDTO> orders;
         switch (filter) {
             case "all":

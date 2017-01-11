@@ -14,9 +14,7 @@
                 <li>Username: <c:out value="${customer.username}"/></li>
                 <li>Email: <c:out value="${customer.username}"/></li>
                 <li>Phone: <c:out value="${customer.phone}"/></li>
-                <li>Address:
-                    <my:address address="${customer.address}"/>
-                </li>
+                <li>Address: <my:address address="${customer.address}"/></li>
             </ul>
         </div>
         <div class="col-xs-6">

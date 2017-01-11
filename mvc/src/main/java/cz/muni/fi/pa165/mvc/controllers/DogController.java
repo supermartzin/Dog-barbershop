@@ -8,13 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.inject.Inject;
 import javax.validation.Valid;
 
 /**
@@ -22,11 +22,17 @@ import javax.validation.Valid;
  * @version 16.12.2016 19:40
  */
 @Controller
-@RequestMapping("/dog")
+@RequestMapping("/dogs")
 public class DogController {
 
-    @Inject
-    private DogFacade dogFacade;
+    private final DogFacade dogFacade;
+
+    public DogController(DogFacade dogFacade) {
+        if (dogFacade == null)
+            throw new IllegalArgumentException("DogFacade is null");
+
+        this.dogFacade = dogFacade;
+    }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) throws FacadeException {
@@ -39,7 +45,6 @@ public class DogController {
         model.addAttribute("dogCreate", new DogDTO());
         return "dog/new";
     }
-
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) throws FacadeException {
@@ -58,11 +63,13 @@ public class DogController {
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
         DogDTO dog = dogFacade.getById(id);
 
-        if(dog == null) {
+        if (dog == null)
             throw new ResourceNotFoundException("Dog not found!");
-        }
 
+        // delete dog
         dogFacade.delete(dog);
+
+        // return result
         redirectAttributes.addFlashAttribute("alert_success", "Dog \"" + dog.getName() + "\" was deleted.");
         return "redirect:" + uriBuilder.path("/dog/list").toUriString();
     }

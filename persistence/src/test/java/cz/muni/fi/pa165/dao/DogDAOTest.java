@@ -8,11 +8,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -34,7 +34,7 @@ public class DogDAOTest {
     @PersistenceContext
     private EntityManager manager;
 
-    @Inject
+    @Autowired
     private DogDAO dogDAO;
 
     private Dog testingDog;

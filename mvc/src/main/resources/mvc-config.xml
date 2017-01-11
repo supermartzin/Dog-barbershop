@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
@@ -16,9 +14,6 @@
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-
-    <!-- Allow Spring scan for annotations -->
-    <context:component-scan base-package="cz.muni.fi.pa165"/>
 
     <mvc:annotation-driven validator="validator"/>
 
@@ -33,7 +28,33 @@
         </bean>
     </mvc:view-resolvers>
 
+    <!-- Mapping for static resources like images, css, ... -->
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
     <!-- Provides JSR-303 Validator -->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+    <!-- Controllers -->
+    <bean class="cz.muni.fi.pa165.mvc.controllers.CustomerController">
+        <constructor-arg name="customerFacade" ref="customerFacade"/>
+    </bean>
+
+    <bean class="cz.muni.fi.pa165.mvc.controllers.EmployeeController">
+        <constructor-arg name="employeeFacade" ref="employeeFacade"/>
+    </bean>
+
+    <bean class="cz.muni.fi.pa165.mvc.controllers.DogController">
+        <constructor-arg name="dogFacade" ref="dogFacade"/>
+    </bean>
+
+    <bean class="cz.muni.fi.pa165.mvc.controllers.ServiceController">
+        <constructor-arg name="serviceFacade" ref="serviceFacade"/>
+    </bean>
+
+    <bean class="cz.muni.fi.pa165.mvc.controllers.OrderController">
+        <constructor-arg name="orderFacade" ref="orderFacade"/>
+    </bean>
+
+    <bean class="cz.muni.fi.pa165.mvc.controllers.ExceptionHandlingController"/>
 
 </beans>

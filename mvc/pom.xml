@@ -68,13 +68,6 @@
         </dependency>
 
 
-        <!-- Dependency injection annotations -->
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-        </dependency>
-
-
         <!-- Bean properties validator -->
         <dependency>
             <groupId>javax.validation</groupId>

@@ -22,12 +22,12 @@
         <c:forEach items="${customers}" var="user">
             <tr>
                 <td>
-                    <my:a href="/customer/detail/${user.id}">
+                    <my:a href="/customers/detail/${user.id}">
                         <c:out value="${user.firstName}"/>
                     </my:a>
                 </td>
                 <td>
-                    <my:a href="/customer/detail/${user.id}">
+                    <my:a href="/customers/detail/${user.id}">
                         <c:out value="${user.lastName}"/>
                     </my:a>
                 </td>

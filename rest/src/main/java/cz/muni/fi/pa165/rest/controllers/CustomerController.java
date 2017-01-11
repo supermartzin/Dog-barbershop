@@ -37,7 +37,7 @@ public class CustomerController {
      *
      * @return list of UserDTOs
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final Response<Collection<CustomerDTO>> getAll() throws FacadeException {
         LOGGER.debug("Get all Customers");
 
@@ -70,7 +70,7 @@ public class CustomerController {
      * @return
      * @throws FacadeException
      */
-    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final Response<CustomerDTO> create(@RequestBody CustomerDTO customerDTO) {
         LOGGER.debug("Create new Customer");
 

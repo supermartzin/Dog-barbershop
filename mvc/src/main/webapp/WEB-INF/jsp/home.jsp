@@ -26,7 +26,7 @@
             </ul>
         </div>
         <div class="col-sm-6 business-hours">
-            <img class="img-responsive" src="${pageContext.request.contextPath}/images/dogs.jpg" />
+            <img class="img-responsive" src="${pageContext.request.contextPath}/resources/images/dogs.jpg" />
         </div>
     </div>
 
