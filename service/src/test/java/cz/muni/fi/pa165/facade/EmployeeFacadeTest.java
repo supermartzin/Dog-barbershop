@@ -9,8 +9,10 @@ import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.EmployeeService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -32,6 +34,7 @@ import static org.mockito.Mockito.when;
  * @author Denis Richtarik
  * @version 22.11.2016 14:10
  */
+@RunWith(MockitoJUnitRunner.class)
 public class EmployeeFacadeTest {
 
     @Mock
@@ -40,7 +43,7 @@ public class EmployeeFacadeTest {
     @Mock
     private BeanMappingService mappingService;
 
-    private EmployeeFacadeImpl employeeFacade;
+    private EmployeeFacade employeeFacade;
     private EmployeeDTO employeeDTO;
     private Employee testingEmployee;
     private AddressDTO addressDTO;
@@ -50,7 +53,9 @@ public class EmployeeFacadeTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+
         employeeFacade = new EmployeeFacadeImpl(employeeService, mappingService);
+
         addressDTO = new AddressDTO("Testing Avenue", 25, "Testero", 2356, "Testing Republic");
         employeeDTO = new EmployeeDTO("testing", "password", "John", "Tester", addressDTO,
                 "testing.employee@mail.com", "755468236", new BigDecimal("4200"));

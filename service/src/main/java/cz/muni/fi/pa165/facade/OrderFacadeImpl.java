@@ -8,7 +8,6 @@ import cz.muni.fi.pa165.entities.Customer;
 import cz.muni.fi.pa165.entities.Dog;
 import cz.muni.fi.pa165.entities.Order;
 import cz.muni.fi.pa165.entities.Service;
-import cz.muni.fi.pa165.exceptions.DAOException;
 import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.exceptions.ServiceException;
 import cz.muni.fi.pa165.service.BeanMappingService;
@@ -113,12 +112,12 @@ public class OrderFacadeImpl implements OrderFacade {
      * {@inheritDoc}
      */
     @Override
-    public List<OrderDTO> getAllOrdersForDay(LocalDateTime date) throws FacadeException {
-        if (date == null)
-            throw new IllegalArgumentException("date is null");
+    public List<OrderDTO> getByService(ServiceDTO serviceDTO) throws FacadeException {
+        if (serviceDTO == null)
+            throw new IllegalArgumentException("ServiceDTO is null");
 
         try {
-            return beanMappingService.mapTo(orderService.getAllOrdersForDay(date), OrderDTO.class);
+            return beanMappingService.mapTo(orderService.getByService(beanMappingService.mapTo(serviceDTO, Service.class)), OrderDTO.class);
         } catch (ServiceException sEx) {
             throw new FacadeException(sEx);
         }
@@ -128,12 +127,44 @@ public class OrderFacadeImpl implements OrderFacade {
      * {@inheritDoc}
      */
     @Override
-    public List<OrderDTO> getByService(ServiceDTO serviceDTO) throws FacadeException {
-        if (serviceDTO == null)
-            throw new IllegalArgumentException("ServiceDTO is null");
+    public List<OrderDTO> getByState(Boolean status) throws FacadeException {
+        if (status == null)
+            throw new IllegalArgumentException("status is null");
 
         try {
-            return beanMappingService.mapTo(orderService.getByService(beanMappingService.mapTo(serviceDTO, Service.class)), OrderDTO.class);
+            return beanMappingService.mapTo(orderService.getByStatus(status), OrderDTO.class);
+        } catch (ServiceException e) {
+            throw new FacadeException(e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) throws FacadeException {
+        if (from == null)
+            throw new IllegalArgumentException("From DateTime is null");
+        if (to == null)
+            throw new IllegalArgumentException("To DateTime is null");
+
+        try {
+            return orderService.getTotalAmountGained(from, to);
+        } catch (ServiceException sEx) {
+            throw new FacadeException(sEx);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<OrderDTO> getAllOrdersForDay(LocalDateTime date) throws FacadeException {
+        if (date == null)
+            throw new IllegalArgumentException("date is null");
+
+        try {
+            return beanMappingService.mapTo(orderService.getAllOrdersForDay(date), OrderDTO.class);
         } catch (ServiceException sEx) {
             throw new FacadeException(sEx);
         }
@@ -155,18 +186,6 @@ public class OrderFacadeImpl implements OrderFacade {
         }
     }
 
-    @Override
-    public List<OrderDTO> getByState(Boolean status) throws FacadeException {
-        if (status == null)
-            throw new IllegalArgumentException("status is null");
-
-        try {
-            return beanMappingService.mapTo(orderService.getByStatus(status), OrderDTO.class);
-        } catch (ServiceException e) {
-            throw new FacadeException(e);
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -178,23 +197,6 @@ public class OrderFacadeImpl implements OrderFacade {
         try {
             Order order = beanMappingService.mapTo(orderDTO, Order.class);
             orderService.delete(order);
-        } catch (ServiceException sEx) {
-            throw new FacadeException(sEx);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public BigDecimal getTotalAmountGained(LocalDateTime from, LocalDateTime to) throws FacadeException {
-        if (from == null)
-            throw new IllegalArgumentException("From DateTime is null");
-        if (to == null)
-            throw new IllegalArgumentException("To DateTime is null");
-
-        try {
-            return orderService.getTotalAmountGained(from, to);
         } catch (ServiceException sEx) {
             throw new FacadeException(sEx);
         }
