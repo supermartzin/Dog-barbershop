@@ -149,6 +149,10 @@ public class CustomerDTO {
         }
     }
 
+    public void setDogs(Set<DogDTO> dogs) {
+        this.dogs = dogs;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object)
