@@ -105,4 +105,15 @@ public class OrderController {
         redirectAttributes.addFlashAttribute("alert_success", "Order " + formBean.getId() + " was created");
         return "redirect:" + uriBuilder.path("/order/list").toUriString();
     }
+
+    @RequestMapping(value = "/markDone/{id}", method = RequestMethod.POST)
+    public String finish(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
+        try {
+            orderFacade.getById(id).setStatus(true);
+            redirectAttributes.addFlashAttribute("alert_success", "Order number "+id+" was marked done.");
+        } catch (FacadeException ex) {
+            redirectAttributes.addFlashAttribute("alert_danger", "Order number "+id+" was not marked as done. "+ex.getMessage());
+        }
+        return "redirect:" + uriBuilder.path("/order/detail/{id}").buildAndExpand(id).encode().toUriString();
+    }
 }

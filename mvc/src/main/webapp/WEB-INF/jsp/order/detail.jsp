@@ -12,77 +12,40 @@
             <caption>Order</caption>
             <thead>
             <tr>
-                <th>id</th>
-                <th>placed</th>
-                <th>state</th>
-                <th>email</th>
-                <th>customer name</th>
-                <th>address</th>
-                <th>phone</th>
+                <th>Status</th>
+                <th>Dog</th>
+                <th>Employee</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td>${order.id}</td>
-                <td><fmt:formatDate value="${order.created}" pattern="yyyy-MM-dd"/></td>
-                <td><b style="color: red;">${order.state}</b></td>
-                <td><c:out value="${order.user.email}"/></td>
-                <td><c:out value="${order.user.givenName} ${order.user.surname}"/></td>
-                <td><c:out value="${order.user.address}"/></td>
-                <td><c:out value="${order.user.phone}"/></td>
+                <td><c:out value="${order.status}"</td>
+                <td>
+                    <my:a href="/dogs/detail/${dog.id}">
+                        <c:out value="${order.dog.name}"/>
+                    </my:a>
+                </td>
+                <td><c:out value="${order.service.title}"/></td>
+                <td>
+                    <my:a href="/employees/detail/${employee.id}">
+                        <c:out value="${employee.firstName} ${employee.lastName}"/>
+                    </my:a>
+                </td>
             </tr>
             </tbody>
         </table>
 
     <div class="row">
     <c:choose>
-        <c:when test="${order.state=='RECEIVED'}">
+        <c:when test="${order.status==false}">
             <div class="col-xs-1">
-            <form method="post" action="${pageContext.request.contextPath}/order/ship/${order.id}">
-                <button type="submit" class="btn btn-primary">Ship</button>
-            </form>
-            </div>
-            <div class="col-xs-1">
-            <form method="post" action="${pageContext.request.contextPath}/order/cancel/${order.id}">
-                <button type="submit" class="btn btn-primary">Cancel</button>
-            </form>
-            </div>
-        </c:when>
-        <c:when test="${order.state=='SHIPPED'}">
-            <div class="col-xs-1">
-            <form method="post" action="${pageContext.request.contextPath}/order/finish/${order.id}">
-                <button type="submit" class="btn btn-primary">Finish</button>
+            <form method="post" action="${pageContext.request.contextPath}/order/done/${order.id}">
+                <button type="submit" class="btn btn-primary">Mark done</button>
             </form>
             </div>
         </c:when>
     </c:choose>
     </div>
-
-    <table class="table">
-        <caption>order items</caption>
-        <thead>
-        <tr>
-            <th>id</th>
-            <th>amount</th>
-            <th>product</th>
-            <th>price per product</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${order.orderItems}" var="item">
-            <tr>
-                <td>${item.id}</td>
-                <td><c:out value="${item.amount}"/>x</td>
-                <td><c:out value="${item.product.name}"/></td>
-                <td><c:out value="${item.pricePerItem.value} ${item.pricePerItem.currency}"/></td>
-            </tr>
-        </c:forEach>
-        <tr>
-            <th colspan="3"><b>Total</b></th>
-            <th>${totalPrice} ${totalCurrency}</th>
-        </tr>
-        </tbody>
-    </table>
 
 </jsp:attribute>
 </my:pagetemplate>

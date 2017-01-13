@@ -45,6 +45,7 @@
 
     <bean class="cz.muni.fi.pa165.mvc.controllers.DogController">
         <constructor-arg name="dogFacade" ref="dogFacade"/>
+        <constructor-arg name="customerFacade" ref="customerFacade"/>
     </bean>
 
     <bean class="cz.muni.fi.pa165.mvc.controllers.ServiceController">

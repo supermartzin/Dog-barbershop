@@ -5,17 +5,21 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<c:set var="title" value="${employee.firstName} ${employee.lastName}"/>
+<c:set var="title" value="${dog.name}"/>
 <my:pagetemplate title="${title}">
 <jsp:attribute name="body">
+    <form method="post" action="${pageContext.request.contextPath}/dogs/delete/${dog.id}">
+        <button type="submit" class="btn btn-primary">Delete</button>
+    </form>
+
     <div class="row">
         <div class="col-xs-6">
             <ul>
-                <li>Username: <c:out value="${employee.username}"/></li>
-                <li>Email: <c:out value="${employee.email}"/></li>
-                <li>Phone: <c:out value="${employee.phone}"/></li>
-                <li>Address: <my:address address="${employee.address}"/></li>
-                <li>Salary: <c:out value="${employee.salary}"/></li>
+                <li>Breed: <c:out value="${dog.breed}"/></li>
+                <li>Age: <c:out value="${dog.age}"/></li>
+                <my:a href="/customers/detail/${dog.customer.id}">
+                    <li><c:out value="${dog.customer.firstName} ${dog.customer.lastName}"/></li>
+                </my:a>
             </ul>
         </div>
     </div>

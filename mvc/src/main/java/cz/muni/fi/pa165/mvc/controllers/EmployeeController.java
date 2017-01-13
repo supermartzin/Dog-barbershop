@@ -36,7 +36,7 @@ public class EmployeeController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) throws FacadeException {
-        model.addAttribute("employee", employeeFacade.getAll());
+        model.addAttribute("employees", employeeFacade.getAll());
         return "employee/list";
     }
 

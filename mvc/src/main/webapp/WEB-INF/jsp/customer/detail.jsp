@@ -12,15 +12,19 @@
         <div class="col-xs-6">
             <ul>
                 <li>Username: <c:out value="${customer.username}"/></li>
-                <li>Email: <c:out value="${customer.username}"/></li>
+                <li>Email: <c:out value="${customer.email}"/></li>
                 <li>Phone: <c:out value="${customer.phone}"/></li>
                 <li>Address: <my:address address="${customer.address}"/></li>
             </ul>
         </div>
         <div class="col-xs-6">
             <h3>Dogs</h3>
+            <my:a href="/dogs/new" class="btn btn-primary">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                New dog
+            </my:a>
             <table class="table">
-                <caption>Dogs</caption>
+                <caption>${customer.firstName} ${customer.lastName} 's dogs</caption>
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -31,7 +35,11 @@
                 <tbody>
                 <c:forEach items="${customer.dogs}" var="dog">
                     <tr>
-                        <td><c:out value="${dog.name}"/></td>
+                        <td>
+                            <my:a href="/dogs/detail/${dog.id}">
+                                <c:out value="${dog.name}"/>
+                            </my:a>
+                        </td>
                         <td><c:out value="${dog.breed}"/></td>
                         <td><c:out value="${dog.age}"/></td>
                     </tr>

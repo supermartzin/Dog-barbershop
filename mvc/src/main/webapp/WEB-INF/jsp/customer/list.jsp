@@ -8,6 +8,11 @@
 <my:pagetemplate title="Customers">
 <jsp:attribute name="body">
 
+    <my:a href="/customers/new" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        New customer
+    </my:a>
+
     <table class="table">
         <caption>Customers</caption>
         <thead>

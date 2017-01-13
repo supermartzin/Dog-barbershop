@@ -1,7 +1,9 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
+import cz.muni.fi.pa165.dto.CustomerDTO;
 import cz.muni.fi.pa165.dto.DogDTO;
 import cz.muni.fi.pa165.exceptions.FacadeException;
+import cz.muni.fi.pa165.facade.CustomerFacade;
 import cz.muni.fi.pa165.facade.DogFacade;
 import cz.muni.fi.pa165.mvc.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Denis Richtarik
@@ -26,12 +29,14 @@ import javax.validation.Valid;
 public class DogController {
 
     private final DogFacade dogFacade;
+    private final CustomerFacade customerFacade;
 
-    public DogController(DogFacade dogFacade) {
+    public DogController(DogFacade dogFacade, CustomerFacade customerFacade) {
         if (dogFacade == null)
             throw new IllegalArgumentException("DogFacade is null");
 
         this.dogFacade = dogFacade;
+        this.customerFacade = customerFacade;
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -59,7 +64,7 @@ public class DogController {
         return "dog/detail";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
         DogDTO dog = dogFacade.getById(id);
 
@@ -71,7 +76,7 @@ public class DogController {
 
         // return result
         redirectAttributes.addFlashAttribute("alert_success", "Dog \"" + dog.getName() + "\" was deleted.");
-        return "redirect:" + uriBuilder.path("/dog/list").toUriString();
+        return "redirect:" + uriBuilder.path("/dogs/list").toUriString();
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -89,5 +94,10 @@ public class DogController {
         //report success
         redirectAttributes.addFlashAttribute("alert_success", "Dog " + formBean.getId() + " was created");
         return "redirect:" + uriBuilder.path("/dog/list").toUriString();
+    }
+
+    @ModelAttribute("customers")
+    public List<CustomerDTO> customers() throws FacadeException {
+        return customerFacade.getAll();
     }
 }
