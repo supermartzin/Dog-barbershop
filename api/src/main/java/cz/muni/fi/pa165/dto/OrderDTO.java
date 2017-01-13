@@ -70,6 +70,14 @@ public class OrderDTO {
         this.service = service;
     }
 
+    public EmployeeDTO getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(EmployeeDTO employee) {
+        this.employee = employee;
+    }
+
     public boolean getStatus() {
         return status;
     }

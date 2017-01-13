@@ -64,12 +64,12 @@
                             <td><c:out value="${order.status}"/></td>
                             <td><c:out value="${order.service.title}"/></td>
                             <td>
-                                <my:a href="/order/detail/${dog.id}">
+                                <my:a href="/order/detail/${order.dog.id}">
                                     <c:out value="${order.dog.name}"/>
                                 </my:a>
                             </td>
                             <td>
-                                <my:a href="/employee/detail/${employee.id}">
+                                <my:a href="/employee/detail/${order.employee.id}">
                                     <c:out value="${order.employee.firstName} ${order.employee.lastName}"/>
                                 </my:a>
                             </td>

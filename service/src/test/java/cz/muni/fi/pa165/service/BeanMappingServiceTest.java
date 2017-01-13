@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dto.AddressDTO;
 import cz.muni.fi.pa165.entities.Address;
+import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.*;
 public class BeanMappingServiceTest {
 
     @Mock
-    private Mapper dozer;
+    private DozerBeanMapper dozer;
 
     private BeanMappingService beanMappingService;
 

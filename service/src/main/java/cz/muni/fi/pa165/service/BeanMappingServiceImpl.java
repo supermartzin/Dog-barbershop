@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.service;
 
+import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 
 import java.util.ArrayList;
@@ -15,8 +16,13 @@ public class BeanMappingServiceImpl implements BeanMappingService {
 
     private final Mapper dozer;
 
-    public BeanMappingServiceImpl(Mapper dozer) {
+    public BeanMappingServiceImpl(DozerBeanMapper dozer) {
         this.dozer = dozer;
+
+        List<String> mappingFiles = new ArrayList();
+        mappingFiles.add("dozerJdk8Converters.xml");
+
+        dozer.setMappingFiles(mappingFiles);
     }
 
     /**
