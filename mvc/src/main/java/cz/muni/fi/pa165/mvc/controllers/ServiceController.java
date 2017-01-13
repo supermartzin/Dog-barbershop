@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Dominik Gmiterko
  */
 @Controller
-@RequestMapping("/services")
+@RequestMapping("/service")
 public class ServiceController {
 
     private final ServiceFacade serviceFacade;

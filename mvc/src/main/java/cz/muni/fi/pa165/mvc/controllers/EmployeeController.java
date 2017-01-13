@@ -22,7 +22,7 @@ import javax.validation.Valid;
  * @version 16.12.2016 19:40
  */
 @Controller
-@RequestMapping("/employees")
+@RequestMapping("/employee")
 public class EmployeeController {
 
     private final EmployeeFacade employeeFacade;
@@ -79,7 +79,7 @@ public class EmployeeController {
         return "redirect:" + uriBuilder.path("/employee/list").toUriString();
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
         EmployeeDTO employee = employeeFacade.getById(id);
 
@@ -89,6 +89,19 @@ public class EmployeeController {
 
         employeeFacade.delete(employee);
         redirectAttributes.addFlashAttribute("alert_success", "Employee \"" + employee.getId() + "\" was deleted.");
+        return "redirect:" + uriBuilder.path("/employee/list").toUriString();
+    }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    public String update(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
+        EmployeeDTO employee = employeeFacade.getById(id);
+
+        if(employee == null) {
+            throw new ResourceNotFoundException("Employee not found!");
+        }
+
+        employeeFacade.update(employee);
+        redirectAttributes.addFlashAttribute("alert_success", "Employee " + employee.getId() + " was updated.");
         return "redirect:" + uriBuilder.path("/employee/list").toUriString();
     }
 }

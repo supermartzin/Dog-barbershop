@@ -37,24 +37,24 @@
         <div id="navbar" class="collapse navbar-collapse">
             <sec:authorize access="hasRole('ROLE_ANONYMOUS')">
                 <ul class="nav navbar-nav">
-                    <li><my:a href="/services/list">Services</my:a></li>
+                    <li><my:a href="/service/list">Services</my:a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><my:a href="/login">Login</my:a></li>
-                    <li><my:a href="/customers/new">Register</my:a></li>
+                    <li><my:a href="/customer/new">Register</my:a></li>
                 </ul>
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_CUSTOMER')">
                 <ul class="nav navbar-nav">
-                    <li><my:a href="/services/list">Services</my:a></li>
-                    <li><my:a href="/customers/detail/{$currentUser.id}">My profile</my:a></li>
-                    <li><my:a href="/dogs/list">My dogs</my:a></li>
+                    <li><my:a href="/service/list">Services</my:a></li>
+                    <li><my:a href="/customer/detail/{$currentUser.id}">My profile</my:a></li>
+                    <li><my:a href="/dog/list">My dogs</my:a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret">My orders</b></a>
                         <ul class="dropdown-menu">
-                            <li><my:a href="/orders/list/all">All</my:a></li>
-                            <li><my:a href="/orders/list/waiting">Ordered</my:a></li>
-                            <li><my:a href="/orders/list/done">Done</my:a></li>
+                            <li><my:a href="/order/list/all">All</my:a></li>
+                            <li><my:a href="/order/list/waiting">Ordered</my:a></li>
+                            <li><my:a href="/order/list/done">Done</my:a></li>
                         </ul>
                     </li>
                 </ul>
@@ -64,15 +64,15 @@
             </sec:authorize>
             <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
                 <ul class="nav navbar-nav">
-                    <li><my:a href="/services/list">Services</my:a></li>
-                    <li><my:a href="/customers/list">Customers</my:a></li>
-                    <li><my:a href="/dogs/list">Dogs</my:a></li>
+                    <li><my:a href="/service/list">Services</my:a></li>
+                    <li><my:a href="/customer/list">Customers</my:a></li>
+                    <li><my:a href="/dog/list">Dogs</my:a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret">Orders</b></a>
                         <ul class="dropdown-menu">
-                            <li><my:a href="/orders/list/all">All</my:a></li>
-                            <li><my:a href="/orders/list/waiting">Ordered</my:a></li>
-                            <li><my:a href="/orders/list/done">Done</my:a></li>
+                            <li><my:a href="/order/list/all">All</my:a></li>
+                            <li><my:a href="/order/list/waiting">Ordered</my:a></li>
+                            <li><my:a href="/order/list/done">Done</my:a></li>
                         </ul>
                     </li>
                 </ul>
@@ -83,7 +83,7 @@
             <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <!-- TODO -->
                 <ul class="nav navbar-nav">
-                    <li><my:a href="/employees/list">Employees</my:a></li>
+                    <li><my:a href="/employee/list">Employees</my:a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><my:a href="/logout">Logout</my:a></li>

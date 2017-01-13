@@ -37,6 +37,7 @@
     <!-- Controllers -->
     <bean class="cz.muni.fi.pa165.mvc.controllers.CustomerController">
         <constructor-arg name="customerFacade" ref="customerFacade"/>
+        <constructor-arg name="orderFacade" ref="orderFacade"/>
     </bean>
 
     <bean class="cz.muni.fi.pa165.mvc.controllers.EmployeeController">
@@ -46,6 +47,7 @@
     <bean class="cz.muni.fi.pa165.mvc.controllers.DogController">
         <constructor-arg name="dogFacade" ref="dogFacade"/>
         <constructor-arg name="customerFacade" ref="customerFacade"/>
+        <constructor-arg name="orderFacade" ref="orderFacade"/>
     </bean>
 
     <bean class="cz.muni.fi.pa165.mvc.controllers.ServiceController">
@@ -54,6 +56,9 @@
 
     <bean class="cz.muni.fi.pa165.mvc.controllers.OrderController">
         <constructor-arg name="orderFacade" ref="orderFacade"/>
+        <constructor-arg name="dogFacade" ref="dogFacade"/>
+        <constructor-arg name="serviceFacade" ref="serviceFacade"/>
+        <constructor-arg name="employeeFacade" ref="employeeFacade"/>
     </bean>
 
     <bean class="cz.muni.fi.pa165.mvc.controllers.ExceptionHandlingController"/>

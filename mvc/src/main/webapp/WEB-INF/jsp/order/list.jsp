@@ -9,32 +9,32 @@
 <jsp:attribute name="body">
 
     <div class="btn-group" role="group" aria-label="filter">
-        <my:a href="/orders/list/all" class="btn btn-default ${filter=='all'?'active':''}">All</my:a>
-        <my:a href="/orders/list/done" class="btn btn-default ${filter=='done'?'active':''}">Done</my:a>
-        <my:a href="/orders/list/waiting" class="btn btn-default ${filter=='waiting'?'active':''}">Waiting</my:a>
+        <my:a href="/order/list/all" class="btn btn-default ${filter=='all'?'active':''}">All</my:a>
+        <my:a href="/order/list/done" class="btn btn-default ${filter=='done'?'active':''}">Done</my:a>
+        <my:a href="/order/list/waiting" class="btn btn-default ${filter=='waiting'?'active':''}">Waiting</my:a>
     </div>
 
     <table class="table">
         <thead>
         <tr>
             <th>Status</th>
-            <th>Dog</th>
             <th>Service</th>
+            <th>Dog</th>
             <th>Employee</th>
         </tr>
         </thead>
         <tbody>
             <c:forEach items="${orders}" var="order">
                 <tr>
-                    <td><c:out value="${order.status}"</td>
+                    <td><c:out value="${order.status}"/></td>
+                    <td><c:out value="${order.service.title}"/></td>
                     <td>
-                        <my:a href="/dogs/detail/${dog.id}">
+                        <my:a href="/dog/detail/${dog.id}">
                             <c:out value="${order.dog.name}"/>
                         </my:a>
                     </td>
-                    <td><c:out value="${order.service.title}"/></td>
                     <td>
-                        <my:a href="/employees/detail/${employee.id}">
+                        <my:a href="/employee/detail/${employee.id}">
                             <c:out value="${employee.firstName} ${employee.lastName}"/>
                         </my:a>
                     </td>

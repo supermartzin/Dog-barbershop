@@ -2,9 +2,11 @@ package cz.muni.fi.pa165.mvc.controllers;
 
 import cz.muni.fi.pa165.dto.CustomerDTO;
 import cz.muni.fi.pa165.dto.DogDTO;
+import cz.muni.fi.pa165.dto.OrderDTO;
 import cz.muni.fi.pa165.exceptions.FacadeException;
 import cz.muni.fi.pa165.facade.CustomerFacade;
 import cz.muni.fi.pa165.facade.DogFacade;
+import cz.muni.fi.pa165.facade.OrderFacade;
 import cz.muni.fi.pa165.mvc.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,18 +27,20 @@ import java.util.List;
  * @version 16.12.2016 19:40
  */
 @Controller
-@RequestMapping("/dogs")
+@RequestMapping("/dog")
 public class DogController {
 
     private final DogFacade dogFacade;
     private final CustomerFacade customerFacade;
+    private final OrderFacade orderFacade;
 
-    public DogController(DogFacade dogFacade, CustomerFacade customerFacade) {
+    public DogController(DogFacade dogFacade, CustomerFacade customerFacade, OrderFacade orderFacade) {
         if (dogFacade == null)
             throw new IllegalArgumentException("DogFacade is null");
 
         this.dogFacade = dogFacade;
         this.customerFacade = customerFacade;
+        this.orderFacade = orderFacade;
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -53,14 +57,15 @@ public class DogController {
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) throws FacadeException {
-
         DogDTO dog = dogFacade.getById(id);
+        List<OrderDTO> orders = orderFacade.getByDog(dog);
 
         if(dog == null) {
             throw new ResourceNotFoundException("Dog not found!");
         }
 
         model.addAttribute("dog", dog);
+        model.addAttribute("orders", orders);
         return "dog/detail";
     }
 
@@ -75,8 +80,8 @@ public class DogController {
         dogFacade.delete(dog);
 
         // return result
-        redirectAttributes.addFlashAttribute("alert_success", "Dog \"" + dog.getName() + "\" was deleted.");
-        return "redirect:" + uriBuilder.path("/dogs/list").toUriString();
+        redirectAttributes.addFlashAttribute("alert_success", "Dog " + dog.getName() + " was deleted.");
+        return "redirect:" + uriBuilder.path("/dog/list").toUriString();
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -99,5 +104,18 @@ public class DogController {
     @ModelAttribute("customers")
     public List<CustomerDTO> customers() throws FacadeException {
         return customerFacade.getAll();
+    }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    public String update(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
+        DogDTO dog = dogFacade.getById(id);
+
+        if(dog == null) {
+            throw new ResourceNotFoundException("Dog not found!");
+        }
+
+        dogFacade.update(dog);
+        redirectAttributes.addFlashAttribute("alert_success", "Dog " + dog.getId() + " was updated.");
+        return "redirect:" + uriBuilder.path("/dog/list").toUriString();
     }
 }

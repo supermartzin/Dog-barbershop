@@ -5,10 +5,10 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="New customer">
+<my:pagetemplate title="Update customer">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/customer/create"
+    <form:form method="post" action="${pageContext.request.contextPath}/customer/update/{id}"
                modelAttribute="customerCreate" cssClass="form-horizontal">
         <div class="form-group ${firstName_error?'has-error':''}">
             <form:label path="firstName" cssClass="col-sm-2 control-label">First name</form:label>
@@ -25,11 +25,11 @@
             </div>
         </div>
         <div class="form-group">
-             <form:label path="username" cssClass="col-sm-2 control-label">Username</form:label>
-             <div class="col-sm-10">
-                 <form:input path="username" cssClass="form-control"/>
-                 <form:errors path="username" cssClass="help-block"/>
-             </div>
+            <form:label path="username" cssClass="col-sm-2 control-label">Username</form:label>
+            <div class="col-sm-10">
+                <form:input path="username" cssClass="form-control"/>
+                <form:errors path="username" cssClass="help-block"/>
+            </div>
         </div>
         <div class="form-group">
             <form:label path="password" cssClass="col-sm-2 control-label">Password</form:label>
@@ -80,7 +80,7 @@
                 <form:errors path="address.country" cssClass="help-block"/>
             </div>
         </div>
-        <button class="btn btn-primary" type="submit">Create customer</button>
+        <button class="btn btn-primary" type="submit">Update customer</button>
     </form:form>
 
 </jsp:attribute>

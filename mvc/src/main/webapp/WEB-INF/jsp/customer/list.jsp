@@ -8,7 +8,7 @@
 <my:pagetemplate title="Customers">
 <jsp:attribute name="body">
 
-    <my:a href="/customers/new" class="btn btn-primary">
+    <my:a href="/customer/new" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         New customer
     </my:a>
@@ -27,12 +27,12 @@
         <c:forEach items="${customers}" var="user">
             <tr>
                 <td>
-                    <my:a href="/customers/detail/${user.id}">
+                    <my:a href="/customer/detail/${user.id}">
                         <c:out value="${user.firstName}"/>
                     </my:a>
                 </td>
                 <td>
-                    <my:a href="/customers/detail/${user.id}">
+                    <my:a href="/customer/detail/${user.id}">
                         <c:out value="${user.lastName}"/>
                     </my:a>
                 </td>

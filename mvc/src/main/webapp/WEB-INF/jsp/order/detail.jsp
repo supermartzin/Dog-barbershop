@@ -13,21 +13,22 @@
             <thead>
             <tr>
                 <th>Status</th>
+                <th>Service</th>
                 <th>Dog</th>
                 <th>Employee</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><c:out value="${order.status}"</td>
+                <td><c:out value="${order.status}"/></td>
+                <td><c:out value="${order.service.title}"/></td>
                 <td>
-                    <my:a href="/dogs/detail/${dog.id}">
+                    <my:a href="/dog/detail/${dog.id}">
                         <c:out value="${order.dog.name}"/>
                     </my:a>
                 </td>
-                <td><c:out value="${order.service.title}"/></td>
                 <td>
-                    <my:a href="/employees/detail/${employee.id}">
+                    <my:a href="/employee/detail/${employee.id}">
                         <c:out value="${employee.firstName} ${employee.lastName}"/>
                     </my:a>
                 </td>
@@ -46,6 +47,10 @@
         </c:when>
     </c:choose>
     </div>
+
+    <form method="post" action="${pageContext.request.contextPath}/order/delete/${order.id}">
+        <button type="submit" class="btn btn-primary">Delete</button>
+    </form>
 
 </jsp:attribute>
 </my:pagetemplate>

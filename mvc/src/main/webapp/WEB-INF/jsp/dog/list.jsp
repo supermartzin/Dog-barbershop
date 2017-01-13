@@ -21,14 +21,14 @@
         <c:forEach items="${dogs}" var="dog">
             <tr>
                 <td>
-                    <my:a href="/dogs/detail/${dog.id}">
+                    <my:a href="/dog/detail/${dog.id}">
                         <c:out value="${dog.name}"/>
                     </my:a>
                 </td>
                 <td><c:out value="${dog.breed}"/></td>
                 <td><c:out value="${dog.age}"/></td>
                 <td>
-                    <my:a href="/customers/detail/${dog.customer.id}">
+                    <my:a href="/customer/detail/${dog.customer.id}">
                         <c:out value="${dog.customer.firstName} ${dog.customer.lastName}"/>
                     </my:a>
                 </td>

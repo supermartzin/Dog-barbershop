@@ -5,10 +5,10 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="New dog">
+<my:pagetemplate title="Update dog">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/dog/create"
+    <form:form method="post" action="${pageContext.request.contextPath}/dog/update"
                modelAttribute="dogCreate" cssClass="form-horizontal">
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <button class="btn btn-primary" type="submit">Create dog</button>
+        <button class="btn btn-primary" type="submit">Update dog</button>
     </form:form>
 
 </jsp:attribute>

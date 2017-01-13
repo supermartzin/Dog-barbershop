@@ -1,8 +1,14 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
+import cz.muni.fi.pa165.dto.DogDTO;
+import cz.muni.fi.pa165.dto.EmployeeDTO;
 import cz.muni.fi.pa165.dto.OrderDTO;
+import cz.muni.fi.pa165.dto.ServiceDTO;
 import cz.muni.fi.pa165.exceptions.FacadeException;
+import cz.muni.fi.pa165.facade.DogFacade;
+import cz.muni.fi.pa165.facade.EmployeeFacade;
 import cz.muni.fi.pa165.facade.OrderFacade;
+import cz.muni.fi.pa165.facade.ServiceFacade;
 import cz.muni.fi.pa165.mvc.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,16 +30,22 @@ import java.util.List;
  * @version 16.12.2016 19:40
  */
 @Controller
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrderController {
 
     private final OrderFacade orderFacade;
+    private final DogFacade dogFacade;
+    private final ServiceFacade serviceFacade;
+    private final EmployeeFacade employeeFacade;
 
-    public OrderController(OrderFacade orderFacade) {
+    public OrderController(OrderFacade orderFacade, DogFacade dogFacade, ServiceFacade serviceFacade, EmployeeFacade employeeFacade) {
         if (orderFacade == null)
             throw new IllegalArgumentException("OrderFacade is null");
 
         this.orderFacade = orderFacade;
+        this.dogFacade = dogFacade;
+        this.serviceFacade = serviceFacade;
+        this.employeeFacade = employeeFacade;
     }
 
     @RequestMapping(value = "/list/{filter}", method = RequestMethod.GET)
@@ -61,12 +73,18 @@ public class OrderController {
     public String detail(@PathVariable long id, Model model) throws FacadeException {
 
         OrderDTO order = orderFacade.getById(id);
+        List<DogDTO> dogs = dogFacade.getAll();
+        List<EmployeeDTO> employees = employeeFacade.getAll();
+        List<ServiceDTO> services = serviceFacade.getAll();
 
         if(order == null) {
             throw new ResourceNotFoundException("Order not found!");
         }
 
         model.addAttribute("order", order);
+        model.addAttribute("dogs", dogs);
+        model.addAttribute("employees", employees);
+        model.addAttribute("services", services);
         return "order/detail";
     }
 
@@ -76,7 +94,7 @@ public class OrderController {
         return "order/new";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
         OrderDTO order = orderFacade.getById(id);
 
@@ -109,11 +127,25 @@ public class OrderController {
     @RequestMapping(value = "/markDone/{id}", method = RequestMethod.POST)
     public String finish(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
         try {
-            orderFacade.getById(id).setStatus(true);
+            OrderDTO order = orderFacade.getById(id);
+            orderFacade.orderCompleted(order);
             redirectAttributes.addFlashAttribute("alert_success", "Order number "+id+" was marked done.");
         } catch (FacadeException ex) {
             redirectAttributes.addFlashAttribute("alert_danger", "Order number "+id+" was not marked as done. "+ex.getMessage());
         }
         return "redirect:" + uriBuilder.path("/order/detail/{id}").buildAndExpand(id).encode().toUriString();
+    }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    public String update(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
+        OrderDTO order = orderFacade.getById(id);
+
+        if(order == null) {
+            throw new ResourceNotFoundException("Order not found!");
+        }
+
+        orderFacade.update(order);
+        redirectAttributes.addFlashAttribute("alert_success", "Order " + order.getId() + " was updated.");
+        return "redirect:" + uriBuilder.path("/order/list").toUriString();
     }
 }

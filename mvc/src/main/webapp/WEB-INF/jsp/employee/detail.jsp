@@ -19,5 +19,12 @@
             </ul>
         </div>
     </div>
+
+    <form method="post" action="${pageContext.request.contextPath}/employee/delete/${employee.id}">
+        <button type="submit" class="btn btn-primary">Delete</button>
+    </form>
+    <form method="post" action="${pageContext.request.contextPath}/employee/update/${employee.id}">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
 </jsp:attribute>
 </my:pagetemplate>

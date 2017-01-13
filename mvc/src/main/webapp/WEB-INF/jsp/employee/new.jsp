@@ -8,7 +8,7 @@
 <my:pagetemplate title="New employee">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/employees/create"
+    <form:form method="post" action="${pageContext.request.contextPath}/employee/create"
                modelAttribute="employeeCreate" cssClass="form-horizontal">
         <div class="form-group ${firstName_error?'has-error':''}">
             <form:label path="firstName" cssClass="col-sm-2 control-label">First name</form:label>
@@ -53,35 +53,40 @@
             </div>
         </div>
         <div class="form-group">
-            <form:label path="address" cssClass="col-sm-2 control-label">Address</form:label>
-            <div class="col-sm-10">
-                <form:textarea cols="80" rows="10" path="address" cssClass="form-control"/>
-                <form:errors path="address" cssClass="help-block"/>
-            </div>
-        </div>
-        <div class="form-group">
             <form:label path="salary" cssClass="col-sm-2 control-label">Salary</form:label>
             <div class="col-sm-10">
                 <form:input path="salary" cssClass="form-control"/>
                 <form:errors path="salary" cssClass="help-block"/>
             </div>
         </div>
-        <%--
         <div class="form-group">
-            <form:label path="number" cssClass="col-sm-2 control-label">Street number</form:label>
+            <form:label path="address.street" cssClass="col-sm-2 control-label">Street</form:label>
             <div class="col-sm-10">
-                <form:textarea cols="80" rows="20" path="number" cssClass="form-control"/>
-                <form:errors path="number" cssClass="help-block"/>
+                <form:input path="address.street" cssClass="form-control"/>
+                <form:errors path="address.street" cssClass="help-block"/>
             </div>
         </div>
         <div class="form-group">
-            <form:label path="city" cssClass="col-sm-2 control-label">City</form:label>
+            <form:label path="address.number" cssClass="col-sm-2 control-label">Street number</form:label>
             <div class="col-sm-10">
-                <form:textarea cols="80" rows="20" path="city" cssClass="form-control"/>
-                <form:errors path="city" cssClass="help-block"/>
+                <form:input path="address.number" cssClass="form-control"/>
+                <form:errors path="address.number" cssClass="help-block"/>
             </div>
         </div>
-        --%>
+        <div class="form-group">
+            <form:label path="address.city" cssClass="col-sm-2 control-label">City</form:label>
+            <div class="col-sm-10">
+                <form:input path="address.city" cssClass="form-control"/>
+                <form:errors path="address.city" cssClass="help-block"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <form:label path="address.country" cssClass="col-sm-2 control-label">Country</form:label>
+            <div class="col-sm-10">
+                <form:input path="address.country" cssClass="form-control"/>
+                <form:errors path="address.country" cssClass="help-block"/>
+            </div>
+        </div>
         <button class="btn btn-primary" type="submit">Create employee</button>
     </form:form>
 

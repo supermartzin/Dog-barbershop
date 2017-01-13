@@ -19,24 +19,24 @@
         </div>
         <div class="col-xs-6">
             <h3>Dogs</h3>
-            <my:a href="/dogs/new" class="btn btn-primary">
+            <my:a href="/dog/new" class="btn btn-primary">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 New dog
             </my:a>
             <table class="table">
                 <caption>${customer.firstName} ${customer.lastName} 's dogs</caption>
                 <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Breed</th>
-                    <th>Age</th>
-                </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Breed</th>
+                        <th>Age</th>
+                    </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${customer.dogs}" var="dog">
                     <tr>
                         <td>
-                            <my:a href="/dogs/detail/${dog.id}">
+                            <my:a href="/dog/detail/${dog.id}">
                                 <c:out value="${dog.name}"/>
                             </my:a>
                         </td>
@@ -47,6 +47,44 @@
                 </tbody>
             </table>
         </div>
+        <div>
+            <table class="table">
+                <caption>${customer.firstName} ${customer.lastName} 's orders</caption>
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Service</th>
+                        <th>Dog</th>
+                        <th>Employee</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${orders}" var="order">
+                        <tr>
+                            <td><c:out value="${order.status}"/></td>
+                            <td><c:out value="${order.service.title}"/></td>
+                            <td>
+                                <my:a href="/order/detail/${dog.id}">
+                                    <c:out value="${order.dog.name}"/>
+                                </my:a>
+                            </td>
+                            <td>
+                                <my:a href="/employee/detail/${employee.id}">
+                                    <c:out value="${order.employee.firstName} ${order.employee.lastName}"/>
+                                </my:a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <form method="post" action="${pageContext.request.contextPath}/customer/delete/${customer.id}">
+        <button type="submit" class="btn btn-primary">Delete</button>
+    </form>
+    <form method="post" action="${pageContext.request.contextPath}/customer/update/${customer.id}">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
 </jsp:attribute>
 </my:pagetemplate>
