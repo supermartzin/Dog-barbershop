@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
  * @author Denis Richtarik
  * @version 22.11.2016 14:09
  */
-public class DogFacadeTest {
+public class DogFacadeTests {
 
     @Mock
     private DogService dogService;

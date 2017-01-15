@@ -35,15 +35,13 @@
             <my:a class="navbar-brand" href="/">Dog Barbershop</my:a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-            <sec:authorize access="hasRole('ROLE_ANONYMOUS')">
-                <ul class="nav navbar-nav">
-                    <li><my:a href="/service/list">Services</my:a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><my:a href="/login">Login</my:a></li>
-                    <li><my:a href="/customer/new">Register</my:a></li>
-                </ul>
-            </sec:authorize>
+            <ul class="nav navbar-nav">
+                <li><my:a href="/services/list">Our services</my:a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><my:a href="/login"><b>Login</b></my:a></li>
+                <li><my:a href="/customer/new">Register</my:a></li>
+            </ul>
             <sec:authorize access="hasRole('ROLE_CUSTOMER')">
                 <ul class="nav navbar-nav">
                     <li><my:a href="/service/list">Services</my:a></li>
@@ -136,8 +134,8 @@
     <jsp:invoke fragment="body"/>
 
     <!-- footer -->
-    <footer class="footer">
-        <p>&copy;&nbsp;2016&nbsp;Masaryk University</p>
+    <footer class="footer" style="margin-top: 3em">
+        <p>&copy;&nbsp;2017&nbsp;Masaryk University</p>
     </footer>
 </div>
 <!-- javascripts placed at the end of the document so the pages load faster -->

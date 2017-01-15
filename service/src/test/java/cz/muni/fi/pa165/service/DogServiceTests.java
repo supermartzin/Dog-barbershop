@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
  * @version 22.11.2016 13:34
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DogServiceTest {
+public class DogServiceTests {
 
     @Mock
     private DogDAO dogDAO;

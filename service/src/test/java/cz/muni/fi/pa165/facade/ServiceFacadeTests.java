@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
  * @author Dominik Gmiterko
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ServiceFacadeTest {
+public class ServiceFacadeTests {
 
     @Mock
     private ServiceService serviceService;

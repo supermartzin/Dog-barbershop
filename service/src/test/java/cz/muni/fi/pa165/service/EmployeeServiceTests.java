@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
  * @author Dominik Gmiterko
  */
 @RunWith(MockitoJUnitRunner.class)
-public class EmployeeServiceTest {
+public class EmployeeServiceTests {
 
     @Mock
     private EmployeeDAO employeeDAO;

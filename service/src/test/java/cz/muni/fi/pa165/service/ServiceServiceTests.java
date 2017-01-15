@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
  * @version 22.11.2016 13:37
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ServiceServiceTest {
+public class ServiceServiceTests {
 
     @Mock
     private ServiceDAO serviceDAO;

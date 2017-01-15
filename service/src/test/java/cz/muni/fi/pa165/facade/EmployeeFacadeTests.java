@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
  * @version 22.11.2016 14:10
  */
 @RunWith(MockitoJUnitRunner.class)
-public class EmployeeFacadeTest {
+public class EmployeeFacadeTests {
 
     @Mock
     private EmployeeService employeeService;

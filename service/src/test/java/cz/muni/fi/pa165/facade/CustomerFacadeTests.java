@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
  * @version 22.11.2016 14:08
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CustomerFacadeTest {
+public class CustomerFacadeTests {
 
     @Mock
     private CustomerService customerService;

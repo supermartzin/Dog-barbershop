@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
  * @author Dominik Gmiterko
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BeanMappingServiceTest {
+public class BeanMappingServiceTests {
 
     @Mock
     private DozerBeanMapper dozer;

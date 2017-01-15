@@ -15,7 +15,7 @@
                 <h2 class="text-muted"><c:out value="${service.title}"/></h2>
                 <p class="price">Length of service: <c:out value="${service.length}"/> minutes</p>
                 <hr>
-                <h3 class="price"><c:out value="${service.price}"/></h3>
+                <h3 class="price">&#8364; <c:out value="${service.price}"/></h3>
             </div>
         </div>
         </c:forEach>
