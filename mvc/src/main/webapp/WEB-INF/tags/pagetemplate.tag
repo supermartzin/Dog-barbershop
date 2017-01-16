@@ -15,28 +15,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><c:out value="${title}"/></title>
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/favicon.ico" type="image/x-icon">
-    <!-- bootstrap loaded from content delivery network -->
-    <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">--%>
-    <%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">--%>
-    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet" integrity="sha384-Li5uVfY2bSkD3WQyiHX8tJd0aMF91rMrQP5aAewFkHkVSTT2TmD2PehZeMmm7aiL" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Li5uVfY2bSkD3WQyiHX8tJd0aMF91rMrQP5aAewFkHkVSTT2TmD2PehZeMmm7aiL" crossorigin="anonymous">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/general.css"/>
     <jsp:invoke fragment="head"/>
 </head>
 <body>
+
 <!-- navigation bar -->
-<nav class="navbar navbar-inverse navbar-static-top">
+<div class="navbar navbar-inverse navbar-static-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <my:a class="navbar-brand" href="/">Dog Barbershop</my:a>
+            <my:a class="navbar-brand" href="/"><b>Dog Barbershop</b></my:a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><my:a href="/services/list">Our services</my:a></li>
+                <li><my:a href="/service/list">Our services</my:a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><my:a href="/login"><b>Login</b></my:a></li>
@@ -48,7 +49,8 @@
                     <li><my:a href="/customer/detail/{$currentUser.id}">My profile</my:a></li>
                     <li><my:a href="/dog/list">My dogs</my:a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret">My orders</b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret">My
+                            orders</b></a>
                         <ul class="dropdown-menu">
                             <li><my:a href="/order/list/all">All</my:a></li>
                             <li><my:a href="/order/list/waiting">Ordered</my:a></li>
@@ -89,7 +91,7 @@
             </sec:authorize>
         </div><!--/.nav-collapse -->
     </div>
-</nav>
+</div>
 
 <div class="container">
 
@@ -102,16 +104,16 @@
 
     <!-- authenticated user info -->
     <c:if test="${not empty authenticatedUser}">
-    <div class="row">
-        <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
-        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <c:out value="${authenticatedUser.givenName} ${authenticatedUser.surname}"/>
+        <div class="row">
+            <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <c:out value="${authenticatedUser.givenName} ${authenticatedUser.surname}"/>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </c:if>
 
     <!-- alerts -->
@@ -133,11 +135,15 @@
     <!-- page body -->
     <jsp:invoke fragment="body"/>
 
-    <!-- footer -->
-    <footer class="footer" style="margin-top: 3em">
-        <p>&copy;&nbsp;2017&nbsp;Masaryk University</p>
-    </footer>
 </div>
+
+<!-- footer -->
+<footer class="footer">
+    <div class="container">
+        <p><b>&copy;&nbsp;2017&nbsp;</b>Masaryk University</p>
+    </div>
+</footer>
+
 <!-- javascripts placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

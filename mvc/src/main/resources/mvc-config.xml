@@ -61,6 +61,8 @@
         <constructor-arg name="employeeFacade" ref="employeeFacade"/>
     </bean>
 
+    <bean class="cz.muni.fi.pa165.mvc.controllers.LoginController"/>
+
     <bean class="cz.muni.fi.pa165.mvc.controllers.ExceptionHandlingController"/>
 
 </beans>
