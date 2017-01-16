@@ -29,13 +29,13 @@
                     <td><c:out value="${order.status}"/></td>
                     <td><c:out value="${order.service.title}"/></td>
                     <td>
-                        <my:a href="/dog/detail/${dog.id}">
+                        <my:a href="/dog/detail/${order.dog.id}">
                             <c:out value="${order.dog.name}"/>
                         </my:a>
                     </td>
                     <td>
-                        <my:a href="/employee/detail/${employee.id}">
-                            <c:out value="${employee.firstName} ${employee.lastName}"/>
+                        <my:a href="/employee/detail/${order.employee.id}">
+                            <c:out value="${order.employee.firstName} ${order.employee.lastName}"/>
                         </my:a>
                     </td>
                 </tr>
