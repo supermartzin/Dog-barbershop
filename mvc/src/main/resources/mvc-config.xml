@@ -39,7 +39,11 @@
     <!-- Security -->
     <sec:http auto-config="true">
         <sec:csrf disabled="true"/>
+        <sec:access-denied-handler error-page="/403"/>
         <sec:intercept-url pattern="/customer/detail/**" access="hasRole('ROLE_CUSTOMER') or hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/dog/**" access="hasRole('ROLE_CUSTOMER') or hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/employee/new" access="hasRole('ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/employee/create" access="hasRole('ROLE_ADMIN')"/>
         <sec:intercept-url pattern="/employee/**" access="hasRole('ROLE_ADMIN') or hasRole('ROLE_EMPLOYEE')"/>
         <sec:intercept-url pattern="/order/**" access="hasRole('ROLE_ADMIN') or hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_CUSTOMER')"/>
         <sec:form-login login-page="/login"
@@ -88,6 +92,8 @@
     </bean>
 
     <bean class="cz.muni.fi.pa165.mvc.controllers.LoginController"/>
+
+    <bean class="cz.muni.fi.pa165.mvc.controllers.ErrorsController"/>
 
     <bean class="cz.muni.fi.pa165.mvc.controllers.ExceptionHandlingController"/>
 

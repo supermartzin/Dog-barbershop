@@ -80,7 +80,7 @@ public class CustomerController {
         customerFacade.create(formBean);
 
         // report success
-        redirectAttributes.addFlashAttribute("alert_success", "Customer " + formBean.getId() + " was created");
+        redirectAttributes.addFlashAttribute("alert_success", "Customer " + formBean.getUsername() + " was created");
         return "redirect:" + uriBuilder.path("/customer/list").toUriString();
     }
 

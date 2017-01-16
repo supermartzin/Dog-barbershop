@@ -5,13 +5,13 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="404 - Page not found">
+<my:pagetemplate title="403 - Access denied">
     <jsp:attribute name="body">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <h1>Oops :-(</h1>
-                    <span>Sorry, but requested page has not been found!</span>
+                    <span>Sorry, but you are not authorized to see this page!</span>
                 </div>
             </div>
         </div>
