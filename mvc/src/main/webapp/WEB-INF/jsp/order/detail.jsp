@@ -40,7 +40,7 @@
     <c:choose>
         <c:when test="${order.status==false}">
             <div class="col-xs-1">
-            <form method="post" action="${pageContext.request.contextPath}/order/done/${order.id}">
+            <form method="post" action="${pageContext.request.contextPath}/order/markDone/${order.id}">
                 <button type="submit" class="btn btn-primary">Mark done</button>
             </form>
             </div>

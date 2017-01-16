@@ -21,6 +21,7 @@
             <th>Service</th>
             <th>Dog</th>
             <th>Employee</th>
+            <th>Detail</th>
         </tr>
         </thead>
         <tbody>
@@ -36,6 +37,11 @@
                     <td>
                         <my:a href="/employee/detail/${order.employee.id}">
                             <c:out value="${order.employee.firstName} ${order.employee.lastName}"/>
+                        </my:a>
+                    </td>
+                    <td>
+                        <my:a href="/order/detail/${order.id}">
+                            Detail
                         </my:a>
                     </td>
                 </tr>
