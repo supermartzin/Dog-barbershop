@@ -19,6 +19,7 @@ curl http://localhost:8080/pa165/rest/customers
 Returns detail about customer with the given ID
 #### Parameters
 - id - ID of the customer
+
 #### Example usage
 ```bash
 curl http://localhost:8080/pa165/rest/customers/1
@@ -35,6 +36,7 @@ curl http://localhost:8080/pa165/rest/customers/1
 Creates new customer
 #### Path parameters
 - Request body should contain all required information to create customer
+
 #### Example usage
 ```bash
 curl -H "Content-Type: application/json" -X POST http://localhost:8080/pa165/rest/customers -d '{"username":"ienze","firstName":"Dominik","lastName":"Gmiterko","address":{"street":"Pellentesque, Avenue","number":178,"city":"Montemignaio","postalCode":44162,"country":"Ukraine"},"email":"example@example.com","phone":"206-3333","dogs":[]}'
@@ -50,6 +52,7 @@ Updates customer with the given ID
 #### Path parameters
 - id - ID of the customer
 - Request body should contain all information than should be modified
+
 #### Example usage
 ```bash
 curl -H "Content-Type: application/json" -X PUT http://localhost:8080/pa165/rest/customers/1 -d '{"username":"linda"}'
@@ -63,6 +66,7 @@ curl -H "Content-Type: application/json" -X PUT http://localhost:8080/pa165/rest
 Deletes customer with the given ID
 #### Path parameters
 - id - ID of the customer
+
 #### Example usage
 ```bash
 curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/pa165/rest/customers/1
@@ -77,6 +81,7 @@ curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/pa165/r
 ---
 ### GET /dogs
 Returns list of all dogs
+
 #### Example usage
 ```bash
 curl http://localhost:8080/pa165/rest/dogs
@@ -90,6 +95,7 @@ curl http://localhost:8080/pa165/rest/dogs
 Returns detail about dog with the given ID
 #### Parameters
 - id - ID of the dog
+
 #### Example usage
 ```bash
 curl http://localhost:8080/pa165/rest/dogs/13
@@ -107,6 +113,7 @@ curl http://localhost:8080/pa165/rest/dogs/13
 Creates new dog
 #### Path parameters
 - Request body should contain all required information to create dog
+
 #### Example usage
 ```bash
 curl -H "Content-Type: application/json" -X POST http://localhost:8080/pa165/rest/dogs -d '{name":"Barbarino","breed":"Bracco Italiano","age":5,"customer":{"id":7}}'
@@ -122,6 +129,7 @@ Updates dog with the given ID
 #### Path parameters
 - id - ID of the dog
 - Request body should contain all inforamtion than should be modified
+
 #### Example usage
 ```bash
 curl -H "Content-Type: application/json" -X PUT http://localhost:8080/pa165/rest/dogs/1 -d '{"name":"Linda"}'
@@ -135,6 +143,7 @@ curl -H "Content-Type: application/json" -X PUT http://localhost:8080/pa165/rest
 Deletes dog with the given ID
 #### Path parameters
 - id - ID of the dog
+
 #### Example usage
 ```bash
 curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/pa165/rest/dogs/1
@@ -149,6 +158,7 @@ curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/pa165/r
 ----
 ### GET /employees
 Returns list of all employees
+
 #### Example usage
 ```bash
 curl http://localhost:8080/pa165/rest/employees
@@ -163,6 +173,7 @@ curl http://localhost:8080/pa165/rest/employees
 Returns detail about employee with the given ID
 #### Parameters
 - id - ID of the employee
+
 #### Example usage
 ```bash
 curl http://localhost:8080/pa165/rest/employees/9
@@ -180,6 +191,7 @@ curl http://localhost:8080/pa165/rest/employees/9
 Creates new employee
 #### Path parameters
 - Request body should contain all required information to create employee
+
 #### Example usage
 ```bash
 curl -H "Content-Type: application/json" -X POST http://localhost:8080/pa165/rest/employees -d '{"username":"ienze","firstName":"Dominik","lastName":"Gmiterko","address":{"street":"Pellentesque, Avenue","number":178,"city":"Montemignaio","postalCode":44162,"country":"Ukraine"},"email":"example@example.com","phone":"206-3333","salary":50000.00}'
@@ -195,6 +207,7 @@ Updates employee with the given ID
 #### Path parameters
 - id - ID of the employee
 - Request body should contain all information than should be modified
+
 #### Example usage
 ```bash
 curl -H "Content-Type: application/json" -X PUT http://localhost:8080/pa165/rest/employees/1 -d '{"username":"linda"}'
@@ -208,6 +221,7 @@ curl -H "Content-Type: application/json" -X PUT http://localhost:8080/pa165/rest
 Deletes employee with the given ID
 #### Path parameters
 - id - ID of the employee
+
 #### Example usage
 ```bash
 curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/pa165/rest/employees/1
