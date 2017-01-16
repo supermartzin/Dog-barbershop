@@ -149,6 +149,13 @@ public class OrderController {
         return "redirect:" + uriBuilder.path("/order/detail/{id}").buildAndExpand(id).encode().toUriString();
     }
 
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable long id, Model model) throws FacadeException {
+        model.addAttribute("order", orderFacade.getById(id));
+
+        return "order/update";
+    }
+
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     public String update(@PathVariable long id, Model model, UriComponentsBuilder uriBuilder, RedirectAttributes redirectAttributes) throws FacadeException {
         OrderDTO order = orderFacade.getById(id);

@@ -8,7 +8,7 @@
 <my:pagetemplate title="Update order">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/order/update/{id}"
+    <form:form method="post" action="${pageContext.request.contextPath}/order/update/${orderUpdate.id}"
                modelAttribute="orderUpdate" cssClass="form-horizontal">
         <div class="form-group">
             <form:label path="time" cssClass="col-sm-2 control-label">Time</form:label>

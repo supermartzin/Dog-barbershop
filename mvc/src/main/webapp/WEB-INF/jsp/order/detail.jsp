@@ -51,6 +51,9 @@
     <form method="post" action="${pageContext.request.contextPath}/order/delete/${order.id}">
         <button type="submit" class="btn btn-primary">Delete</button>
     </form>
+    <form method="get" action="${pageContext.request.contextPath}/order/update/${order.id}">
+        <button type="submit" class="btn btn-primary">Delete</button>
+    </form>
 
 </jsp:attribute>
 </my:pagetemplate>
