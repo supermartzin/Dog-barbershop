@@ -36,22 +36,28 @@
             <my:a class="navbar-brand" href="/"><b>Dog Barbershop</b></my:a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li><my:a href="/service/list">Our services</my:a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><my:a href="/login"><b>Login</b></my:a></li>
-                <li><my:a href="/customer/new">Register</my:a></li>
-            </ul>
+            <sec:authorize access="isAnonymous()">
+                <ul class="nav navbar-nav">
+                    <li><my:a href="/service/list">Our services</my:a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><my:a href="/login"><b>Login</b></my:a></li>
+                    <li><my:a href="/customer/new">Register</my:a></li>
+                </ul>
+            </sec:authorize>
+
             <sec:authorize access="hasRole('ROLE_CUSTOMER')">
+                <sec:authentication property="firstName" var="firstname"/>
+                <sec:authentication property="lastName" var="lastname"/>
                 <ul class="nav navbar-nav">
                     <li><my:a href="/service/list">Services</my:a></li>
-                    <li><my:a href="/customer/detail/{$currentUser.id}">My profile</my:a></li>
+                    <sec:authentication var="userId" property="id" />
+                    <li><my:a href="/customer/detail/${userId}">My profile</my:a></li>
                     <li><my:a href="/dog/list">My dogs</my:a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret">My
-                            orders</b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">My orders</a>
                         <ul class="dropdown-menu">
+                            <li><my:a href="/order/new"><b>Create new</b></my:a></li>
                             <li><my:a href="/order/list/all">All</my:a></li>
                             <li><my:a href="/order/list/waiting">Ordered</my:a></li>
                             <li><my:a href="/order/list/done">Done</my:a></li>
@@ -59,37 +65,56 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a><b><c:out value="${firstname} ${lastname}"/></b></a></li>
                     <li><my:a href="/logout">Logout</my:a></li>
                 </ul>
             </sec:authorize>
+
             <sec:authorize access="hasRole('ROLE_EMPLOYEE')">
+                <sec:authentication property="firstName" var="firstname"/>
+                <sec:authentication property="lastName" var="lastname"/>
                 <ul class="nav navbar-nav">
                     <li><my:a href="/service/list">Services</my:a></li>
                     <li><my:a href="/customer/list">Customers</my:a></li>
                     <li><my:a href="/dog/list">Dogs</my:a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret">Orders</b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Orders</a>
                         <ul class="dropdown-menu">
                             <li><my:a href="/order/list/all">All</my:a></li>
-                            <li><my:a href="/order/list/waiting">Ordered</my:a></li>
                             <li><my:a href="/order/list/done">Done</my:a></li>
+                            <li><my:a href="/order/list/waiting">Waiting</my:a></li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a><b><c:out value="${firstname} ${lastname}"/></b></a></li>
                     <li><my:a href="/logout">Logout</my:a></li>
                 </ul>
             </sec:authorize>
+
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <!-- TODO -->
+                <sec:authentication property="firstName" var="firstname"/>
+                <sec:authentication property="lastName" var="lastname"/>
                 <ul class="nav navbar-nav">
+                    <li><my:a href="/service/list">Services</my:a></li>
+                    <li><my:a href="/customer/list">Customers</my:a></li>
+                    <li><my:a href="/dog/list">Dogs</my:a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Orders</a>
+                        <ul class="dropdown-menu">
+                            <li><my:a href="/order/list/all">All</my:a></li>
+                            <li><my:a href="/order/list/done">Done</my:a></li>
+                            <li><my:a href="/order/list/waiting">Waiting</my:a></li>
+                        </ul>
+                    </li>
                     <li><my:a href="/employee/list">Employees</my:a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a><b><c:out value="${firstname} ${lastname}"/></b></a></li>
                     <li><my:a href="/logout">Logout</my:a></li>
                 </ul>
             </sec:authorize>
-        </div><!--/.nav-collapse -->
+        </div>
     </div>
 </div>
 
@@ -99,20 +124,6 @@
     <c:if test="${not empty title}">
         <div class="page-header">
             <h1><c:out value="${title}"/></h1>
-        </div>
-    </c:if>
-
-    <!-- authenticated user info -->
-    <c:if test="${not empty authenticatedUser}">
-        <div class="row">
-            <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10"></div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <c:out value="${authenticatedUser.givenName} ${authenticatedUser.surname}"/>
-                    </div>
-                </div>
-            </div>
         </div>
     </c:if>
 

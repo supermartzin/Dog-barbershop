@@ -3,9 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:sec="http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <import resource="classpath*:sample-data-config.xml"/>
 
@@ -34,6 +36,29 @@
     <!-- Provides JSR-303 Validator -->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
+    <!-- Security -->
+    <sec:http auto-config="true">
+        <sec:csrf disabled="true"/>
+        <sec:intercept-url pattern="/customer/detail/**" access="hasRole('ROLE_CUSTOMER') or hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_ADMIN')"/>
+        <sec:intercept-url pattern="/employee/**" access="hasRole('ROLE_ADMIN') or hasRole('ROLE_EMPLOYEE')"/>
+        <sec:intercept-url pattern="/order/**" access="hasRole('ROLE_ADMIN') or hasRole('ROLE_EMPLOYEE') or hasRole('ROLE_CUSTOMER')"/>
+        <sec:form-login login-page="/login"
+                        default-target-url="/"
+                        authentication-failure-url="/login?error=true"
+                        username-parameter="username"
+                        password-parameter="password"/>
+        <sec:logout logout-success-url="/login?logout=true" logout-url="/logout"/>
+    </sec:http>
+
+    <sec:authentication-manager>
+        <sec:authentication-provider ref="authenticationProvider"/>
+    </sec:authentication-manager>
+
+    <bean name="authenticationProvider" class="cz.muni.fi.pa165.mvc.security.AuthenticationProvider">
+        <constructor-arg name="customerFacade" ref="customerFacade"/>
+        <constructor-arg name="employeeFacade" ref="employeeFacade"/>
+    </bean>
+
     <!-- Controllers -->
     <bean class="cz.muni.fi.pa165.mvc.controllers.CustomerController">
         <constructor-arg name="customerFacade" ref="customerFacade"/>
@@ -59,6 +84,7 @@
         <constructor-arg name="dogFacade" ref="dogFacade"/>
         <constructor-arg name="serviceFacade" ref="serviceFacade"/>
         <constructor-arg name="employeeFacade" ref="employeeFacade"/>
+        <constructor-arg name="customerFacade" ref="customerFacade"/>
     </bean>
 
     <bean class="cz.muni.fi.pa165.mvc.controllers.LoginController"/>

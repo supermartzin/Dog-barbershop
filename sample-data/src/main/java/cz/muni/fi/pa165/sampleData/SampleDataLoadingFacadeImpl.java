@@ -45,10 +45,13 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Customer customer3 = createCustomer("cubilia", "XVV78UIU6BS", "Judah", "Oneil", address3, "cubilia@example.com", "122-5172");
         Customer customer4 = createCustomer("suscipit", "IID86NZH3YM", "Damian", "Walton", address4, "suscipit@example.com", "930-4139");
 
-        Employee employee1 = createEmployee("admin", "123456", "Admin", "Admin", address1, "admin@example.com", "1111", new BigDecimal("50000"));
+        Employee employee1 = createEmployee("juan", "UYB1JZKZ5R", "Juan", "Delamon", address1, "juan@example.com", "1111", new BigDecimal("25000"));
         Employee employee2 = createEmployee("augue", "UYB41PXD9KX", "Blaine", "Wall", address2, "augue@example.com", "1-319-862-1855", new BigDecimal("4200"));
         Employee employee3 = createEmployee("justo", "NBN94QKZ5RD", "Suki", "Nixon", address3, "justo@example.com", "1-746-355-4541", new BigDecimal("5100"));
         Employee employee4 = createEmployee("accumsan", "QDJ51JZG6VB", "Ahmed", "Morgan", address4, "accumsan@example.com", "908-4474", new BigDecimal("38300"));
+
+        // admin
+        createEmployee("administrator", "pa165admin", "Peter", "The Admin", address4, "admin@mail.com", "+421 653 256 548", new BigDecimal("50000"));
 
         Dog dog1 = createDog("Barbarino", "Bracco Italiano", 5, customer4);
         Dog dog2 = createDog("BigDipper", "Nova Scotia Duck Tolling Retriever", 15, customer3);

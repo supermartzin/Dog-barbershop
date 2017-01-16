@@ -67,6 +67,11 @@
             <version>${spring.taglibs.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+
 
         <!-- Bean properties validator -->
         <dependency>

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controller for logging users into the system
@@ -16,12 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String login() {
-        return "login";
-    }
+    public String login(@RequestParam(value = "error", required = false) boolean error,
+                        @RequestParam(value = "logout", required = false) boolean logout,
+                        Model model) {
+        if (error) {
+            model.addAttribute("error", true);
+        }
+        if (logout) {
+            model.addAttribute("logout", true);
+        }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String authorizeLogin(Model model) {
-        return "redirect:/";
+        return "/login";
     }
 }

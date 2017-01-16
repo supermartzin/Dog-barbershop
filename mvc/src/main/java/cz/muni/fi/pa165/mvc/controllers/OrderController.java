@@ -1,14 +1,8 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
-import cz.muni.fi.pa165.dto.DogDTO;
-import cz.muni.fi.pa165.dto.EmployeeDTO;
-import cz.muni.fi.pa165.dto.OrderDTO;
-import cz.muni.fi.pa165.dto.ServiceDTO;
+import cz.muni.fi.pa165.dto.*;
 import cz.muni.fi.pa165.exceptions.FacadeException;
-import cz.muni.fi.pa165.facade.DogFacade;
-import cz.muni.fi.pa165.facade.EmployeeFacade;
-import cz.muni.fi.pa165.facade.OrderFacade;
-import cz.muni.fi.pa165.facade.ServiceFacade;
+import cz.muni.fi.pa165.facade.*;
 import cz.muni.fi.pa165.mvc.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,15 +32,29 @@ public class OrderController {
     private final DogFacade dogFacade;
     private final ServiceFacade serviceFacade;
     private final EmployeeFacade employeeFacade;
+    private final CustomerFacade customerFacade;
 
-    public OrderController(OrderFacade orderFacade, DogFacade dogFacade, ServiceFacade serviceFacade, EmployeeFacade employeeFacade) {
+    public OrderController(OrderFacade orderFacade,
+                           DogFacade dogFacade,
+                           ServiceFacade serviceFacade,
+                           EmployeeFacade employeeFacade,
+                           CustomerFacade customerFacade) {
         if (orderFacade == null)
             throw new IllegalArgumentException("OrderFacade is null");
+        if (dogFacade == null)
+            throw new IllegalArgumentException("DogFacade is null");
+        if (serviceFacade == null)
+            throw new IllegalArgumentException("ServiceFacade is null");
+        if (employeeFacade == null)
+            throw new IllegalArgumentException("EmployeeFacade is null");
+        if (customerFacade == null)
+            throw new IllegalArgumentException("CustomerFacade is null");
 
         this.orderFacade = orderFacade;
         this.dogFacade = dogFacade;
         this.serviceFacade = serviceFacade;
         this.employeeFacade = employeeFacade;
+        this.customerFacade = customerFacade;
     }
 
     @RequestMapping(value = "/list/{filter}", method = RequestMethod.GET)
@@ -71,15 +80,13 @@ public class OrderController {
 
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable long id, Model model) throws FacadeException {
-
         OrderDTO order = orderFacade.getById(id);
         List<DogDTO> dogs = dogFacade.getAll();
         List<EmployeeDTO> employees = employeeFacade.getAll();
         List<ServiceDTO> services = serviceFacade.getAll();
 
-        if(order == null) {
+        if  (order == null)
             throw new ResourceNotFoundException("Order not found!");
-        }
 
         model.addAttribute("order", order);
         model.addAttribute("dogs", dogs);
@@ -89,8 +96,14 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newOrder(Model model) throws FacadeException{
-        model.addAttribute("dogCreate", new OrderDTO());
+    public String newOrderPage(Model model, Principal principal) throws FacadeException{
+        CustomerDTO customerDTO = customerFacade.getByUsername(principal.getName());
+
+        model.addAttribute("orderCreate", new OrderDTO());
+        model.addAttribute("dogs", customerDTO.getDogs());
+        model.addAttribute("services", serviceFacade.getAll());
+        model.addAttribute("employees", employeeFacade.getAll());
+
         return "order/new";
     }
 

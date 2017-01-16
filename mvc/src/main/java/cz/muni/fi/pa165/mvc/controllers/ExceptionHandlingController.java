@@ -42,4 +42,12 @@ public class ExceptionHandlingController {
 
         return "errors/405";
     }
+
+    @ExceptionHandler(value = Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String internalException(Exception exception) {
+        LOGGER.error("Error processing request -> " + exception.getMessage(), exception);
+
+        return "errors/500";
+    }
 }

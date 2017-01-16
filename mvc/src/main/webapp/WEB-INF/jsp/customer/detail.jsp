@@ -11,10 +11,10 @@
     <div class="row">
         <div class="col-xs-6">
             <ul>
-                <li>Username: <c:out value="${customer.username}"/></li>
-                <li>Email: <c:out value="${customer.email}"/></li>
-                <li>Phone: <c:out value="${customer.phone}"/></li>
-                <li>Address: <my:address address="${customer.address}"/></li>
+                <li><b>Username:</b> <c:out value="${customer.username}"/></li>
+                <li><b>Email:</b> <c:out value="${customer.email}"/></li>
+                <li><b>Phone:</b> <c:out value="${customer.phone}"/></li>
+                <li><b>Address:</b> <my:address address="${customer.address}"/></li>
             </ul>
         </div>
         <div class="col-xs-6">

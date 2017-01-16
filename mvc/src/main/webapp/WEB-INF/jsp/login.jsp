@@ -5,20 +5,30 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Dog barbershop">
+<my:pagetemplate title="Login">
     <jsp:attribute name="body">
         <div class="container">
+
+            <c:if test="${error}">
+                    <div class="alert alert-danger">
+                        <strong>Invalid username or password!</strong>
+                    </div>
+                </c:if>
+            <c:if test="${logout}">
+                    <div class="alert alert-info">
+                        <strong>Successfully logged out.</strong>
+                    </div>
+                </c:if>
+
             <form class="form-signin" action="${pageContext.request.contextPath}/login" method="post">
                 <h2 class="form-signin-heading">Please sign in</h2>
+
                 <label for="inputEmail" class="sr-only">Email address</label>
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+                <input type="text" id="inputEmail" name="username" class="form-control" placeholder="Username" required autofocus>
+
                 <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                </div>
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             </form>
         </div>

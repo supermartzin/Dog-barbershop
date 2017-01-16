@@ -18,36 +18,36 @@
             </div>
         </div>
         <div class="form-group">
-            <form:label path="order.dog" cssClass="col-sm-2 control-label">Dog</form:label>
+            <form:label path="dog" cssClass="col-sm-2 control-label">Dog</form:label>
             <div class="col-sm-10">
-                <form:select path="order.dog" cssClass="form-control">
-                    <c:forEach items="${dogs}" var="dog">
-                        <form:option value="${dog.id}">${dog.name}</form:option>
+                <form:select path="dog" cssClass="form-control">
+                    <c:forEach items="${dogs}" var="dg">
+                        <form:option value="${dg.id}">${dg.name}</form:option>
                     </c:forEach>
                 </form:select>
-                <form:errors path="order.dog" cssClass="error"/>
+                <form:errors path="dog" cssClass="error"/>
             </div>
         </div>
         <div class="form-group">
-            <form:label path="order.service" cssClass="col-sm-2 control-label">Service</form:label>
+            <form:label path="service" cssClass="col-sm-2 control-label">Service</form:label>
             <div class="col-sm-10">
-                <form:select path="order.service" cssClass="form-control">
-                    <c:forEach items="${services}" var="service">
-                        <form:option value="${service.id}">${service.title}</form:option>
+                <form:select path="service" cssClass="form-control">
+                    <c:forEach items="${services}" var="serv">
+                        <form:option value="${serv.id}">${serv.title}</form:option>
                     </c:forEach>
                 </form:select>
-                <form:errors path="order.service" cssClass="error"/>
+                <form:errors path="service" cssClass="error"/>
             </div>
         </div>
         <div class="form-group">
-            <form:label path="order.employee" cssClass="col-sm-2 control-label">Dog</form:label>
+            <form:label path="employee" cssClass="col-sm-2 control-label">Employee</form:label>
             <div class="col-sm-10">
-                <form:select path="order.employee" cssClass="form-control">
-                    <c:forEach items="${employees}" var="employee">
-                        <form:option value="${employee.id}">${employee.firstName} ${employee.lastName}</form:option>
+                <form:select path="employee" cssClass="form-control">
+                    <c:forEach items="${employees}" var="empl">
+                        <form:option value="${empl.id}">${empl.firstName} ${empl.lastName}</form:option>
                     </c:forEach>
                 </form:select>
-                <form:errors path="order.employee" cssClass="error"/>
+                <form:errors path="employee" cssClass="error"/>
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Create Order</button>
