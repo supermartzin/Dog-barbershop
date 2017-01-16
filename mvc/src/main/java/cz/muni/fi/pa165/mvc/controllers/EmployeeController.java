@@ -104,4 +104,10 @@ public class EmployeeController {
         redirectAttributes.addFlashAttribute("alert_success", "Employee " + employee.getId() + " was updated.");
         return "redirect:" + uriBuilder.path("/employee/list").toUriString();
     }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(Model model, @PathVariable long id) throws FacadeException {
+        model.addAttribute("employeeUpdate", employeeFacade.getById(id));
+        return "employee/update";
+    }
 }

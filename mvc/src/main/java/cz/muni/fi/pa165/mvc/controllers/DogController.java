@@ -118,4 +118,10 @@ public class DogController {
         redirectAttributes.addFlashAttribute("alert_success", "Dog " + dog.getId() + " was updated.");
         return "redirect:" + uriBuilder.path("/dog/list").toUriString();
     }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(Model model, @PathVariable long id) throws FacadeException {
+        model.addAttribute("dogUpdate", dogFacade.getById(id));
+        return "dog/update";
+    }
 }

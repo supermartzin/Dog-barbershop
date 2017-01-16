@@ -8,8 +8,8 @@
 <my:pagetemplate title="Update customer">
 <jsp:attribute name="body">
 
-    <form:form method="post" action="${pageContext.request.contextPath}/customer/update/{id}"
-               modelAttribute="customerCreate" cssClass="form-horizontal">
+    <form:form method="post" action="${pageContext.request.contextPath}/customer/update/${customerUpdate.id}"
+               modelAttribute="customerUpdate" cssClass="form-horizontal">
         <div class="form-group ${firstName_error?'has-error':''}">
             <form:label path="firstName" cssClass="col-sm-2 control-label">First name</form:label>
             <div class="col-sm-10">

@@ -109,4 +109,10 @@ public class CustomerController {
         redirectAttributes.addFlashAttribute("alert_success", "Customer \"" + customer.getId() + "\" was updated.");
         return "redirect:" + uriBuilder.path("/customer/list").toUriString();
     }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(Model model, @PathVariable long id) throws FacadeException {
+        model.addAttribute("customerUpdate", customerFacade.getById(id));
+        return "customer/update";
+    }
 }

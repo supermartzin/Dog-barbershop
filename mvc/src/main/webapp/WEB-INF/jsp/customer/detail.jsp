@@ -83,7 +83,7 @@
     <form method="post" action="${pageContext.request.contextPath}/customer/delete/${customer.id}">
         <button type="submit" class="btn btn-primary">Delete</button>
     </form>
-    <form method="post" action="${pageContext.request.contextPath}/customer/update/${customer.id}">
+    <form method="get" action="${pageContext.request.contextPath}/customer/update/${customer.id}">
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </jsp:attribute>
