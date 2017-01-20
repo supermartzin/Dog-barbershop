@@ -3,8 +3,6 @@ language: java
 jdk:
   - oraclejdk8
 
-install: "mvn clean install"
+install: true
 
-before_script: "cd mvc"
-
-script: "mvn tomcat7:run"
+script: "mvn clean install"
