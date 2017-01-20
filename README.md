@@ -1,6 +1,7 @@
 # Dog Barbershop
 
 [![Build Status](https://travis-ci.org/supermartzin/Dog-barbershop.svg?branch=master)](https://travis-ci.org/supermartzin/Dog-barbershop)
+[![Coverage Status](https://coveralls.io/repos/github/supermartzin/Dog-barbershop/badge.svg?branch=master)](https://coveralls.io/github/supermartzin/Dog-barbershop?branch=master)
 
 Online information and reservation system for the Dog Barbershop!
 
