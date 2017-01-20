@@ -5,8 +5,6 @@ This is a **JavaEE application** created as a semestral team project from *Semin
 
 For further information, please visit our [Wiki pages](https://github.com/drichtarik/Dog-barbershop/wiki).
 
-Latest development news can be found at our public [**Trello** board](https://trello.com/b/NKqZVJA3).
-
 ### Team members and contributors
 - Dominik Gmiterko
 - Denis Richtárik
