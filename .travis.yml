@@ -5,6 +5,6 @@ jdk:
 
 install: "mvn clean install"
 
-before-script: "cd mvc"
+before_script: "cd mvc"
 
 script: "mvn tomcat7:run"
